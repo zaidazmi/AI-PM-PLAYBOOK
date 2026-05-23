@@ -12,7 +12,8 @@ Evidence:
 
 ## Goals
 
-- Reduce rep time spent on post-call CRM updates from 45 min/day to under 10 min/day.
+- Reduce the time reps spend updating the five target fields by at least 50% during pilot.
+- Measure total post-call CRM time impact during pilot; do not claim full 45 min/day CRM reduction until broader fields are in scope.
 - Increase CRM field completion rate from 70% to 95% on the five target fields.
 - Zero fabricated evidence in production (no invented quotes or facts).
 

@@ -4,7 +4,7 @@ Synthetic case study showing a medium-risk structured extraction workflow for sa
 
 ## Recommendation
 
-**Pilot ready with conditions.** The product can enter a small pilot if consent is manually verified, observability is live, reps are trained, and the eval set is completed during the pilot.
+**Pilot candidate after blockers.** The product has strong problem fit and a clear suggest-only workflow, but it should not enter pilot until consent handling, observability, training, and confidence calibration are ready for the pilot cohort.
 
 ## Files
 

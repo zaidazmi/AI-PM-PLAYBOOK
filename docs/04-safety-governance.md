@@ -91,7 +91,7 @@ Write guardrail requirements in the PRD the same way you write feature requireme
 Involve legal early. Specifically:
 
 - When defining what data the model can access or process
-- When the product makes recommendations in regulated domains (health, finance, legal, insurance)
+- When the product makes recommendations in regulated domains (health, credit, lending, insurance, legal)
 - When the product takes autonomous actions on behalf of users
 - When the product processes data from EU residents
 - When the product will be marketed with claims about accuracy or reliability
@@ -118,7 +118,7 @@ The EU AI Act formalizes risk tiers, but the concept is useful regardless of jur
 
 **Unacceptable risk**: applications that manipulate human behavior, exploit vulnerabilities, or enable mass surveillance. Do not build these.
 
-**High risk**: applications in healthcare, finance, education, employment, law enforcement, critical infrastructure. These require conformity assessments, documentation, human oversight, and ongoing monitoring.
+**High risk**: applications in healthcare, creditworthiness or credit scoring, life and health insurance risk assessment or pricing, education, employment, law enforcement, critical infrastructure. These require conformity assessments, documentation, human oversight, and ongoing monitoring.
 
 **Limited risk**: applications with transparency obligations. Users must be informed they are interacting with AI. Deepfakes and synthetic content must be labeled.
 

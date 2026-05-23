@@ -76,7 +76,7 @@ Three worked examples. Each one includes an opportunity brief, PRD, eval plan, l
 | Case study | Risk | Recommendation |
 |-----------|------|----------------|
 | [Customer Support Copilot](examples/customer-support-copilot/) | Medium | Pilot after blockers resolved |
-| [Sales Call CRM Assistant](examples/sales-call-crm-assistant/) | Medium | Pilot ready with conditions |
+| [Sales Call CRM Assistant](examples/sales-call-crm-assistant/) | Medium | Pilot after blockers resolved |
 | [Healthcare Intake Assistant](examples/healthcare-intake-assistant/) | High | Prototype only |
 
 The examples are synthetic but realistic. They show how the artifacts reason through tradeoffs, not just check boxes.

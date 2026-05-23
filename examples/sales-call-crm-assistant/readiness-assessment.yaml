@@ -10,7 +10,7 @@ use_case:
   problem: "Sales reps spend 45 min/day on post-call CRM updates. 30% of fields are empty or outdated. Pipeline forecasting suffers."
   ai_job: "Extract structured CRM fields from sales call transcripts and present them for rep approval before writing to Salesforce."
   non_ai_alternative: "Reps manually update Salesforce from memory and notes after each call."
-  expected_outcome: "Reduce CRM update time from 45 min/day to under 10 min/day. Increase field completion from 70% to 95%."
+  expected_outcome: "Reduce time spent updating the five target fields by at least 50% during pilot. Increase field completion from 70% to 95% on those fields."
 
 dimensions:
   problem_fit:
@@ -113,9 +113,9 @@ dimensions:
     evidence:
       - "[T1] $0.03 per call in testing, under $0.05 target."
       - "[T3] 12-rep pilot at ~$32/month. Full 38-rep team at ~$100/month. 200-rep production at ~$528/month."
-      - "[T3] 35 min/day saved per rep (45 min reduced to under 10 min) at ~$75/hr fully loaded = ~$44/day per rep."
+      - "[T3] API cost is low enough to test whether extracting five target fields measurably reduces CRM update effort."
     risks:
-      - "Cost could increase with longer transcripts or model price changes."
+      - "Total time savings are unproven because v1 excludes stage, amount, and close-date updates."
     owner: "Product + Finance"
     next_action: "Monitor cost per call during pilot. Set alert at $0.08."
 
@@ -144,15 +144,14 @@ dimensions:
     next_action: "Complete training materials. Schedule 30-min training session before pilot."
 
 recommendation:
-  level: "pilot_ready_with_conditions"
+  level: "pilot_candidate"
   weighted_score: 3.07
-  rationale: "The weighted score of 3.07 falls in the pilot candidate range, but the team elevated the recommendation to pilot ready with conditions because the strong problem fit (4/5), AI job definition (4/5), and clear manual workarounds for the gaps (data readiness 2/5, system behavior 2/5, observability 2/5) justify entering a controlled 12-rep pilot. Production is blocked until these gaps close."
-  conditions:
-    - "Manual consent verification for pilot cohort (workaround for data readiness gap)."
-    - "Complete golden eval set (200 examples) before pilot ends."
+  rationale: "The weighted score of 3.07 falls in the pilot candidate range. The problem fit, AI job definition, and suggest-only workflow justify preparing a controlled 12-rep pilot, but launch-critical gaps in data readiness (2/5), system behavior (2/5), and observability (2/5) must close before the pilot starts."
+  blockers_before_pilot:
+    - "Define and execute consent verification for the pilot cohort."
+    - "Deploy observability dashboards and alerting before pilot start."
     - "Calibrate confidence scoring and transcript quality scoring on 50+ examples each."
     - "Train pilot cohort on review workflow."
-    - "Deploy observability dashboards and alerting before pilot start."
     - "Verify transcript retention and export controls for pilot data."
   blockers_before_production:
     - "Automated consent verification flow not built."

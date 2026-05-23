@@ -11,8 +11,8 @@
 | Avg output tokens per task | 300 (draft response) | Estimated based on typical support response length |
 | Retrieval cost per task | $0.002 (vector embedding lookup against KB index) | Based on embedding model pricing |
 | Cache hit rate | 40% (system prompt and few-shot examples are stable across calls) | Estimated. System prompt is ~800 tokens, reused on every call. |
-| Cache discount | 90% off cached input token price | Anthropic prompt caching discount |
-| Tasks per agent per day | 50 (supported-intent tickets per agent per shift) | Estimated from 800 tickets/day across all intents, 31% in top 10, across 3 shifts |
+| Cache savings rate | 90% saved on cached input tokens | Cached input tokens are assumed to cost 10% of the base input price |
+| Tasks per agent per day | 5.5 supported-intent tickets per agent per day | 800 tickets/day across all intents x 31% in top 10 intents / 45 agents |
 | Active agents (pilot) | 8 | Day shift pilot cohort |
 | Active agents (full team) | 45 | Full Tier 1 team across 3 shifts |
 | Working days per month | 22 | Standard |
@@ -37,52 +37,52 @@ Rounded estimate used in planning: **$0.01 per draft**. The PRD uses a conservat
 ### Cost per agent per month
 
 ```
-$0.0094 x 50 tasks/day x 22 days = $10.34/agent/month
+$0.0094 x 5.5 tasks/day x 22 days = $1.14/agent/month
 ```
 
 ### Monthly cost by scenario
 
 | Scenario | Agents | Monthly cost |
 |----------|--------|-------------|
-| Pilot (8 agents, day shift) | 8 | $83 |
-| Full team (45 agents, all shifts) | 45 | $465 |
+| Pilot (8 agents, day shift) | 8 | $9 |
+| Full team (45 agents, all shifts) | 45 | $51 |
 
 ### Break-even analysis
 
 This is an internal productivity tool, not a revenue feature. ROI is measured in time savings.
 
 ```
-Handle time saved per agent: 1.6 min/ticket x 50 tickets/day = 80 min/day
+Handle time saved per agent: 1.6 min/ticket x 5.5 supported-intent tickets/day = 8.8 min/day
 Fully loaded agent cost: ~$35/hour
-Value of time saved: 80 min x ($35/60) = $46.67/day per agent
-Monthly value per agent: $46.67 x 22 = $1,027
+Value of time saved: 8.8 min x ($35/60) = $5.14/day per agent
+Monthly value per agent: $5.14 x 22 = $113
 
-Monthly AI cost per agent: $10.34
-ROI: $1,027 / $10.34 = 99x return on AI cost alone
+Monthly AI cost per agent: $1.14
+ROI: $113 / $1.14 = 99x return on AI cost alone
 ```
 
-Even at a conservative 50% realization rate (not all saved time converts to productive work), the ROI is ~50x. The cost is not the risk in this product.
+Even at a conservative 50% realization rate (not all saved time converts to productive work), the ROI is ~50x. The absolute savings are modest for the top-10-intent v1, so the pilot business case should be framed as proving quality, workflow fit, and expansion potential rather than claiming a large immediate labor-savings pool.
 
 ## Sensitivity analysis
 
 | Scenario | Changed assumption | Cost per draft | Monthly (full team) | Still viable? |
 |----------|--------------------|---------------|---------------------|---------------|
-| Baseline | As above | $0.0094 | $465 | Yes |
-| Longer tickets (2x input) | 3,000 input tokens | $0.0123 | $607 | Yes |
-| Multi-article retrieval (3x retrieval) | $0.006 retrieval cost | $0.0134 | $662 | Yes |
-| No caching | Cache hit rate = 0% | $0.0110 | $545 | Yes |
-| Model price increase (+50%) | Input $4.50, output $22.50 | $0.0131 | $647 | Yes |
-| Heavy agent (100 tickets/day) | 2x tasks per day | $0.0094 (per draft unchanged) | $929 | Yes |
-| All scenarios combined | Worst case | $0.0262 | $2,599 | Exceeds budget — needs mitigation |
+| Baseline | As above | $0.0094 | $51 | Yes |
+| Longer tickets (2x input) | 3,000 input tokens | $0.0123 | $67 | Yes |
+| Multi-article retrieval (3x retrieval) | $0.006 retrieval cost | $0.0134 | $73 | Yes |
+| No caching | Cache hit rate = 0% | $0.0110 | $60 | Yes |
+| Model price increase (+50%) | Input $4.50, output $22.50 | $0.0131 | $71 | Yes |
+| Expanded coverage (top 50 intents) | Supported volume doubles to 62% of tickets | $0.0094 | $103 | Yes |
+| All cost scenarios combined | Worst per-draft cost, top-10 volume | $0.0262 | $143 | Yes |
 
-The product is cost-resilient in every single-variable scenario. The combined worst case ($2,599/month) exceeds the PRD's $2,000 cost constraint, but it requires every assumption to break simultaneously. If costs trend toward the ceiling, the first mitigation lever is model routing — using a cheaper model for simple intents and reserving Sonnet for complex ones.
+The product is cost-resilient in every modeled scenario. For v1, the bigger business question is not API spend; it is whether a narrow top-10-intent scope creates enough measurable workflow value to justify continued investment. If costs trend upward as coverage expands, the first mitigation lever is model routing — using a cheaper model for simple intents and reserving Sonnet for complex ones.
 
 ## Cost monitoring triggers
 
 | Trigger | Threshold | Response |
 |---------|-----------|----------|
 | Cost per draft exceeds target | > $0.03 | Investigate token usage patterns. Check for context window growth. |
-| Monthly cost exceeds budget | > $2,000 | Review whether scope expanded beyond top 10 intents. Check for retry loops. |
+| Monthly cost exceeds budget | > $100 for top-10-intent v1, or > $500 after top-50 expansion | Review whether scope expanded beyond plan. Check for retry loops. |
 | Token usage per request growing | > 2x baseline over 2 weeks | Likely KB snippet count increasing. Review retrieval pipeline. |
 | Retry rate contributing to cost | > 15% of drafts trigger retry | Fix quality rather than absorbing the cost. |
 

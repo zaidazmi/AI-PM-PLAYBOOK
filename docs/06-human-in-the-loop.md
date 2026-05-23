@@ -32,17 +32,17 @@ If you are unsure whether something needs human review, it needs human review. T
 
 ## Confidence thresholds
 
-Not every output needs the same level of review. Confidence thresholds let you route outputs based on the model's certainty.
+Do not route production workflows from raw LLM self-confidence. Confidence scores are often poorly calibrated: a model that says it is 90% confident might only be correct 70% of the time. Use confidence thresholds only after you have measured the score against human judgments on your own data.
 
-The approach:
+Not every output needs the same level of review. Calibrated confidence thresholds can help route outputs based on observed reliability.
+
+The calibrated approach:
 
 - Above the high threshold (e.g., 0.95): auto-approve only for low-risk, reversible actions where eval data proves reliability. For customer-facing, regulated, financial, legal, health, identity, or irreversible actions, use expedited human review rather than full auto-approval.
 - Between high and low thresholds (e.g., 0.75-0.95): human review required. The model is uncertain enough that a human should check.
 - Below the low threshold (e.g., 0.75): auto-reject or escalate. The model is not confident enough to produce useful output. Route to a human to handle from scratch.
 
-Setting these thresholds requires data. Start with human review on everything, measure the model's confidence scores alongside human judgments, and calibrate the thresholds based on where the model is reliably correct vs unreliable.
-
-Important: confidence scores from LLMs are often poorly calibrated. A model that says it is 90% confident might only be correct 70% of the time. Calibrate against your actual data, not the model's self-reported confidence.
+Setting these thresholds requires data. Start with human review on everything, measure confidence scores alongside human judgments, and calibrate the thresholds based on where the model is reliably correct vs unreliable. Recalibrate after model changes, prompt changes, retrieval changes, or major shifts in input mix.
 
 ## Escalation policy design
 

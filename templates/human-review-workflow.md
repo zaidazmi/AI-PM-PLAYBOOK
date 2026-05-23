@@ -11,6 +11,14 @@ Use this to define when humans review AI output. Fill this out before building a
 - 
 - 
 
+## Actions AI can take with rollback
+
+<!-- Maps to the PRD "Act" autonomy level: the AI takes action before review, but the action is reversible, logged, and easy for a human to undo. Define the rollback path before allowing this. -->
+
+| Action | Rollback mechanism | Undo window | Who monitors |
+|--------|--------------------|-------------|--------------|
+|        |                    |             |              |
+
 ## Actions AI can suggest only
 
 <!-- The AI produces a recommendation or draft. A human must approve before the action takes effect. -->

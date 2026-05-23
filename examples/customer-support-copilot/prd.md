@@ -108,8 +108,8 @@ The AI produces a full draft response for the agent to review before anything ha
 ## Cost constraint
 
 - Under $0.03 per draft at current model pricing
-- Under $1.50 per agent per day at expected usage (50 supported-intent tickets per agent per day)
-- Monthly cost for full team (45 agents): under $2,000
+- Under $0.10 per agent per day at expected v1 usage (about 5.5 top-10-intent tickets per agent per day)
+- Monthly cost for full team (45 agents): under $100 for top-10-intent v1; under $500 if coverage expands to the top 50 intents
 
 Cost is estimated using Claude Sonnet with ~1,500 input tokens (ticket + context + KB snippets) and ~300 output tokens (draft response). This needs validation at actual usage patterns.
 

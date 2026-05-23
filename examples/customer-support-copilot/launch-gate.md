@@ -164,15 +164,15 @@ Owner: Legal + Security
 
 Evidence:
 - Estimated cost per draft: $0.0094 (based on Claude Sonnet pricing, ~1,500 input tokens, ~300 output tokens, with caching). PRD upper-bound target is $0.03.
-- Estimated monthly cost for full team (45 agents): $465 baseline, up to $2,599 in combined worst case
+- Estimated monthly cost for full team (45 agents): $51 baseline for top-10-intent v1, about $103 if coverage expands to the top 50 intents
 - Expected business value: 1.6 minute reduction in drafting time per supported ticket, roughly 20% handle time reduction on supported intents
 
 Risks:
 - Cost estimate is based on assumed token counts, not measured. Retrieval-augmented prompts with multiple KB articles could push input tokens higher.
 - Business case relies on handle time reduction, which has not been measured in practice
-- No analysis of cost scaling if we expand beyond top 10 intents
+- Expansion beyond the top 10 intents depends on quality and KB coverage, not just cost
 
-Next action: measure actual token usage on 200 prototype runs. Model cost at 50-intent and full-coverage scenarios.
+Next action: measure actual token usage on 200 prototype runs. Validate supported-intent volume during pilot and model cost at 50-intent and full-coverage scenarios.
 
 Owner: PM + Engineering
 

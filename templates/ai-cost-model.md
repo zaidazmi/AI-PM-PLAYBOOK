@@ -15,6 +15,7 @@ Use this to make unit economics visible before launch. Update it monthly after l
 | Avg output tokens per task | <!-- e.g., 500 tokens --> | <!-- measured or estimated --> |
 | Retrieval cost per task | <!-- e.g., $0.002 for embedding lookup --> | |
 | Cache hit rate | <!-- e.g., 30% of requests use cached prompt --> | |
+| Cache savings rate | <!-- e.g., 90% saved on cached input tokens, if cache reads cost 10% of base input price --> | |
 | Tasks per user per day | <!-- e.g., 8 --> | |
 | Active users per customer | <!-- e.g., 5 --> | |
 | Working days per month | <!-- e.g., 22 --> | |
@@ -29,7 +30,7 @@ Use this to make unit economics visible before launch. Update it monthly after l
 Input cost:   [avg input tokens] x [input price per token]   = $___
 Output cost:  [avg output tokens] x [output price per token] = $___
 Retrieval:    [retrieval cost per task]                       = $___
-Cache saving: [input cost] x [cache hit rate] x [cache discount] = -$___
+Cache saving: [input cost] x [cache hit rate] x [cache savings rate] = -$___
 
 Cost per task = $___
 ```
@@ -99,7 +100,8 @@ Numbers below are illustrative and will vary by provider and model. Run 20 repre
 | Avg input tokens per task | 2,000 (system prompt + KB context + ticket) |
 | Avg output tokens per task | 400 (draft response) |
 | Retrieval cost per task | $0.002 (embedding lookup) |
-| Cache hit rate | 30% (system prompt cached, 90% discount on cached tokens) |
+| Cache hit rate | 30% |
+| Cache savings rate | 90% saved on cached input tokens |
 | Tasks per user per day | 25 |
 | Active users per customer | 10 |
 | Working days per month | 22 |

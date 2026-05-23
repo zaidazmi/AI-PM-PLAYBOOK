@@ -12,7 +12,7 @@
 | System behavior | 2 | Prompt pipeline built and tested on 50 examples. Confidence scoring implemented but not calibrated against ground truth. Transcript quality detection prototyped on 12 transcripts. | Confidence scores may mislead reps if not validated against actual accuracy. Quality scoring needs 50+ manually-rated transcripts. No load testing done. |
 | Risk and safety | 3 | Consent flow designed. Fabrication detection automated. Privacy controls specified. | Consent verification flow is designed but not built. This is a hard blocker for production. Pilot can proceed with manual consent verification. |
 | Regulatory readiness | 3 | Legal review of recording consent requirements completed. Data retention policy specified. Consent flag exists in call metadata. | Automated consent verification and retention/export controls are not verified in staging. |
-| Cost and business case | 4 | $0.03 per call in testing (under the $0.05 target). 12-rep pilot at ~$32/month. Full team (38 reps) at ~$100/month. ROI is clear against 45 min/day of rep time at ~$75/hr fully loaded. | Cost could increase with longer transcripts or model changes. Need monitoring. |
+| Cost and business case | 4 | $0.03 per call in testing (under the $0.05 target). 12-rep pilot at ~$32/month. Full team (38 reps) at ~$100/month. API cost is low enough that the pilot can focus on whether extracting five target fields measurably reduces CRM update effort. | Total time savings are not yet proven because v1 excludes stage, amount, and close-date updates. Need pilot measurement before claiming broad CRM-time reduction. |
 | Observability | 2 | Logging spec complete. Dashboard mockups reviewed by sales ops. Alerting rules defined. | Dashboards not built. Logging in dev only, not staging. No alerting configured. Fabrication events would go undetected without manual review. Must be live before pilot. |
 | Launch and operations | 3 | Rollback plan documented. Pilot cohort identified (12 reps from Enterprise team). Success criteria defined. | No rep training yet. Training materials drafted but not reviewed by sales enablement. |
 
@@ -52,27 +52,26 @@ The most subtle risk. If reps start auto-approving every suggestion without read
 
 ## Recommendation
 
-**Pilot ready with conditions.**
+**Pilot candidate after blockers.**
 
-This product can ship to a 12-rep pilot cohort. It should not go to full production yet.
+This product is worth preparing for a 12-rep pilot, but it should not start the pilot yet. The problem is real, the AI job is narrow, and the workflow keeps humans in control; however, data permissioning, confidence calibration, observability, and training need to be ready before real call transcripts enter the pilot.
 
-### Conditions for pilot
+### Blockers before pilot
 
-1. Consent verification: for the pilot, manually verify that all 12 reps have recording consent enabled for all calls. Automate before production.
-2. Eval set: complete the remaining 150 golden examples before the pilot ends. Run the full 200-example eval before any production decision.
-3. Transcript quality calibration: calibrate quality scoring against 50 manually-rated transcripts during the pilot.
+1. Consent verification: define and execute consent verification for all pilot calls. Automate before production.
+2. Observability: dashboards and alerting must be live before the pilot starts. The team cannot learn from a pilot they cannot observe.
+3. Confidence and transcript quality calibration: calibrate confidence scoring and transcript quality scoring against 50+ manually-rated examples.
 4. Rep training: complete a 30-minute training session with the pilot cohort covering how to review suggestions, what the confidence scores mean, and why they should not auto-approve.
-5. Observability: dashboards and alerting must be live before the pilot starts. The team cannot learn from a pilot they cannot observe.
-6. Data controls: verify transcript retention and export controls for pilot data.
+5. Data controls: verify transcript retention and export controls for pilot data.
 
 ### Why not full production
 
-Four gaps keep this out of production:
+Additional gaps keep this out of production:
 
-1. The consent verification flow is designed but not built. Manual verification works for 12 reps. It does not work for 200.
+1. The consent verification flow is designed but not built. A controlled pilot can use a narrow verification process. Production cannot.
 2. The eval set is 25% complete. We need the full set to have confidence in accuracy claims across transcript types, call lengths, and audio quality levels.
-3. Reps have not been trained. Without training, the risk of over-trust (auto-approving without reading) is high enough to undermine the product's value.
-4. Transcript retention and export controls have not been verified in staging. Production needs proof that call data handling matches policy.
+3. Transcript retention and export controls must be verified in staging. Production needs proof that call data handling matches policy.
+4. Load testing has not been completed.
 
 ### Pilot success criteria
 
@@ -84,7 +83,8 @@ Four gaps keep this out of production:
 
 ### Timeline
 
-- Pilot: 4 weeks with 12 reps.
+- Pilot preparation: 1-2 weeks to close the pre-pilot blockers.
+- Pilot: 4 weeks with 12 reps after blockers close.
 - Production decision: end of pilot, contingent on closing the four gaps above.
 - Production launch: 2-3 weeks after pilot conclusion, if gaps are closed.
 

@@ -92,7 +92,7 @@ This is the hardest and most important judgment call. You will face pressure fro
 
 Recommend "do not launch" when:
 
-- The product handles high-stakes decisions (health, finance, legal) and accuracy is below 90%
+- The product handles high-stakes decisions (health, credit, lending, insurance, legal) and accuracy is below 90%
 - The cost per task makes the unit economics unsustainable at target scale
 - The product requires human review but no viable review process exists
 - Safety evals reveal failure modes that cannot be mitigated with guardrails
