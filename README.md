@@ -5,7 +5,7 @@
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
   <a href="#what-an-ai-pm-actually-does"><img src="https://img.shields.io/badge/templates-11-purple" alt="Templates"></a>
-  <a href="#guides"><img src="https://img.shields.io/badge/guides-9-green" alt="Guides"></a>
+  <a href="#guides"><img src="https://img.shields.io/badge/guides-10-green" alt="Guides"></a>
   <a href="#case-studies"><img src="https://img.shields.io/badge/case%20studies-3-orange" alt="Case Studies"></a>
 </p>
 
@@ -55,7 +55,7 @@ Plus a [Stakeholder Decision Record](templates/stakeholder-decision-record.md) f
 
 ## Guides
 
-Nine guides on the parts of AI product management where most teams get stuck.
+Ten guides on the parts of AI product management where most teams get stuck.
 
 | Guide | What it covers |
 |-------|----------------|
@@ -68,6 +68,7 @@ Nine guides on the parts of AI product management where most teams get stuck.
 | [Human-in-the-Loop](docs/06-human-in-the-loop.md) | When and how humans validate AI output |
 | [Launch Gates](docs/07-launch-gates.md) | How to say "do not launch" with evidence |
 | [Prompt Craft](docs/08-prompt-craft.md) | Treating prompts as product surfaces |
+| [Bad to Good AI PRD](docs/09-bad-to-good-ai-prd.md) | Turning a vague AI assistant brief into a buildable PRD slice |
 
 ## Case studies
 
@@ -86,7 +87,7 @@ The examples are synthetic but realistic. They show how the artifacts reason thr
 ```
 ai-pm-playbook.md          # Full playbook: operating model, scoring, gates
 templates/                  # 11 fill-in PM artifacts
-docs/                       # 9 reference guides (including walkthrough)
+docs/                       # 10 reference guides (including walkthrough)
 examples/                   # 3 scored case studies, plus one post-launch review example
 schema/                     # JSON schema for readiness assessments
 ```

@@ -810,6 +810,7 @@ ai-pm-playbook/
     06-human-in-the-loop.md
     07-launch-gates.md
     08-prompt-craft.md
+    09-bad-to-good-ai-prd.md
 
   templates/
     ai-opportunity-brief.md
