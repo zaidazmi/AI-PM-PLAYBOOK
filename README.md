@@ -82,6 +82,18 @@ Three worked examples. Each one includes an opportunity brief, PRD, eval plan, l
 
 The examples are synthetic but realistic. They show how the artifacts reason through tradeoffs rather than filling in blanks.
 
+## Portfolio interview prompts
+
+Use these artifacts to answer common AI PM interview questions with concrete examples.
+
+| Interview question | Where to point |
+|--------------------|----------------|
+| How do you decide if an AI feature is worth building? | [Opportunity Brief](templates/ai-opportunity-brief.md) + [Healthcare Intake opportunity](examples/healthcare-intake-assistant/opportunity-brief.md) |
+| How do you define quality for LLM output? | [Eval Plan](templates/ai-eval-plan.md) + [Customer Support eval](examples/customer-support-copilot/eval-plan.md) |
+| How do you handle hallucination risk? | [Risk Register](templates/ai-risk-register.md) + [Customer Support launch gate](examples/customer-support-copilot/launch-gate.md) |
+| How do you decide not to launch? | [Launch Gates guide](docs/07-launch-gates.md) + [Healthcare Intake launch gate](examples/healthcare-intake-assistant/launch-gate.md) |
+| How do you operate after launch? | [Observability Plan](templates/ai-observability-plan.md) + [Week-2 post-launch review](examples/customer-support-copilot/post-launch-review-week-2.md) |
+
 ## Repo structure
 
 ```
