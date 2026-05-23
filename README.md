@@ -5,7 +5,7 @@
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
   <a href="#what-an-ai-pm-actually-does"><img src="https://img.shields.io/badge/templates-11-purple" alt="Templates"></a>
-  <a href="#guides"><img src="https://img.shields.io/badge/guides-10-green" alt="Guides"></a>
+  <a href="#guides"><img src="https://img.shields.io/badge/guides-11-green" alt="Guides"></a>
   <a href="#case-studies"><img src="https://img.shields.io/badge/case%20studies-3-orange" alt="Case Studies"></a>
 </p>
 
@@ -17,11 +17,12 @@ Built for PMs working with LLMs, agents, copilots, RAG, and workflow automation.
 
 ## Quick start
 
-1. [AI opportunity brief](templates/ai-opportunity-brief.md) — decide if AI is worth pursuing
-2. [AI PRD](templates/ai-prd.md) — define what the AI does, its quality bar, and what happens when it fails
-3. [Eval plan](templates/ai-eval-plan.md) — define "good" before trusting model output
-4. [Launch gate checklist](templates/launch-gate-checklist.md) — gate pilot, production, and scale-up decisions
-5. [Healthcare intake example](examples/healthcare-intake-assistant/) — see what a "do not launch" recommendation looks like
+1. [Before you vibe code](docs/before-you-vibe-code.md) — answer 8 questions before building
+2. [AI opportunity brief](templates/ai-opportunity-brief.md) — decide if AI is worth pursuing
+3. [AI PRD](templates/ai-prd.md) — define what the AI does, its quality bar, and what happens when it fails
+4. [Eval plan](templates/ai-eval-plan.md) — define "good" before trusting model output
+5. [Launch gate checklist](templates/launch-gate-checklist.md) — gate pilot, production, and scale-up decisions
+6. [Healthcare intake example](examples/healthcare-intake-assistant/) — see what a "do not launch" recommendation looks like
 
 The [full playbook](ai-pm-playbook.md) has the operating model, evidence hierarchy, readiness scoring, and decision framework.
 
@@ -55,10 +56,11 @@ Plus a [Stakeholder Decision Record](templates/stakeholder-decision-record.md) f
 
 ## Guides
 
-Ten guides on the parts of AI product management where most teams get stuck.
+Eleven guides on the parts of AI product management where most teams get stuck.
 
 | Guide | What it covers |
 |-------|----------------|
+| [Before You Vibe Code](docs/before-you-vibe-code.md) | Eight questions to answer before turning an AI idea into a demo |
 | [Walkthrough](docs/00-walkthrough.md) | A week with the playbook: one PM, one product, five artifacts |
 | [Eval Design](docs/01-eval-design.md) | Building evals that catch real failures, including the ones you miss in demos |
 | [Agentic Products](docs/02-agentic-products.md) | How to spec agents vs. chatbots vs. copilots |
@@ -99,7 +101,7 @@ Use these artifacts to answer common AI PM interview questions with concrete exa
 ```
 ai-pm-playbook.md          # Full playbook: operating model, scoring, gates
 templates/                  # 11 fill-in PM artifacts
-docs/                       # 10 reference guides (including walkthrough)
+docs/                       # 11 reference guides (including walkthrough)
 examples/                   # 3 scored case studies, plus one post-launch review example
 schema/                     # JSON schema for readiness assessments
 ```

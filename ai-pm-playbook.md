@@ -124,6 +124,8 @@ pilot gate. These three gaps must close before production launch."
 
 ### 1. Start With The Opportunity
 
+If you are about to build a demo, start with `docs/before-you-vibe-code.md`. It is the 10-minute preflight check before writing a PRD or opening an AI builder.
+
 Use `templates/ai-opportunity-brief.md`.
 
 Answer:
@@ -801,6 +803,7 @@ ai-pm-playbook/
   ai-pm-playbook.md
 
   docs/
+    before-you-vibe-code.md
     00-walkthrough.md
     01-eval-design.md
     02-agentic-products.md
