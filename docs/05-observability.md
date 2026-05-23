@@ -40,6 +40,8 @@ These measure whether the AI is delivering value to users.
 
 Track these per feature, per user segment, and over time. Aggregate numbers hide problems. If your overall accept rate is 75% but enterprise users are at 55%, you have an enterprise quality problem that the aggregate obscures.
 
+User feedback is a signal, not ground truth. A thumbs down can mean the AI was wrong, but it can also mean the AI gave a correct answer the user disliked. A user might reject a refund-policy answer because they wanted a refund, not because the policy answer was inaccurate. When user feedback disagrees with eval results, inspect traces before changing the model, prompt, or policy.
+
 ### System signals
 
 These measure whether the infrastructure is healthy.

@@ -5,6 +5,7 @@
 ## Contents
 
 - [What evals actually are](#what-evals-actually-are)
+- [Four eval types](#four-eval-types)
 - [The golden eval set](#the-golden-eval-set)
 - [Beyond accuracy: robustness and consistency](#beyond-accuracy-robustness-and-consistency)
 - [Quality bars depend on domain](#quality-bars-depend-on-domain)
@@ -35,11 +36,35 @@ An eval has three parts:
 
 If you cannot describe all three, you do not have evals. You have opinions.
 
+## Four eval types
+
+Most AI products need four kinds of evals:
+
+| Eval type | What it answers | Example |
+|-----------|-----------------|---------|
+| Code-based eval | Did the system satisfy a deterministic rule? | Output is valid JSON, required fields are present, SMS output contains no markdown |
+| Human eval | Would a PM, domain expert, or trained reviewer approve this output? | Support lead labels whether a draft follows policy and sounds on-brand |
+| LLM-as-judge eval | Can a calibrated model label outputs at scale? | Judge flags ignored intent, unsupported claims, or missing human handoff |
+| User eval | How did real users react in the product? | Accept rate, retry rate, thumbs down, complaints, escalation, conversion impact |
+
+These are complementary. Code-based checks are cheap and precise. Human evals define the standard. LLM judges scale the standard after calibration. User evals show whether the product works in the real world.
+
+User evals are signals, not ground truth. A thumbs down might mean the AI was wrong, or it might mean the AI gave a correct answer the user disliked. If eval scores look good but user metrics decline, inspect traces and user feedback before deciding which signal is right.
+
 ## The golden eval set
 
 Your golden set is a curated collection of input-output pairs that represent the full range of what your AI feature handles. This includes easy cases, hard cases, edge cases, and adversarial cases.
 
-Start with 20 examples. That is not a typo. Twenty well-chosen examples with carefully written expected outputs will catch more problems than a thousand randomly selected ones. Expand to 50-100 as you learn what breaks.
+Start small, then grow as the product gets closer to real users. Early eval sets are for fast iteration; later eval sets are for confidence.
+
+| Stage | Useful size | What it is for |
+|-------|-------------|----------------|
+| Internal prompt iteration | 5-10 examples | Find obvious failures quickly without slowing every prompt change |
+| Prototype validation | 20-50 examples | Check the main use cases, edge cases, and failure modes before showing users |
+| Pilot readiness | 50-100 examples | Build confidence across real usage patterns and user segments |
+| Production readiness | 200+ examples | Support launch decisions, regression testing, and stakeholder trust |
+
+High-stakes or regulated domains need larger, more carefully labeled sets. The tradeoff is speed versus confidence: fewer examples let the team iterate quickly, but more examples are needed before the result can support a launch decision.
 
 Where golden examples come from:
 
@@ -158,6 +183,7 @@ Set a regression threshold. If any dimension drops more than X% from baseline, t
 - After model upgrades: full eval suite (model behavior changes between versions, sometimes dramatically)
 - Weekly in production: sample production outputs and grade them to detect drift
 - After incidents: add the failure case to the golden set and re-run
+- When user metrics disagree with eval results: inspect traces and feedback to understand whether the eval is missing a failure mode or users are reacting to a correct but disappointing outcome
 
 ## Tools PMs should know about
 
@@ -200,6 +226,8 @@ This takes a PM about two days. It will save you months of shipping broken thing
 **No baseline measurement**: teams add evals after months of development and have no idea whether quality is improving or degrading. Measure your baseline on day one, even if the numbers are embarrassing. The baseline is what makes progress visible.
 
 **Skipping error analysis**: teams pick generic metrics before reading real traces. Review traces first, label the failures, then write evals for the errors that actually matter.
+
+**Treating user feedback as ground truth**: user ratings are valuable, but they are not labels. A rejected answer may be correct, and an accepted answer may be wrong. Use user feedback to trigger investigation, then inspect the trace and compare against the rubric.
 
 ## Next steps
 

@@ -25,9 +25,13 @@ Use this to define what "good" means before you build. If you can't write this, 
 <!-- Where does the eval data come from? How many examples? How are they selected? Who labeled them? -->
 
 - Source: 
-- Size: <!-- minimum viable: 50 examples for prototype, 200+ for production -->
+- Size: <!-- internal iteration: 5-10; prototype: 20-50; pilot: 50-100; production: 200+; larger for regulated/high-stakes domains -->
 - Selection method: <!-- random sample, stratified by difficulty, adversarial, etc. -->
 - Labeler: <!-- who created the ground truth? what were their instructions? -->
+
+<!-- Smaller datasets help the team iterate quickly. Larger datasets increase confidence before pilot or production decisions. State which stage this eval supports. -->
+
+- Stage: <!-- internal iteration / prototype validation / pilot readiness / production readiness -->
 
 ## Golden examples
 
@@ -159,6 +163,8 @@ Use this to define what "good" means before you build. If you can't write this, 
 | Metric | Definition | Target | Alert threshold |
 |--------|------------|--------|-----------------|
 |        |            |        |                 |
+
+<!-- User feedback is a signal, not ground truth. If user feedback conflicts with eval results, inspect traces and compare against the rubric before changing the product. -->
 
 ## Launch threshold
 
