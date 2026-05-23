@@ -48,7 +48,7 @@ Use this to document decisions that shaped the product. Write one of these every
 
 <!-- Examples:
   - "If accept rate stays below 60% for 3 consecutive weeks after pilot launch."
-  - "If the BAA with the AI provider is not executed by 2026-07-01."
+  - "If the BAA with the AI provider is not executed by 2026-03-01."
   - "If user interviews surface a pattern where >30% of users bypass the AI path."
 -->
 

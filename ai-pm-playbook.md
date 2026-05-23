@@ -758,6 +758,7 @@ What it demonstrates:
 - Low-confidence answers escalate.
 - Agent edits become quality feedback.
 - Launch recommendation is pilot candidate after eval, fallback, and observability blockers close.
+- Week-2 post-launch review shows how pilot metrics turn into operating decisions.
 
 ### Sales Call CRM Assistant
 
@@ -831,6 +832,7 @@ ai-pm-playbook/
       eval-plan.md
       cost-model.md
       launch-gate.md
+      post-launch-review-week-2.md
       readiness-assessment.yaml
 
     sales-call-crm-assistant/

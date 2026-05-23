@@ -110,4 +110,4 @@ If the answer is yes, build the web form. Save the AI conversational layer for a
 This is the most important recommendation in this case study. Knowing when not to build an AI product is as valuable as knowing how to build one well.
 
 **Reviewed by:** James Rodriguez (VP Product), Dr. Lisa Park (Chief Medical Officer), David Kim (CISO), Rachel Torres (General Counsel)
-**Date:** 2026-04-28
+**Date:** 2026-02-24

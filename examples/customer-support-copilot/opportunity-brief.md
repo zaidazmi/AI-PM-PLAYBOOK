@@ -62,8 +62,8 @@ The bigger risk is doing nothing and then doing something rushed later. A poorly
 
 - [x] Pursue: commit to a build brief and eval plan
 - [ ] Prototype: time-boxed spike to answer specific unknowns
-- [ ] Defer: revisit in Q3
+- [ ] Defer: revisit in Q1
 - [ ] Reject: not worth pursuing
 
 **Decided by:** Maya Patel, PM
-**Date:** 2026-04-28
+**Date:** 2026-01-27

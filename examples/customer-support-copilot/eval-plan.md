@@ -16,11 +16,11 @@ The AI drafts a support response for a Tier 1 agent given a customer ticket, con
 
 ### Happy path
 
-**Input:** "Hi, I was charged $49.99 on May 3rd but my billing cycle is supposed to reset on the 15th. Can you explain why I was charged early?"
+**Input:** "Hi, I was charged $49.99 on February 3rd but my billing cycle is supposed to reset on the 15th. Can you explain why I was charged early?"
 
 Account metadata: Pro plan, billing cycle day 15, active since 2024-01.
 
-**Expected output:** A response explaining that the charge on May 3rd corresponds to an annual add-on renewal (per KB-1042), which bills on its own cycle separate from the main subscription. The response cites KB-1042 and offers to walk through the invoice breakdown. Confidence score above 0.8.
+**Expected output:** A response explaining that the charge on February 3rd corresponds to an annual add-on renewal (per KB-1042), which bills on its own cycle separate from the main subscription. The response cites KB-1042 and offers to walk through the invoice breakdown. Confidence score above 0.8.
 
 **Why this matters:** This is the bread-and-butter case. The customer's question is clear, the KB article is directly relevant, and the draft should be accurate and ready to send with minimal edits. If the model can't handle this well, nothing else matters.
 

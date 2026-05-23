@@ -13,6 +13,7 @@ Synthetic case study showing a medium-risk AI drafting workflow for Tier 1 suppo
 - `eval-plan.md`: golden examples, rubric, checks, launch thresholds
 - `cost-model.md`: unit economics, sensitivity analysis, monitoring triggers
 - `launch-gate.md`: readiness assessment and recommendation
+- `post-launch-review-week-2.md`: pilot metrics, failure modes, and operating decisions
 - `readiness-assessment.yaml`: structured scoring input
 
 Names, dates, metrics, and reviewers are illustrative.

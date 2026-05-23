@@ -82,7 +82,7 @@ This matters for the decision. When "do nothing" is stable and the proposed alte
 
 - [ ] Pursue: commit to a build brief and eval plan
 - [x] Prototype: time-boxed spike to answer specific unknowns
-- [ ] Defer: revisit in Q4
+- [ ] Defer: revisit in Q1
 - [ ] Reject: not worth pursuing
 
 The prototype should answer:
@@ -94,4 +94,4 @@ The prototype should answer:
 The prototype must not use real patient data. Use synthetic data only.
 
 **Decided by:** James Rodriguez, VP Product
-**Date:** 2026-04-20
+**Date:** 2026-02-16

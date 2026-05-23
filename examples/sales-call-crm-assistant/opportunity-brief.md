@@ -72,8 +72,8 @@ No auto-write. No stage changes. No deal amount updates. Those come later if thi
 
 - [x] Pursue: commit to a build brief and eval plan
 - [ ] Prototype: time-boxed spike to answer specific unknowns
-- [ ] Defer: revisit in Q3
+- [ ] Defer: revisit in Q1
 - [ ] Reject: not worth pursuing
 
 **Decided by:** Sarah Chen, VP Product
-**Date:** 2026-04-15
+**Date:** 2026-01-15

@@ -68,7 +68,7 @@ Account Executives and SDRs who use Salesforce and have Gong or Chorus recording
 | next_steps | Array of {action, owner, deadline} | Yes (may be empty array) | [{action: "Send pricing proposal", owner: "rep", deadline: "Friday"}] |
 | objections | Array of {objection, severity} | Yes (may be empty array) | [{objection: "Concerned about migration timeline", severity: "medium"}] |
 | budget_discussed | {mentioned: bool, range: string, confidence: float, evidence: string} | Yes | {mentioned: true, range: "$50-75K", confidence: 0.85, evidence: "we're looking at the fifty to seventy-five thousand range"} |
-| timeline_mentioned | {mentioned: bool, details: string, confidence: float, evidence: string} | Yes | {mentioned: true, details: "Decision by end of Q2", confidence: 0.92, evidence: "we need to have this decided before July"} |
+| timeline_mentioned | {mentioned: bool, details: string, confidence: float, evidence: string} | Yes | {mentioned: true, details: "Decision by end of Q1", confidence: 0.92, evidence: "we need to have this decided before March"} |
 | competitor_mentioned | Array of {name, context, evidence} | Yes (may be empty array) | [{name: "Acme Corp", context: "Currently evaluating", evidence: "we're also looking at Acme"}] |
 | transcript_quality | {score: float, issues: array} | Yes | {score: 0.72, issues: ["cross-talk detected in minutes 12-15"]} |
 | overall_confidence | Float 0-1 | Yes | 0.87 |
