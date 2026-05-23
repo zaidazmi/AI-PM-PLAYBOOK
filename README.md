@@ -5,7 +5,7 @@
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
   <a href="#what-an-ai-pm-actually-does"><img src="https://img.shields.io/badge/templates-11-purple" alt="Templates"></a>
-  <a href="#guides"><img src="https://img.shields.io/badge/guides-11-green" alt="Guides"></a>
+  <a href="#guides"><img src="https://img.shields.io/badge/guides-12-green" alt="Guides"></a>
   <a href="#case-studies"><img src="https://img.shields.io/badge/case%20studies-3-orange" alt="Case Studies"></a>
 </p>
 
@@ -56,7 +56,7 @@ Plus a [Stakeholder Decision Record](templates/stakeholder-decision-record.md) f
 
 ## Guides
 
-Eleven guides on the parts of AI product management where most teams get stuck.
+Twelve guides on the parts of AI product management where most teams get stuck.
 
 | Guide | What it covers |
 |-------|----------------|
@@ -71,6 +71,7 @@ Eleven guides on the parts of AI product management where most teams get stuck.
 | [Launch Gates](docs/07-launch-gates.md) | How to say "do not launch" with evidence |
 | [Prompt Craft](docs/08-prompt-craft.md) | Treating prompts as product surfaces |
 | [Bad to Good AI PRD](docs/09-bad-to-good-ai-prd.md) | Turning a vague AI assistant brief into a buildable PRD slice |
+| [Error Analysis](docs/10-error-analysis.md) | Reading traces, labeling failures, and deciding which evals are worth automating |
 
 ## Case studies
 
@@ -101,7 +102,7 @@ Use these artifacts to answer common AI PM interview questions with concrete exa
 ```
 ai-pm-playbook.md          # Full playbook: operating model, scoring, gates
 templates/                  # 11 fill-in PM artifacts
-docs/                       # 11 reference guides (including walkthrough)
+docs/                       # 12 reference guides (including walkthrough)
 examples/                   # 3 scored case studies, plus one post-launch review example
 schema/                     # JSON schema for readiness assessments
 ```

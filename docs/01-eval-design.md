@@ -11,6 +11,7 @@
 - [Quality rubrics](#quality-rubrics)
 - [Automated vs human grading](#automated-vs-human-grading)
 - [LLM-as-judge](#llm-as-judge)
+- [Calibrating LLM judges](#calibrating-llm-judges)
 - [Regression testing](#regression-testing)
 - [When to run evals](#when-to-run-evals)
 - [Tools PMs should know about](#tools-pms-should-know-about)
@@ -118,6 +119,30 @@ Tradeoffs PMs should understand:
 
 LLM-as-judge is good enough for development iteration. It is not good enough as your only quality gate before production launch. Pair it with human review of a sample.
 
+For many product decisions, prefer binary judge outputs over 1-5 scores. "Did the assistant fabricate a policy claim?" and "Should this have escalated to a human?" are easier to calibrate as pass/fail than as subjective rating scales. Binary outputs also map cleanly to product decisions: block, ship, escalate, or fix.
+
+## Calibrating LLM judges
+
+Do not trust an LLM judge just because it returns a score. Calibrate it against human labels.
+
+Start with a small labeled set from error analysis:
+
+1. Review production traces manually.
+2. Label whether a specific failure exists in each trace.
+3. Write an LLM judge prompt for that failure.
+4. Run the judge on the same traces.
+5. Compare judge output to the human labels.
+
+Track three numbers:
+
+- **Agreement:** how often the judge matches the human label overall.
+- **True positive rate:** when the failure is present, how often the judge catches it.
+- **True negative rate:** when the failure is absent, how often the judge correctly ignores it.
+
+Agreement alone is a trap. If only 5% of traces have a handoff failure, a judge that always says "no failure" will look 95% accurate while catching nothing useful. Look at positives and negatives separately.
+
+Once a judge is calibrated, use it to scan a larger sample of traces and monitor that failure category over time. Recalibrate when the prompt, model, workflow, or failure definition changes.
+
 ## Regression testing
 
 Every prompt change, model upgrade, or RAG pipeline modification should trigger an eval run against your golden set. No exceptions.
@@ -149,12 +174,14 @@ You do not need to code evals yourself, but you need to understand what tools yo
 If you have zero evals today:
 
 1. Pick your highest-risk AI feature
-2. Collect 20 real inputs that represent the full range of usage
-3. Write expected outputs for each one (or define pass/fail criteria)
-4. Run your current system against those 20 inputs
-5. Grade the outputs manually
-6. Record the scores. This is your baseline
-7. Run the same eval after every change
+2. Review 30-50 real or realistic traces and write down the failures you see
+3. Group the failures into product-specific error categories
+4. Collect 20 real inputs that represent the full range of usage
+5. Write expected outputs for each one (or define pass/fail criteria)
+6. Run your current system against those 20 inputs
+7. Grade the outputs manually
+8. Record the scores. This is your baseline
+9. Run the same eval after every change
 
 This takes a PM about two days. It will save you months of shipping broken things and not knowing.
 
@@ -172,7 +199,10 @@ This takes a PM about two days. It will save you months of shipping broken thing
 
 **No baseline measurement**: teams add evals after months of development and have no idea whether quality is improving or degrading. Measure your baseline on day one, even if the numbers are embarrassing. The baseline is what makes progress visible.
 
+**Skipping error analysis**: teams pick generic metrics before reading real traces. Review traces first, label the failures, then write evals for the errors that actually matter.
+
 ## Next steps
 
 - Use the [Eval Plan template](../templates/ai-eval-plan.md) to define your golden set, scoring method, and regression cadence.
+- Use the [Error Analysis guide](10-error-analysis.md) before automating evals, especially when you do not yet know the main failure modes.
 - Once evals are running, set up production monitoring using the [Observability guide](05-observability.md) to detect drift between eval runs.

@@ -102,10 +102,30 @@ Use this to define what "good" means before you build. If you can't write this, 
 | Tier | Method | When to use | Example |
 |------|--------|-------------|---------|
 | 1 | Code-based (deterministic) | Structured outputs, format checks, exact match | Schema validation, required fields present, no fabricated citations |
-| 2 | LLM-as-judge | Subjective quality, tone, relevance, reasoning | Grade summary quality on a 1-5 rubric using a separate model |
+| 2 | LLM-as-judge | Subjective quality, tone, relevance, reasoning | Pass/fail judge for handoff failure, ignored intent, unsupported claim |
 | 3 | Human review | Calibration, expert domains, disputed cases | Medical accuracy review, legal compliance check |
 
 <!-- LLM-as-judge can be unreliable in expert domains such as medical, legal, and financial workflows. Calibrate it against human review before relying on it. -->
+
+## Error analysis
+
+<!-- Before automating evals, review traces and identify the product-specific failures worth measuring. -->
+
+- Trace sample: <!-- e.g., 50 production traces, stratified by channel and user segment -->
+- Reviewer: <!-- PM or domain expert who reviewed the traces -->
+- Review date:
+
+| Error category | Example trace or input | Frequency in sample | Severity | Fix path | Automate? |
+|----------------|------------------------|---------------------|----------|----------|-----------|
+| <!-- e.g., human handoff failure --> | | | <!-- low/med/high --> | <!-- prompt/retrieval/tool/product/policy --> | <!-- yes/no/later --> |
+
+## LLM judge calibration
+
+<!-- If you use an LLM-as-judge, prove that it agrees with human labels before relying on it. Prefer binary pass/fail judges for product-critical failures. -->
+
+| Judge | Failure detected | Human-labeled sample size | Agreement | True positive rate | True negative rate | Approved for use? |
+|-------|------------------|---------------------------|-----------|--------------------|--------------------|-------------------|
+|       |                  |                           |           |                    |                    |                   |
 
 ## Non-deterministic eval strategy
 

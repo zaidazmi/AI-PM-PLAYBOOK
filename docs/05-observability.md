@@ -8,6 +8,7 @@
 - [Semantic drift detection](#semantic-drift-detection)
 - [Alert thresholds](#alert-thresholds)
 - [Review cadence](#review-cadence)
+- [Trace review](#trace-review)
 - [Dashboard design](#dashboard-design)
 - [Tools](#tools)
 - [The gap nobody has filled](#the-gap-nobody-has-filled)
@@ -88,6 +89,24 @@ Weeks 3-8: three times per week. You are watching for drift and edge cases that 
 After week 8: weekly review unless metrics indicate a problem. Include a monthly deep dive where you sample 50-100 production outputs and grade them manually against your rubric.
 
 After any model upgrade or prompt change: return to daily review for one week.
+
+## Trace review
+
+Dashboards tell you where to look. Traces tell you what happened.
+
+PMs should review a sample of traces on a regular cadence, especially during prototype, pilot, and the first month after launch. A useful trace links the user input, retrieved context, tool calls, model output, system actions, and user response. Without that end-to-end view, the team can see that quality dropped but not why the product experience broke.
+
+In the first pass, do not start with root-cause debugging. Read the trace and write short notes on product failures:
+
+- Did the AI answer the user's actual intent?
+- Did it use the right retrieved context?
+- Did it call the right tool?
+- Did it take an action twice or fail to modify an earlier action?
+- Did it format the response correctly for the channel?
+- Did it hand off to a human when the workflow required it?
+- Did the user accept, edit, retry, abandon, or escalate?
+
+Then group those notes into error categories and feed them back into the eval plan. This is the data flywheel in practice: production traces reveal failure modes, failure modes become eval cases, eval cases prevent regressions.
 
 ## Dashboard design
 

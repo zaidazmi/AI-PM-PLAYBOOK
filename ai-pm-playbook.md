@@ -814,6 +814,7 @@ ai-pm-playbook/
     07-launch-gates.md
     08-prompt-craft.md
     09-bad-to-good-ai-prd.md
+    10-error-analysis.md
 
   templates/
     ai-opportunity-brief.md
