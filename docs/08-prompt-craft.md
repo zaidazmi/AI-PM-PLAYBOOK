@@ -138,7 +138,7 @@ Prompt changes have non-obvious consequences. Here are real patterns:
 
 **Tone change that kills accuracy**: you ask for a "friendlier, more conversational" tone. The model starts hedging ("I think maybe...") and padding responses with unnecessary caveats. Accuracy drops because the model is less direct about its answers. Users lose confidence because the AI sounds uncertain.
 
-**Safety constraint that blocks legitimate use**: you add "never discuss competitor products." The model starts refusing to answer reasonable comparison questions that mention competitors. Users get frustrated by refusals and workaround the restriction by rephrasing, which wastes their time.
+**Safety constraint that blocks legitimate use**: you add "never discuss competitor products." The model starts refusing to answer reasonable comparison questions that mention competitors. Users get frustrated by refusals and work around the restriction by rephrasing, which wastes their time.
 
 **Format change that breaks integrations**: you change the output format from bullet points to prose. Downstream systems that parsed the bullet points break. Nobody realized the output was being consumed programmatically.
 

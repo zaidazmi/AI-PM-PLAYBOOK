@@ -163,9 +163,9 @@ Owner: Legal + Security
 **Score: 3 / 5**
 
 Evidence:
-- Estimated cost per draft: $0.03 (based on Claude Sonnet pricing, ~1,500 input tokens, ~300 output tokens)
-- Estimated monthly cost for full team (45 agents): under $2,000
-- Expected business value: 1.6 minute reduction in drafting time per supported ticket, roughly 15% handle time reduction on supported intents
+- Estimated cost per draft: $0.0094 (based on Claude Sonnet pricing, ~1,500 input tokens, ~300 output tokens, with caching). PRD upper-bound target is $0.03.
+- Estimated monthly cost for full team (45 agents): $465 baseline, up to $2,599 in combined worst case
+- Expected business value: 1.6 minute reduction in drafting time per supported ticket, roughly 20% handle time reduction on supported intents
 
 Risks:
 - Cost estimate is based on assumed token counts, not measured. Retrieval-augmented prompts with multiple KB articles could push input tokens higher.

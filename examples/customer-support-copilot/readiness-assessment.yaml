@@ -120,9 +120,9 @@ dimensions:
   cost_and_business_case:
     score: 3
     evidence:
-      - "[T3] Estimated cost per draft: $0.03 based on model pricing"
-      - "[T3] Monthly cost for full team estimated under $2,000"
-      - "[T5] Expected 15% handle time reduction on supported intents"
+      - "[T3] Estimated cost per draft: $0.0094 baseline, $0.03 upper-bound target"
+      - "[T3] Monthly cost for full team: $465 baseline, up to $2,599 combined worst case"
+      - "[T5] Expected 20% handle time reduction on supported intents"
     risks:
       - "Cost estimate based on assumed token counts, not measured"
       - "Business case relies on handle time reduction not yet measured in practice"

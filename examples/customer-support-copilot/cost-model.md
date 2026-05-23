@@ -68,14 +68,14 @@ Even at a conservative 50% realization rate (not all saved time converts to prod
 | Scenario | Changed assumption | Cost per draft | Monthly (full team) | Still viable? |
 |----------|--------------------|---------------|---------------------|---------------|
 | Baseline | As above | $0.0094 | $465 | Yes |
-| Longer tickets (2x input) | 3,000 input tokens | $0.0139 | $689 | Yes |
+| Longer tickets (2x input) | 3,000 input tokens | $0.0123 | $607 | Yes |
 | Multi-article retrieval (3x retrieval) | $0.006 retrieval cost | $0.0134 | $662 | Yes |
-| No caching | Cache hit rate = 0% | $0.0110 | $544 | Yes |
-| Model price increase (+50%) | Input $4.50, output $22.50 | $0.0138 | $684 | Yes |
-| Heavy agent (100 tickets/day) | 2x tasks per day | $0.0094 (per draft unchanged) | $930 | Yes |
-| All scenarios combined | Worst case | $0.0199 | $1,972 | Yes, but monitor |
+| No caching | Cache hit rate = 0% | $0.0110 | $545 | Yes |
+| Model price increase (+50%) | Input $4.50, output $22.50 | $0.0131 | $647 | Yes |
+| Heavy agent (100 tickets/day) | 2x tasks per day | $0.0094 (per draft unchanged) | $929 | Yes |
+| All scenarios combined | Worst case | $0.0262 | $2,599 | Exceeds budget — needs mitigation |
 
-The product is cost-resilient because support response drafting is a low-token-count, high-value task. Even in the worst-case scenario, monthly cost is under $2,000 — well within the PRD's cost constraint.
+The product is cost-resilient in every single-variable scenario. The combined worst case ($2,599/month) exceeds the PRD's $2,000 cost constraint, but it requires every assumption to break simultaneously. If costs trend toward the ceiling, the first mitigation lever is model routing — using a cheaper model for simple intents and reserving Sonnet for complex ones.
 
 ## Cost monitoring triggers
 

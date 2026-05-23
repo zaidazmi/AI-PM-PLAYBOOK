@@ -117,7 +117,7 @@ Prototype eval on the first 50 labeled examples (stratified across call types an
 
 | Metric | Definition | Target | Alert threshold |
 |--------|------------|--------|-----------------|
-| Field acceptance rate | % of proposed fields accepted by reps without edits | >75% | Below 65% over 7 days |
+| Field acceptance rate | % of proposed fields accepted by reps without edits | >75% | Below 70% over 7 days |
 | Field edit rate | % of proposed fields accepted with modifications | <20% | Above 30% over 7 days |
 | Field rejection rate | % of proposed fields rejected entirely | <10% | Above 15% over 7 days |
 | Fabricated evidence rate | % of extractions where evidence does not match transcript | 0% | Any single instance |

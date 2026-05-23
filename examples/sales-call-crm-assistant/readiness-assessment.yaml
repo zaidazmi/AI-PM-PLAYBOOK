@@ -113,7 +113,7 @@ dimensions:
     evidence:
       - "[T1] $0.03 per call in testing, under $0.05 target."
       - "[T3] 12-rep pilot at ~$32/month. Full 38-rep team at ~$100/month. 200-rep production at ~$528/month."
-      - "[T3] 45 min/day saved per rep at ~$75/hr fully loaded = ~$56/day per rep."
+      - "[T3] 35 min/day saved per rep (45 min reduced to under 10 min) at ~$75/hr fully loaded = ~$44/day per rep."
     risks:
       - "Cost could increase with longer transcripts or model price changes."
     owner: "Product + Finance"
@@ -146,7 +146,7 @@ dimensions:
 recommendation:
   level: "pilot_ready_with_conditions"
   weighted_score: 3.07
-  rationale: "The problem and AI job are strong (both 4/5), but data readiness (2/5), system behavior (2/5), and observability (2/5) are material gaps. The product can enter a 12-rep pilot with manual workarounds for these gaps, but production is blocked until they close."
+  rationale: "The weighted score of 3.07 falls in the pilot candidate range, but the team elevated the recommendation to pilot ready with conditions because the strong problem fit (4/5), AI job definition (4/5), and clear manual workarounds for the gaps (data readiness 2/5, system behavior 2/5, observability 2/5) justify entering a controlled 12-rep pilot. Production is blocked until these gaps close."
   conditions:
     - "Manual consent verification for pilot cohort (workaround for data readiness gap)."
     - "Complete golden eval set (200 examples) before pilot ends."

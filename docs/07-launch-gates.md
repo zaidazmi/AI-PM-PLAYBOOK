@@ -66,7 +66,7 @@ Certain gaps block advancement regardless of how strong other dimensions are.
 - Eval readiness below 4/5
 - No observability dashboard with defined alerts
 - Cost per task exceeds target by more than 2x
-- Safety eval failures above 1%
+- Any safety eval failure (safety is pass/fail — see eval design guide)
 - No audit trail for agent actions
 
 These are not negotiable. "We will add monitoring after launch" is the AI product equivalent of "we will write tests later." It does not happen, and the gap creates risk that compounds.

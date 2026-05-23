@@ -547,11 +547,11 @@ Each dimension requires:
 
 | Score | Level | Meaning |
 | --- | --- | --- |
-| 0.0 - 1.9 | Not ready | Do not build or launch yet |
-| 2.0 - 2.6 | Prototype only | Explore internally |
-| 2.7 - 3.2 | Pilot candidate | Worth preparing for pilot, but close blockers first |
-| 3.3 - 3.6 | Pilot ready with conditions | Limited rollout with close review |
-| 3.7 - 4.4 | Limited production ready | Controlled customer launch |
+| Below 2.0 | Not ready | Do not build or launch yet |
+| 2.0 - 2.69 | Prototype only | Explore internally |
+| 2.7 - 3.29 | Pilot candidate | Worth preparing for pilot, but close blockers first |
+| 3.3 - 3.69 | Pilot ready with conditions | Limited rollout with close review |
+| 3.7 - 4.49 | Limited production ready | Controlled customer launch |
 | 4.5 - 5.0 | Scale ready | Ready to expand with monitoring |
 
 ### Dimensions
@@ -588,7 +588,7 @@ Each dimension requires:
 
 Eval readiness is weighted highest because it is the most common gap between demo and production. Risk, regulatory readiness, observability, data, and launch operations are also heavily weighted because AI products degrade in real workflows. Regulatory readiness is weighted at 1.3 because AI-specific regulation, privacy law, and sector rules can materially change what is safe or legal to launch.
 
-The readiness levels have narrow score ranges by design, which means a small scoring difference can shift the recommendation by a level. This is intentional — the score is a guide for structured discussion, not a bright line. When a score falls near a boundary, use the individual dimension scores and hard blockers to make the call. The healthcare intake example demonstrates this: a borderline score of 1.95 received a "prototype only" recommendation because the team had enough problem definition to learn from a synthetic-data prototype, even though the weighted average technically fell in the "not ready" range.
+The readiness levels have narrow score ranges by design, which means a small scoring difference can shift the recommendation by a level. This is intentional — the score is a guide for structured discussion, not a bright line. When a score falls near a boundary, use the individual dimension scores and hard blockers to make the call. The healthcare intake example demonstrates this: a borderline score of 1.95 fell just below the "prototype only" threshold, but the team had enough problem definition to learn from a synthetic-data prototype, so the recommendation was elevated to "prototype only" with explicit conditions.
 
 ## Launch Gates
 

@@ -63,7 +63,7 @@ Detection approaches:
 - Embed a sample of production outputs and track the distribution over time. If the embedding distribution shifts, the outputs are changing.
 - Monitor the vocabulary and structure of outputs. If responses suddenly get longer, shorter, or use different phrasing patterns, investigate.
 
-Drift is subtle. A 2% weekly decline in accuracy compounds to a 20% decline over ten weeks. Catch it early.
+Drift is subtle. A 2% weekly decline in accuracy compounds to an 18% decline over ten weeks. Catch it early.
 
 ## Alert thresholds
 
