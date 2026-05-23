@@ -1,0 +1,165 @@
+product:
+  name: "Sales Call CRM Assistant"
+  stage: "prototype"
+  owner: "Sarah Chen, VP Product"
+  target_users:
+    - "Enterprise Account Executives"
+    - "SDRs using Gong/Chorus with Salesforce"
+
+use_case:
+  problem: "Sales reps spend 45 min/day on post-call CRM updates. 30% of fields are empty or outdated. Pipeline forecasting suffers."
+  ai_job: "Extract structured CRM fields from sales call transcripts and present them for rep approval before writing to Salesforce."
+  non_ai_alternative: "Reps manually update Salesforce from memory and notes after each call."
+  expected_outcome: "Reduce CRM update time from 45 min/day to under 10 min/day. Increase field completion from 70% to 95%."
+
+dimensions:
+  problem_fit:
+    score: 4
+    evidence:
+      - "[T1] Time study across 23 reps confirmed 45 min/day average on CRM entry"
+      - "[T1] CRM audit of 1,200 opportunities showed 30% empty rate on key fields"
+      - "[T1] Forecast accuracy at 62%, below 80% target, linked to data quality"
+    risks:
+      - "Reps may not adopt if review UX adds too much friction."
+    owner: "Product"
+    next_action: "Monitor pilot adoption. If review takes >3 min per call, redesign UX."
+
+  workflow_fit:
+    score: 4
+    evidence:
+      - "[T3] Integrates with existing Gong and Salesforce stack. No new tools required."
+      - "[T3] Rep review step designed with accept/edit/reject per field."
+      - "[T2] Fits existing post-call workflow: reps already open Salesforce after each call."
+    risks:
+      - "If reviewing is slower than manual entry, reps will skip the tool."
+    owner: "Product + Design"
+    next_action: "Usability test review flow with 5 reps before pilot."
+
+  ai_job_definition:
+    score: 4
+    evidence:
+      - "[T3] AI job is specific: extract 5 fields, present with evidence, require approval."
+      - "[T3] Input and output contracts defined with schemas."
+      - "[T3] Autonomy level is suggest-only for all fields."
+    risks:
+      - "Scope pressure to add auto-write or more fields will come fast."
+    owner: "Product"
+    next_action: "Hold scope through pilot. Expand only after eval coverage catches up."
+
+  data_readiness:
+    score: 2
+    evidence:
+      - "[T1] Gong API provides transcripts. Salesforce API access confirmed."
+      - "[T1] Consent flag exists in Gong metadata."
+    risks:
+      - "18% of calls lack consent flag. Cannot process those calls."
+      - "Transcript quality varies with audio quality and cross-talk. No quality filtering in place."
+      - "No automated consent verification. Manual verification only."
+    owner: "Engineering + Legal"
+    next_action: "Audit consent flag coverage for pilot cohort. Build automated consent check. Implement transcript quality filtering."
+
+  eval_readiness:
+    score: 3
+    evidence:
+      - "[T3] 200-example golden set designed. 50 examples labeled by two senior AEs."
+      - "[T3] Quality rubric defined with pass/fail criteria."
+      - "[T1] Automated evidence verification built."
+      - "[T1] Prototype eval on 50 examples shows 87% field accuracy."
+    risks:
+      - "Only 25% of eval set complete. Not enough coverage of poor transcripts."
+    owner: "ML Lead"
+    next_action: "Complete remaining 150 examples. Ensure stratification across transcript quality levels."
+
+  system_behavior:
+    score: 2
+    evidence:
+      - "[T1] Prompt pipeline built and tested on 50 examples."
+      - "[T1] Confidence scoring implemented but not calibrated."
+      - "[T1] Transcript quality detection prototyped on 12 transcripts."
+    risks:
+      - "Confidence scores not validated against actual accuracy. May mislead reps."
+      - "Quality scoring tested on only 12 transcripts. Needs 50+ to calibrate."
+      - "Latency not validated at scale. No load testing done."
+    owner: "Engineering"
+    next_action: "Calibrate confidence scoring against ground truth. Calibrate quality scoring on 50 manually-rated transcripts. Load test pipeline at 2x expected usage."
+
+  risk_and_safety:
+    score: 3
+    evidence:
+      - "[T3] Consent flow designed. Fabrication detection automated."
+      - "[T3] Privacy controls and data retention policy specified."
+      - "[T3] Legal review of consent requirements completed."
+    risks:
+      - "Consent flow not built yet. Manual verification only."
+      - "Over-trust risk if reps auto-approve without reading."
+    owner: "Engineering + Legal"
+    next_action: "Build consent flow. Add review time tracking to detect auto-approval."
+
+  regulatory_readiness:
+    score: 3
+    evidence:
+      - "[T3] Legal review of recording consent requirements completed."
+      - "[T3] Privacy controls and data retention policy specified."
+      - "[T1] Consent flag exists in call metadata and can gate processing."
+    risks:
+      - "Automated consent verification flow not built."
+      - "Retention and export controls for pilot transcripts not verified in staging."
+      - "Consent flag coverage is incomplete for 18% of calls."
+    owner: "Engineering + Legal"
+    next_action: "Build automated consent verification and verify transcript retention/export controls before production."
+
+  cost_and_business_case:
+    score: 4
+    evidence:
+      - "[T1] $0.03 per call in testing, under $0.05 target."
+      - "[T3] 12-rep pilot at ~$32/month. Full 38-rep team at ~$100/month. 200-rep production at ~$528/month."
+      - "[T3] 45 min/day saved per rep at ~$75/hr fully loaded = ~$56/day per rep."
+    risks:
+      - "Cost could increase with longer transcripts or model price changes."
+    owner: "Product + Finance"
+    next_action: "Monitor cost per call during pilot. Set alert at $0.08."
+
+  observability:
+    score: 2
+    evidence:
+      - "[T3] Logging spec complete covering extraction, rep actions, and quality metrics."
+      - "[T3] Dashboard mockups reviewed by sales ops."
+      - "[T3] Alerting rules defined for acceptance rate, fabrication, and latency."
+    risks:
+      - "Dashboards not built. Cannot observe pilot without them."
+      - "Logging in dev only, not staging or production."
+      - "No alerting configured. Fabrication events would go undetected."
+    owner: "Engineering"
+    next_action: "Build dashboards and deploy logging to staging before pilot start. Configure alerting for fabrication and acceptance rate."
+
+  launch_and_operations:
+    score: 3
+    evidence:
+      - "[T4] Pilot cohort identified: 12 reps from Enterprise team."
+      - "[T3] Rollback plan documented (disable per rep or globally in <5 min)."
+      - "[T3] Pilot success criteria defined."
+    risks:
+      - "Rep training not done. Training materials drafted but not reviewed."
+    owner: "Product + Sales Enablement"
+    next_action: "Complete training materials. Schedule 30-min training session before pilot."
+
+recommendation:
+  level: "pilot_ready_with_conditions"
+  weighted_score: 3.07
+  rationale: "The problem and AI job are strong (both 4/5), but data readiness (2/5), system behavior (2/5), and observability (2/5) are material gaps. The product can enter a 12-rep pilot with manual workarounds for these gaps, but production is blocked until they close."
+  conditions:
+    - "Manual consent verification for pilot cohort (workaround for data readiness gap)."
+    - "Complete golden eval set (200 examples) before pilot ends."
+    - "Calibrate confidence scoring and transcript quality scoring on 50+ examples each."
+    - "Train pilot cohort on review workflow."
+    - "Deploy observability dashboards and alerting before pilot start."
+    - "Verify transcript retention and export controls for pilot data."
+  blockers_before_production:
+    - "Automated consent verification flow not built."
+    - "Eval set only 25% complete."
+    - "Confidence scoring not calibrated against ground truth."
+    - "Rep training not conducted."
+    - "Observability dashboards and alerting not deployed."
+    - "Transcript retention and export controls not verified in staging."
+    - "Load testing not completed."
+  alternative_recommendation: "If consent flag coverage cannot reach 95%+, consider restricting to calls from the Gong-native dialer where consent is automatically flagged, rather than processing all call sources."

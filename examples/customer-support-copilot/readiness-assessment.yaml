@@ -1,0 +1,178 @@
+product:
+  name: "Customer Support Copilot"
+  stage: "prototype"
+  owner: "Maya Patel, PM"
+  target_users:
+    - "Tier 1 support agents"
+
+use_case:
+  problem: "Agents spend 38% of handle time drafting replies from scattered knowledge base articles. Top 50 intents cover 62% of ticket volume."
+  ai_job: "Draft support responses using approved knowledge base articles for Tier 1 agents to review and send, subject to human approval before any customer-facing message."
+  non_ai_alternative: "Agents search knowledge base manually, read articles, and write responses from scratch. Templates were tried and failed (adoption dropped from 22% to 11%)."
+  expected_outcome: "Reduce drafting time from 3.1 minutes to under 1.5 minutes for supported intents. 75% draft accept rate. Zero hallucinated policy claims."
+
+dimensions:
+  problem_fit:
+    score: 4
+    evidence:
+      - "[T1] 4-week time study across 12 agents and 2,400 tickets confirms 38% of handle time on drafting"
+      - "[T1] Top 50 intents cover 62% of volume; top 10 cover 31%"
+      - "[T1] Template approach tried and failed: adoption dropped from 22% to 11% over 3 months"
+      - "[T2] Agent surveys cite repetitive drafting as top frustration"
+    risks:
+      - "Benefit will be uneven across agents. Some draft faster than average."
+      - "Less useful for complex, low-volume tickets outside top 50 intents"
+    owner: "PM"
+    next_action: "Segment expected impact by intent tier to set realistic pilot expectations"
+
+  workflow_fit:
+    score: 4
+    evidence:
+      - "[T3] Clear human-in-the-loop: AI drafts, agent reviews, agent sends"
+      - "[T3] Integrates into existing support platform reply panel"
+      - "[T3] Agent can accept, edit, reject, or escalate at every step"
+    risks:
+      - "Slow drafts (>4s) may cause agents to ignore the feature entirely"
+      - "High-pressure shifts may lead to rubber-stamping without careful review"
+    owner: "Design"
+    next_action: "Add draft loading indicator and measure time-to-first-interaction"
+
+  ai_job_definition:
+    score: 4
+    evidence:
+      - "[T3] AI job statement is specific and testable"
+      - "[T3] Input contract, output contract, and autonomy level defined"
+      - "[T3] Clear boundary: AI suggests, human decides and sends"
+      - "[T3] Scope limited to top 10 intents for v1"
+    risks:
+      - "Multi-intent tickets (18% of volume) handling not fully specified"
+      - "Confidence threshold of 0.6 is assumed, not empirically validated"
+    owner: "ML Lead"
+    next_action: "Run prototype against 50 multi-intent tickets and decide handling strategy"
+
+  data_readiness:
+    score: 3
+    evidence:
+      - "[T1] Knowledge base has 400+ articles covering all supported intents"
+      - "[T1] 6 months of historical ticket data available for eval set creation"
+      - "[T1] Vector embedding pipeline for KB retrieval functional in staging"
+    risks:
+      - "15% of KB articles are outdated based on spot check"
+      - "No automated freshness check or deprecation flag on articles"
+      - "Article quality is inconsistent: some clear, some rambling"
+    owner: "Support Lead + Engineering"
+    next_action: "Audit and update KB articles for top 10 intents. Flag deprecated articles in retrieval index."
+
+  eval_readiness:
+    score: 2
+    evidence:
+      - "[T3] Quality rubric drafted with 4 dimensions"
+      - "[T3] 5 golden examples defined covering required categories"
+      - "[T3] Automated checks specified: citation validity, PII detection, length bounds"
+    risks:
+      - "No golden dataset built yet. 5 examples are illustrative, not a scored eval set."
+      - "No labeled reference responses from graders"
+      - "Regression suite has only 5 cases, target is 50"
+      - "Inter-rater reliability untested"
+    owner: "ML Lead + Support Lead"
+    next_action: "Build 100-example golden eval set with labeled reference responses. Run inter-rater reliability test."
+
+  system_behavior:
+    score: 3
+    evidence:
+      - "[T3] Model selected (Claude Sonnet) with estimated token costs"
+      - "[T1] Retrieval pipeline functional in staging"
+      - "[T3] Latency targets defined: p50 <2s, p95 <4s, timeout 6s"
+      - "[T3] Timeout fallback behavior specified"
+    risks:
+      - "Low-confidence fallback not implemented. Prototype shows draft regardless of score."
+      - "Safety trigger detection not tested against adversarial inputs"
+      - "No load testing done"
+    owner: "Engineering"
+    next_action: "Implement low-confidence fallback. Test safety triggers. Run load test at 2x expected usage."
+
+  risk_and_safety:
+    score: 3
+    evidence:
+      - "[T3] Main risks identified: hallucination, outdated citations, PII echo, safety-sensitive tickets"
+      - "[T3] Mitigation strategy defined for each risk"
+      - "[T3] Human review on every response is a strong backstop"
+    risks:
+      - "No formal risk register with severity ratings"
+      - "PII filtering relies on regex, will miss some formats"
+      - "No incident response process for hallucination reports"
+    owner: "PM + Engineering"
+    next_action: "Create formal risk register. Define incident response process. Test PII filter against 50 varied examples."
+
+  regulatory_readiness:
+    score: 2
+    evidence:
+      - "[T3] Customer-facing AI disclosure requirement identified"
+      - "[T3] PII handling risks listed in PRD and risk notes"
+      - "[T3] Human review required before any customer-facing message is sent"
+    risks:
+      - "Prompt and output retention policy not confirmed."
+      - "Customer-facing AI disclosure language not reviewed by legal."
+      - "Tenant data handling review not completed."
+    owner: "Legal + Security"
+    next_action: "Confirm disclosure, retention, and tenant data handling requirements before pilot."
+
+  cost_and_business_case:
+    score: 3
+    evidence:
+      - "[T3] Estimated cost per draft: $0.03 based on model pricing"
+      - "[T3] Monthly cost for full team estimated under $2,000"
+      - "[T5] Expected 15% handle time reduction on supported intents"
+    risks:
+      - "Cost estimate based on assumed token counts, not measured"
+      - "Business case relies on handle time reduction not yet measured in practice"
+      - "No cost scaling analysis for expansion beyond top 10 intents"
+    owner: "PM + Engineering"
+    next_action: "Measure actual token usage on 200 prototype runs. Model cost at 50-intent scenario."
+
+  observability:
+    score: 2
+    evidence:
+      - "[T1] Latency logging live in staging"
+      - "[T1] API cost tracking functional"
+      - "[T3] Metric definitions exist for accept/edit/reject/retry/escalation"
+    risks:
+      - "Accept/edit/reject tracking not implemented"
+      - "Citation click tracking not implemented"
+      - "No dashboard exists"
+      - "No alerting configured"
+    owner: "Engineering"
+    next_action: "Implement accept/edit/reject event logging. Build dashboard with 8 key metrics. Configure alerts."
+
+  launch_and_operations:
+    score: 2
+    evidence:
+      - "[T4] Pilot group identified: 8 agents on day shift"
+      - "[T5] Pilot duration planned: 2 weeks"
+      - "[T5] Post-launch review cadence mentioned in eval plan"
+    risks:
+      - "No written pilot plan with success criteria or rollback triggers"
+      - "No agent training plan or materials"
+      - "No go/no-go decision process defined"
+      - "Post-launch review owner not assigned"
+    owner: "PM + Support Lead"
+    next_action: "Write pilot plan with success criteria and rollback triggers. Create agent training session. Assign review owner."
+
+recommendation:
+  level: "pilot_candidate"
+  weighted_score: 2.86
+  rationale: "The problem, workflow, and AI job are strong enough to justify a pilot, but the team should not start that pilot until eval, observability, regulatory review, and fallback blockers close."
+  blockers_before_pilot:
+    - "Build 100-example golden eval set with labeled reference responses"
+    - "Implement accept/edit/reject event logging and build basic dashboard"
+    - "Implement low-confidence fallback behavior"
+    - "Confirm disclosure, retention, and tenant data handling requirements"
+  blockers_before_production:
+    - "Pilot runs 2+ weeks with online metrics meeting targets"
+    - "No confirmed hallucination reports during pilot"
+    - "Agent feedback is net positive"
+    - "Formal risk register with incident response process"
+    - "250-example eval set passes at pilot thresholds"
+    - "Load testing at 2x expected concurrent usage"
+    - "Safety triggers tested against adversarial inputs"
+  alternative_recommendation: "Invest in knowledge base quality and search UX. Better KB search with snippet previews may capture 40-60% of the drafting time savings without model risk. Evaluate whether this closes enough of the gap before committing to an LLM-based copilot."

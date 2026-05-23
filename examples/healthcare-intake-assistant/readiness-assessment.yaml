@@ -1,0 +1,166 @@
+product:
+  name: "Healthcare Intake Assistant"
+  stage: "prototype"
+  owner: "James Rodriguez, VP Product"
+  target_users:
+    - "Patients with scheduled appointments at outpatient clinics"
+    - "Front desk staff reviewing AI-collected intake data"
+
+use_case:
+  problem: "Front desk staff spend 20 min/patient on intake. 12% of forms have errors causing billing rework at $15-25 per claim."
+  ai_job: "Collect structured patient demographics and insurance information through a conversational interface, for staff review before EHR entry."
+  non_ai_alternative: "Digital web form with validation rules and direct EHR integration. Captures most of the value without the compliance cost or patient-facing AI risk."
+  expected_outcome: "Reduce intake errors from 12% to under 3%. Reduce staff time from 20 min to under 8 min per patient."
+
+dimensions:
+  problem_fit:
+    score: 3
+    evidence:
+      - "[T1] Time study across 3 clinics confirms 19.7 min/patient mean intake time"
+      - "[T1] Billing audit of 2,000 claims shows 12.3% error rate traceable to intake"
+      - "[T2] Patient satisfaction for intake rated 2.8/5"
+    risks:
+      - "A digital form without AI solves most of the problem at lower risk."
+      - "Incremental benefit of conversational AI over a form is unproven."
+    owner: "Product"
+    next_action: "Prototype both approaches (AI conversational + digital form) and compare completion rates and error rates."
+
+  workflow_fit:
+    score: 3
+    evidence:
+      - "[T3] Workflow designed: AI collects, patient confirms, staff reviews, staff writes to EHR"
+      - "[T3] Paper form fallback included at every step"
+    risks:
+      - "No usability testing with patients or staff."
+      - "Elderly and low-literacy patients may struggle with conversational AI."
+    owner: "Product + Design"
+    next_action: "Run usability test with 10-15 staff role-playing diverse patient types."
+
+  ai_job_definition:
+    score: 3
+    evidence:
+      - "[T3] AI job scoped to demographics and insurance only"
+      - "[T3] Hard boundaries defined: no symptoms, no medical history, no clinical info"
+      - "[T3] Emergency escalation behavior specified"
+    risks:
+      - "Boundaries defined on paper but not tested."
+      - "Scope creep pressure toward clinical data collection is predictable."
+    owner: "Product"
+    next_action: "Test boundary enforcement with adversarial internal testing."
+
+  data_readiness:
+    score: 2
+    evidence:
+      - "[T3] Required field definitions exist"
+      - "[T1] Insurance provider lists available from clinic systems"
+    risks:
+      - "No HIPAA-compliant infrastructure provisioned."
+      - "No data pipeline designed for patient data."
+      - "No BAA with AI provider."
+    owner: "Engineering + Security"
+    next_action: "Scope HIPAA-compliant infrastructure requirements. Get BAA timeline from AI provider."
+
+  eval_readiness:
+    score: 1
+    evidence:
+      - "[T3] Eval plan written with golden examples and quality rubric"
+    risks:
+      - "Zero eval scenarios created. Cannot measure anything."
+      - "No labelers assigned. No synthetic data generated."
+    owner: "Product + ML Lead"
+    next_action: "Create 50 synthetic patient scenarios for prototype eval. This is the single highest-priority work item."
+
+  system_behavior:
+    score: 2
+    evidence:
+      - "[T3] Prompt design drafted"
+      - "[T3] Boundary enforcement approach outlined: input/output filters plus topic classification"
+    risks:
+      - "Nothing built. No prototype exists."
+      - "Boundary enforcement mechanisms not implemented or tested."
+    owner: "Engineering"
+    next_action: "Build prototype with boundary enforcement. Test against adversarial inputs before any patient interaction."
+
+  risk_and_safety:
+    score: 2
+    evidence:
+      - "[T3] Risk categories identified and documented"
+      - "[T3] Hard boundaries defined for clinical content"
+      - "[T3] Emergency escalation behavior specified"
+    risks:
+      - "HIPAA compliance review not started."
+      - "Security review not started."
+      - "Legal review of patient-facing AI liability not started."
+      - "No incident response plan for health data."
+      - "No BAA with AI provider."
+    owner: "Security + Legal + Compliance"
+    next_action: "Initiate HIPAA compliance review. Get timeline estimate from security and legal."
+
+  regulatory_readiness:
+    score: 1
+    evidence:
+      - "[T5] The team has identified that the product handles PHI and needs a formal compliance path"
+      - "[T5] Patient-facing AI liability is listed as an open legal issue"
+    risks:
+      - "HIPAA compliance review not started."
+      - "No BAA with AI provider."
+      - "No legal review of patient-facing AI liability."
+      - "No approved consent flow for AI-assisted intake."
+    owner: "Security + Legal + Compliance"
+    next_action: "Define the compliance path, BAA requirements, consent flow, and legal review plan before any real patient data is used."
+
+  cost_and_business_case:
+    score: 2
+    evidence:
+      - "[T3] AI cost estimated at $0.10/session, $80/month per clinic"
+      - "[T3] Staff time savings of 12 min/patient x 40 patients/day = 8 hours/day"
+      - "[T1] Billing error reduction worth $15-25 per corrected claim"
+    risks:
+      - "Total cost of ownership (compliance, security, legal, ongoing monitoring) not estimated. HIPAA compliance path alone could cost $50K-100K+."
+      - "A digital form may deliver most of the value at materially lower total cost."
+      - "ROI calculation excludes compliance costs, making the business case incomplete."
+    owner: "Product + Finance"
+    next_action: "Estimate total cost of HIPAA compliance path. Compare ROI of AI approach vs. digital form approach."
+
+  observability:
+    score: 1
+    evidence:
+      - "[T3] Observability requirements listed in PRD"
+    risks:
+      - "No monitoring infrastructure designed or built."
+      - "No dashboards, no alerting, no logging."
+      - "For health data, observability is a compliance requirement, not optional."
+    owner: "Engineering"
+    next_action: "Design observability architecture for HIPAA-compliant logging and monitoring."
+
+  launch_and_operations:
+    score: 2
+    evidence:
+      - "[T4] Pilot clinic identified (Main Street Family Practice)"
+      - "[T5] Rollback approach conceptualized (revert to paper forms)"
+    risks:
+      - "No staff training plan."
+      - "No incident response plan."
+      - "No on-call rotation for health data issues."
+      - "No escalation path for real incidents."
+    owner: "Product + Operations"
+    next_action: "Draft incident response plan. Define on-call responsibilities."
+
+recommendation:
+  level: "prototype_only"
+  weighted_score: 1.95
+  rationale: "The weighted score of 1.95 falls at the boundary between not ready and prototype only. The product should remain in prototype using synthetic data only, because evals, regulatory readiness, security review, observability, cost of compliance, and incident response are not ready for patient data. The prototype designation reflects that the team has enough definition to build and learn from a synthetic-data prototype, even though the score is borderline."
+  conditions:
+    - "Prototype must use synthetic data only. No real patient data."
+    - "Prototype must test boundary enforcement with adversarial inputs."
+    - "Prototype must compare AI conversational intake vs. digital form."
+  blockers_before_pilot:
+    - "HIPAA compliance review not started (estimated 3-6 months)."
+    - "No eval set exists (0 of 200 scenarios created)."
+    - "No observability infrastructure."
+    - "No incident response plan for health data."
+    - "No security review or penetration testing."
+    - "No legal review of patient-facing AI liability."
+    - "No BAA with AI provider."
+    - "No approved consent flow for AI-assisted intake."
+  alternative_recommendation: "Evaluate whether a digital form with validation rules meets the core need. If so, build the form and defer the AI conversational layer until compliance infrastructure exists."

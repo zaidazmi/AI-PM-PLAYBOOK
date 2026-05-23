@@ -1,0 +1,74 @@
+# Human review workflow
+
+Use this to define when humans review AI output. Fill this out before building any UI. If you skip this, you'll end up with a "just ship it and see" approach to AI autonomy.
+
+**Upstream:** autonomy levels and human review rules from the [AI PRD](ai-prd.md) define what goes here. **Downstream:** review point failures feed into the [risk register](ai-risk-register.md) and [post-launch review](post-launch-review.md).
+
+## Actions AI can take alone
+
+<!-- These are low-risk, reversible, or well-validated actions. The AI acts without waiting for a human. -->
+
+- 
+- 
+
+## Actions AI can suggest only
+
+<!-- The AI produces a recommendation or draft. A human must approve before the action takes effect. -->
+
+| Action | Who reviews | Max review latency | What reviewer sees |
+|--------|-------------|--------------------|--------------------|
+|        |             |                    |                    |
+
+## Actions AI must never take
+
+<!-- Hard boundaries. The AI cannot perform these regardless of confidence. -->
+
+- 
+- 
+
+## Required review points
+
+<!-- Specific moments in the workflow where a human must inspect AI output before proceeding. -->
+
+| Review point | Trigger | Reviewer | What they check | What happens if rejected |
+|--------------|---------|----------|-----------------|-------------------------|
+|              |         |          |                 |                         |
+
+## Review UI requirements
+
+<!-- What does the reviewer need to see to make a good decision quickly? -->
+
+- AI output displayed: <!-- full output, diff, summary? -->
+- Source/evidence shown: <!-- does the reviewer see what the AI based its answer on? -->
+- Confidence indicator: <!-- is confidence shown? how? -->
+- Edit capability: <!-- can the reviewer modify the output before approving? -->
+- Time to review target: <!-- how long should a single review take? -->
+
+## Escalation path
+
+<!-- What happens when the reviewer is unsure, or the AI output is flagged? -->
+
+1. Reviewer flags output as uncertain
+2. <!-- next step -->
+3. <!-- resolution -->
+
+## Audit trail
+
+<!-- What is logged for every AI action and review decision? -->
+
+- [ ] AI output (full)
+- [ ] Reviewer identity
+- [ ] Review decision (approve/reject/edit)
+- [ ] Edits made by reviewer
+- [ ] Timestamp
+- [ ] <!-- add product-specific fields -->
+
+## Feedback captured from review
+
+<!-- What reviewer actions feed back into improving the AI? -->
+
+| Feedback type | How captured | How used |
+|---------------|-------------|----------|
+| Rejection reason | <!-- e.g., dropdown + free text --> | <!-- e.g., added to eval set --> |
+| Edit diff | <!-- e.g., stored automatically --> | <!-- e.g., fine-tuning data --> |
+|               |             |          |

@@ -1,0 +1,350 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/zaidazmi/AI-PM-Playbook/schema/readiness-assessment.schema.json",
+  "title": "AI Product Readiness Assessment",
+  "description": "Schema for validating AI product readiness assessment YAML files used in the AI PM Playbook. Each assessment evaluates a product across 11 dimensions, scoring readiness from 0 (not ready) to 5 (fully ready) with supporting evidence, risks, ownership, next actions, and a launch recommendation.",
+  "type": "object",
+  "required": ["product", "use_case", "dimensions", "recommendation"],
+  "additionalProperties": false,
+  "properties": {
+    "product": {
+      "type": "object",
+      "description": "Basic product metadata.",
+      "required": ["name", "stage", "owner", "target_users"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the product being assessed."
+        },
+        "stage": {
+          "type": "string",
+          "description": "Current product lifecycle stage.",
+          "enum": ["prototype", "pilot", "limited_production", "scale"]
+        },
+        "owner": {
+          "type": "string",
+          "description": "Team or role that owns this product."
+        },
+        "target_users": {
+          "type": "array",
+          "description": "List of target user types for this product.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "use_case": {
+      "type": "object",
+      "description": "Describes the use case the AI product addresses.",
+      "required": ["problem", "ai_job", "non_ai_alternative", "expected_outcome"],
+      "additionalProperties": false,
+      "properties": {
+        "problem": {
+          "type": "string",
+          "description": "Description of the problem being solved."
+        },
+        "ai_job": {
+          "type": "string",
+          "description": "What the AI component does to address the problem."
+        },
+        "non_ai_alternative": {
+          "type": "string",
+          "description": "How users solve this problem today without AI."
+        },
+        "expected_outcome": {
+          "type": "string",
+          "description": "What success looks like for this use case."
+        }
+      }
+    },
+    "dimensions": {
+      "type": "object",
+      "description": "Readiness scores across all 11 assessment dimensions.",
+      "required": [
+        "problem_fit",
+        "workflow_fit",
+        "ai_job_definition",
+        "data_readiness",
+        "eval_readiness",
+        "system_behavior",
+        "risk_and_safety",
+        "regulatory_readiness",
+        "cost_and_business_case",
+        "observability",
+        "launch_and_operations"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "problem_fit": {
+          "$ref": "#/$defs/dimension",
+          "description": "How well the problem is suited for an AI solution."
+        },
+        "workflow_fit": {
+          "$ref": "#/$defs/dimension",
+          "description": "How well the AI integrates into existing user workflows."
+        },
+        "ai_job_definition": {
+          "$ref": "#/$defs/dimension",
+          "description": "Clarity and specificity of what the AI is expected to do."
+        },
+        "data_readiness": {
+          "$ref": "#/$defs/dimension",
+          "description": "Availability and quality of data needed to build and run the AI."
+        },
+        "eval_readiness": {
+          "$ref": "#/$defs/dimension",
+          "description": "Ability to measure whether the AI is performing well."
+        },
+        "system_behavior": {
+          "$ref": "#/$defs/dimension",
+          "description": "Defined behavior for edge cases, errors, and uncertainty."
+        },
+        "risk_and_safety": {
+          "$ref": "#/$defs/dimension",
+          "description": "Identification and mitigation of risks including bias, harm, misuse, and agentic risks (tool misuse, goal hijacking, error cascading)."
+        },
+        "regulatory_readiness": {
+          "$ref": "#/$defs/dimension",
+          "description": "Risk classification, data provenance, transparency requirements, and applicable legal, privacy, or sector-specific requirements."
+        },
+        "cost_and_business_case": {
+          "$ref": "#/$defs/dimension",
+          "description": "Economic viability and ROI justification for the AI product."
+        },
+        "observability": {
+          "$ref": "#/$defs/dimension",
+          "description": "Ability to monitor, debug, and understand AI behavior in production."
+        },
+        "launch_and_operations": {
+          "$ref": "#/$defs/dimension",
+          "description": "Readiness for deployment, rollback, and ongoing operations."
+        }
+      }
+    },
+    "recommendation": {
+      "type": "object",
+      "description": "Recommended next release stage based on the weighted score, individual dimension scores, and hard blockers.",
+      "required": ["level", "weighted_score", "rationale"],
+      "additionalProperties": false,
+      "properties": {
+        "level": {
+          "type": "string",
+          "description": "Recommended readiness level.",
+          "enum": [
+            "not_ready",
+            "prototype_only",
+            "pilot_candidate",
+            "pilot_ready_with_conditions",
+            "limited_production_ready",
+            "scale_ready"
+          ]
+        },
+        "weighted_score": {
+          "type": "number",
+          "description": "Weighted readiness score from 0.0 to 5.0, calculated from dimension scores and weights.",
+          "minimum": 0,
+          "maximum": 5
+        },
+        "rationale": {
+          "type": "string",
+          "description": "Short explanation for the recommendation."
+        },
+        "conditions": {
+          "type": "array",
+          "description": "Conditions attached to the recommended next stage.",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "blockers_before_pilot": {
+          "type": "array",
+          "description": "Issues that must close before a pilot can begin.",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "blockers_before_production": {
+          "type": "array",
+          "description": "Issues that must close before customer-facing production launch.",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "blockers_before_scale": {
+          "type": "array",
+          "description": "Issues that must close before broad rollout or scale-up.",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "alternative_recommendation": {
+          "type": "string",
+          "description": "A non-AI or lower-risk alternative the team should consider."
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "recommendation": {
+            "type": "object",
+            "properties": {
+              "level": {
+                "const": "prototype_only"
+              }
+            },
+            "required": ["level"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "recommendation": {
+            "type": "object",
+            "required": [
+              "level",
+              "weighted_score",
+              "rationale",
+              "conditions",
+              "blockers_before_pilot",
+              "alternative_recommendation"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "recommendation": {
+            "type": "object",
+            "properties": {
+              "level": {
+                "const": "pilot_candidate"
+              }
+            },
+            "required": ["level"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "recommendation": {
+            "type": "object",
+            "required": [
+              "level",
+              "weighted_score",
+              "rationale",
+              "blockers_before_pilot"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "recommendation": {
+            "type": "object",
+            "properties": {
+              "level": {
+                "const": "pilot_ready_with_conditions"
+              }
+            },
+            "required": ["level"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "recommendation": {
+            "type": "object",
+            "required": [
+              "level",
+              "weighted_score",
+              "rationale",
+              "conditions",
+              "blockers_before_production"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "recommendation": {
+            "type": "object",
+            "properties": {
+              "level": {
+                "const": "limited_production_ready"
+              }
+            },
+            "required": ["level"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "recommendation": {
+            "type": "object",
+            "required": [
+              "level",
+              "weighted_score",
+              "rationale",
+              "conditions",
+              "blockers_before_scale"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "dimension": {
+      "type": "object",
+      "description": "A single readiness dimension with a score, evidence, risks, ownership, and next action.",
+      "required": ["score", "evidence", "risks", "owner", "next_action"],
+      "additionalProperties": false,
+      "properties": {
+        "score": {
+          "type": "integer",
+          "description": "Readiness score from 0 (not ready) to 5 (fully ready).",
+          "minimum": 0,
+          "maximum": 5
+        },
+        "evidence": {
+          "type": "array",
+          "description": "Supporting evidence for the assigned score.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "risks": {
+          "type": "array",
+          "description": "Known risks or concerns for this dimension.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "owner": {
+          "type": "string",
+          "description": "Person or role responsible for this dimension."
+        },
+        "next_action": {
+          "type": "string",
+          "description": "Concrete next step to improve readiness in this dimension."
+        }
+      }
+    }
+  }
+}
