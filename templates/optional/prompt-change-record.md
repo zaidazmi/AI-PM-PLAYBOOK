@@ -2,7 +2,7 @@
 
 Use this before changing a production prompt, system instruction, judge prompt, tool instruction, or retrieval instruction. A prompt change is a product change.
 
-**Upstream:** behavioral contract from the [AI PRD](ai-prd.md), quality bar from the [eval plan](ai-eval-plan.md), production signals from the [observability plan](ai-observability-plan.md). **Downstream:** approved changes feed into the [post-launch review](post-launch-review.md).
+**Upstream:** behavioral contract from the [AI PRD](../ai-prd.md), quality bar from the [eval plan](../ai-eval-plan.md), production signals from the [observability plan](../ai-observability-plan.md). **Downstream:** approved changes feed into the [weekly post-launch review](../ai-observability-plan.md#weekly-post-launch-review).
 
 ## Change summary
 

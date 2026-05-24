@@ -2,7 +2,7 @@
 
 Use this to define when humans review AI output. Fill this out before building any UI. If you skip this, you'll end up with a "just ship it and see" approach to AI autonomy.
 
-**Upstream:** autonomy levels and human review rules from the [AI PRD](ai-prd.md) define what goes here. **Downstream:** review point failures feed into the [risk register](ai-risk-register.md) and [post-launch review](post-launch-review.md).
+**Upstream:** autonomy levels and human review rules from the [AI PRD](ai-prd.md) define what goes here. **Downstream:** review point failures feed into the PRD risk table, launch gate, and [weekly post-launch review](ai-observability-plan.md#weekly-post-launch-review).
 
 ## HITL mode
 

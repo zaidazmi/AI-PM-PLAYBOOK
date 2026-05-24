@@ -82,4 +82,4 @@ A prompt is ready when:
 - It is versioned and rollbackable.
 - It has monitoring tied to product-quality signals.
 
-Use the [AI PRD template](../templates/ai-prd.md) to define the contract, the [Eval Plan template](../templates/ai-eval-plan.md) to test behavior, and the [Prompt Change Record](../templates/prompt-change-record.md) only for meaningful production changes.
+Use the [AI PRD template](../templates/ai-prd.md) to define the contract, the [Eval Plan template](../templates/ai-eval-plan.md) to test behavior, and the optional [Prompt Change Record](../templates/optional/prompt-change-record.md) only for meaningful production changes.

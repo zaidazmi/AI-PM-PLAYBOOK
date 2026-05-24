@@ -2,11 +2,16 @@
 
 Use this before committing any engineering time. Kill bad ideas here, not after a prototype.
 
-**Next:** if you decide to pursue or prototype, write the [AI PRD](ai-prd.md). If the risk profile is unclear, start a [risk register](ai-risk-register.md) in parallel.
+**Next:** if you decide to pursue or prototype, write the [AI PRD](ai-prd.md). If the idea is not coherent across user, AI job, human control, evals, risk, and cost, stop here and sharpen it before building.
 
 ## Problem
 
 <!-- What specific user problem are you solving? Who has it? How often? What does it cost them today (time, money, errors, missed opportunities)? -->
+
+- Target user:
+- Workflow where the problem happens:
+- Current workaround:
+- Cost of the problem today: <!-- time, money, errors, missed revenue, risk -->
 
 ## Current workflow
 
@@ -19,6 +24,30 @@ Use this before committing any engineering time. Kill bad ideas here, not after 
 ## Smallest useful version
 
 <!-- What is the narrowest version that still solves the problem? One user type, one task, one input format. What is explicitly out of scope for v1? -->
+
+## AI job draft
+
+> The AI [does what] using [inputs] to produce [outputs] for [user] inside [workflow], subject to [review or safety rule].
+
+- Inputs:
+- Outputs:
+- Explicitly out of scope:
+
+## Human control
+
+<!-- What must a human approve, edit, reject, undo, or monitor before the AI output matters? If there is no human loop, explain why the action is low-risk, reversible, well-tested, and monitored. -->
+
+| AI action | Review mode | Reviewer or monitor | Why this mode |
+|-----------|-------------|---------------------|---------------|
+|           | <!-- in / on / after / none --> | | |
+
+## Data, eval, and operating assumptions
+
+- Data sources:
+- Data quality concerns:
+- First eval cases to create:
+- Cost per task target:
+- Observability signals needed before pilot:
 
 ## Alternatives considered
 
@@ -36,8 +65,15 @@ Use this before committing any engineering time. Kill bad ideas here, not after 
 
 <!-- List what could go wrong. Don't wait for a risk review to name the obvious ones. -->
 
-- 
-- 
+| Risk | Scenario | Likelihood | Severity | Mitigation or next action | Owner |
+|------|----------|------------|----------|---------------------------|-------|
+|      |          |            |          |                           |       |
+
+Highest-severity risk:
+
+Legal, security, privacy, or compliance concern:
+
+What would make this a "do not launch" decision?
 
 ## Prototype success criteria
 

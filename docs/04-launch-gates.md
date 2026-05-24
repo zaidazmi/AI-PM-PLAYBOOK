@@ -159,4 +159,4 @@ Keep the option to roll back. If limited production reveals problems the pilot m
 ## Next steps
 
 - Score your product and track stage-gate decisions using the [Launch Gate Checklist template](../templates/launch-gate-checklist.md).
-- Record each go/no-go decision and its rationale in a [Stakeholder Decision Record](../templates/stakeholder-decision-record.md).
+- Record each go/no-go decision, rationale, reversal trigger, and owner inside the [Launch Gate Checklist template](../templates/launch-gate-checklist.md).

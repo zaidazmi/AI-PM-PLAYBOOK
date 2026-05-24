@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
-  <a href="#what-an-ai-pm-actually-does"><img src="https://img.shields.io/badge/templates-14-purple" alt="Templates"></a>
+  <a href="#what-an-ai-pm-actually-does"><img src="https://img.shields.io/badge/templates-10-purple" alt="Templates"></a>
   <a href="#guides"><img src="https://img.shields.io/badge/guides-11-green" alt="Guides"></a>
   <a href="#case-studies"><img src="https://img.shields.io/badge/case%20studies-3-orange" alt="Case Studies"></a>
 </p>
@@ -25,20 +25,19 @@ Use this path when the problem is still fuzzy and you need to decide whether AI 
 
 **I already built a prototype and now I'm nervous**
 
-[Error analysis](docs/07-error-analysis.md) -> [Eval plan](templates/ai-eval-plan.md) -> [Risk register](templates/ai-risk-register.md) -> [Observability plan](templates/ai-observability-plan.md) -> [Launch gate](templates/launch-gate-checklist.md)
+[Error analysis](docs/07-error-analysis.md) -> [Eval plan](templates/ai-eval-plan.md) -> [PRD risk table](templates/ai-prd.md#risks-and-mitigations) -> [Observability plan](templates/ai-observability-plan.md) -> [Launch gate](templates/launch-gate-checklist.md)
 
 Use this path when the demo works, but you do not yet know whether the product is safe, measurable, affordable, or ready for users.
 
 ## Quick start
 
 1. [Before you vibe code](docs/before-you-vibe-code.md) — answer 8 questions before building
-2. [AI product canvas](templates/ai-product-canvas.md) — align the user, AI job, human control, evals, risk, and cost on one page
-3. [AI opportunity brief](templates/ai-opportunity-brief.md) — decide if AI is worth pursuing
-4. [AI PRD](templates/ai-prd.md) — define what the AI does, its quality bar, and what happens when it fails
-5. [Eval plan](templates/ai-eval-plan.md) — define "good" before trusting model output
-6. [AI PM review checklist](templates/ai-pm-review-checklist.md) — run a 5-minute roadmap, design, engineering, legal, or launch review
-7. [Launch gate checklist](templates/launch-gate-checklist.md) — make a go/no-go call for pilot, production, or scale
-8. [Healthcare intake example](examples/healthcare-intake-assistant/) — see what a "do not launch" recommendation looks like
+2. [AI opportunity brief](templates/ai-opportunity-brief.md) — decide if AI is worth pursuing and align user, AI job, human control, evals, risk, and cost
+3. [AI PRD](templates/ai-prd.md) — define what the AI does, its quality bar, risks, and what happens when it fails
+4. [Eval plan](templates/ai-eval-plan.md) — define "good" before trusting model output
+5. [Human review workflow](templates/human-review-workflow.md) — decide who validates, corrects, escalates, or blocks AI output before it matters
+6. [Launch gate checklist](templates/launch-gate-checklist.md) — make a go/no-go call for pilot, production, or scale
+7. [Healthcare intake example](examples/healthcare-intake-assistant/) — see what a "do not launch" recommendation looks like
 
 The [full playbook](ai-pm-playbook.md) has the operating model, evidence hierarchy, readiness scoring, and decision framework.
 
@@ -63,21 +62,16 @@ Most of these jobs didn't exist three years ago. Each one has a template.
 
 | Skill | What it means | Artifact |
 |-------|---------------|----------|
-| Product framing | Align the AI idea on one page before deeper artifacts | [AI Product Canvas](templates/ai-product-canvas.md) |
-| Opportunity assessment | Decide whether AI is worth pursuing for a given problem | [Opportunity Brief](templates/ai-opportunity-brief.md) |
+| Opportunity assessment | Decide whether AI is worth pursuing and align user, AI job, human control, evals, risk, and cost | [Opportunity Brief](templates/ai-opportunity-brief.md) |
 | AI job definition | Specify what the AI does, its constraints, and its fallback behavior | [AI PRD](templates/ai-prd.md) |
 | Eval design | Define "good" before trusting model output | [Eval Plan](templates/ai-eval-plan.md) |
-| Build handoff | Turn PM intent into scoped, buildable work | [Build Brief](templates/ai-build-brief.md) |
-| Risk management | What can go wrong, how bad is it, what do we do about it | [Risk Register](templates/ai-risk-register.md) |
+| Risk management | What can go wrong, how bad is it, what do we do about it | [PRD risk table](templates/ai-prd.md#risks-and-mitigations) + [Launch Gate](templates/launch-gate-checklist.md) |
 | Human-in-the-loop design | Decide who validates, corrects, escalates, or blocks AI output before it matters | [Review Workflow](templates/human-review-workflow.md) |
 | Unit economics | Cost per workflow and margin impact at scale | [Cost Model](templates/ai-cost-model.md) |
-| Meeting review | Pressure-test AI product work in 5 minutes | [AI PM Review Checklist](templates/ai-pm-review-checklist.md) |
-| Prompt management | Review, test, roll out, and roll back prompt changes | [Prompt Change Record](templates/prompt-change-record.md) |
 | Launch gating | Go/no-go calls using evidence | [Launch Gate Checklist](templates/launch-gate-checklist.md) |
 | Observability | Monitor quality, drift, and cost in production | [Observability Plan](templates/ai-observability-plan.md) |
-| Post-launch review | What actually happened vs. what we expected | [Post-Launch Review](templates/post-launch-review.md) |
-
-Plus a [Stakeholder Decision Record](templates/stakeholder-decision-record.md) for documenting decisions and why they were made.
+| Post-launch review | What actually happened vs. what we expected | [Observability Plan](templates/ai-observability-plan.md#weekly-post-launch-review) |
+| Optional handoff and operations | Build handoff, meeting review, and prompt change control | [Optional templates](templates/optional/) |
 
 ## Guides
 
@@ -117,7 +111,7 @@ Use these artifacts to answer common AI PM interview questions with concrete exa
 |--------------------|----------------|
 | How do you decide if an AI feature is worth building? | [Opportunity Brief](templates/ai-opportunity-brief.md) + [Healthcare Intake opportunity](examples/healthcare-intake-assistant/opportunity-brief.md) |
 | How do you define quality for LLM output? | [Eval Plan](templates/ai-eval-plan.md) + [Customer Support eval](examples/customer-support-copilot/eval-plan.md) |
-| How do you handle hallucination risk? | [Risk Register](templates/ai-risk-register.md) + [Customer Support launch gate](examples/customer-support-copilot/launch-gate.md) |
+| How do you handle hallucination risk? | [AI PRD risk table](templates/ai-prd.md#risks-and-mitigations) + [Customer Support launch gate](examples/customer-support-copilot/launch-gate.md) |
 | How do you decide not to launch? | [Launch Gates guide](docs/04-launch-gates.md) + [Healthcare Intake launch gate](examples/healthcare-intake-assistant/launch-gate.md) |
 | How do you operate after launch? | [Observability Plan](templates/ai-observability-plan.md) + [Week-2 post-launch review](examples/customer-support-copilot/post-launch-review-week-2.md) |
 
@@ -125,7 +119,7 @@ Use these artifacts to answer common AI PM interview questions with concrete exa
 
 ```
 ai-pm-playbook.md          # Full playbook: operating model, scoring, gates
-templates/                  # 14 fill-in PM artifacts
+templates/                  # 7 core PM artifacts plus 3 optional templates
 docs/                       # 11 reference guides (including walkthrough)
 examples/                   # 3 scored case studies, plus one post-launch review example
 schema/                     # JSON schema for readiness assessments

@@ -171,4 +171,4 @@ Current agents still have concrete limitations that affect product design:
 ## Next steps
 
 - Define autonomy levels, tool boundaries, and safety constraints in your PRD using the agent-specific sections of the [AI PRD template](../templates/ai-prd.md).
-- Catalog failure modes and mitigations for each tool the agent can call using the [Risk Register template](../templates/ai-risk-register.md).
+- Catalog failure modes and mitigations for each tool the agent can call using the [AI PRD risk table](../templates/ai-prd.md#risks-and-mitigations).

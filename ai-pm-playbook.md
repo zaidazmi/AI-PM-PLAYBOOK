@@ -97,14 +97,14 @@ AI PM Playbook helps you make better product decisions before, during, and after
 | --- | --- |
 | Decide whether an AI idea is worth building | AI Opportunity Brief |
 | Define the AI's job clearly | AI PRD |
-| Convert PM intent into build-ready work | AI Build Brief |
+| Convert PM intent into build-ready work | Optional AI Build Brief |
 | Define quality | AI Eval Plan |
-| Make failure modes visible | Risk Register |
+| Make failure modes visible | AI PRD risk table and Launch Gate Checklist |
 | Design human review | Human Review Workflow |
 | Decide if the product can launch | Launch Gate Checklist |
 | Track production behavior | Observability Plan |
 | Understand unit economics | AI Cost Model |
-| Run the product after launch | Post-launch Review |
+| Run the product after launch | Observability Plan weekly review |
 
 The goal is to replace:
 
@@ -276,32 +276,6 @@ The AI is responsible for [specific task] using [allowed inputs] to produce
 [specific output] for [user] inside [workflow], subject to [review or safety rule].
 ```
 
-### AI Build Brief
-
-Use this when product intent is ready for engineering.
-
-Purpose:
-
-Turn PM intent into a build-ready brief for engineers and AI coding agents.
-
-This template is compatible with [GRIT](https://github.com/zaidazmi/GRIT), the companion framework for AI-assisted engineering delivery.
-
-Required sections:
-
-- Premise check.
-- Smallest valuable slice.
-- Existing product or code paths to reuse.
-- Behavioral contract.
-- Inputs and outputs.
-- Edge cases.
-- Non-goals.
-- Eval and test requirements.
-- Risk and hardening requirements.
-- Launch gate.
-- Open questions.
-
-Use this when AI agents are writing production code. A vague PM brief turns into vague generated code.
-
 ### AI Eval Plan
 
 Use this before trusting model behavior.
@@ -344,26 +318,13 @@ Eval anti-patterns to watch:
 - Relying on a single eval run for non-deterministic outputs.
 - Skipping integration tests at agent boundaries.
 
-### Risk Register
+### Risks And Mitigations
 
-Use this before pilot and production launch.
+Use the PRD risk table and launch gate before pilot and production launch.
 
 Purpose:
 
-Make AI product risk concrete, owned, and reviewable.
-
-Track:
-
-- Risk.
-- Scenario.
-- User impact.
-- Business impact.
-- Likelihood.
-- Severity.
-- Mitigation.
-- Detection signal.
-- Owner.
-- Status.
+Make AI product risk concrete, owned, and reviewable without creating extra artifact sprawl.
 
 Useful risk categories:
 
@@ -453,6 +414,8 @@ Track:
 
 Technical logs alone are not enough. The PM needs product-quality signals.
 
+The observability plan also includes the weekly post-launch review: what changed, usage, quality, cost, latency, user feedback, incidents, top failure modes, product decisions, and next actions.
+
 ### AI Cost Model
 
 Use this before scale.
@@ -483,26 +446,13 @@ Outputs:
 - Agentic cost multiplier (for agent workflows, measure the added cost from tool calls, retries, and context accumulation).
 - Multi-model routing savings (route simple tasks to cheaper models).
 
-### Post-launch Review
+### Optional Templates
 
-Use this weekly after launch.
+Use these when the team needs more ceremony or a tighter handoff:
 
-Purpose:
-
-Run the AI product quality loop.
-
-Review:
-
-- What shipped.
-- Usage.
-- Quality.
-- Cost.
-- Latency.
-- User feedback.
-- Incidents.
-- Top failure modes.
-- Product decisions.
-- Next actions.
+- AI build brief: translate PM intent into scoped engineering work.
+- AI PM review checklist: pressure-test roadmap, design, engineering, legal, or launch meetings.
+- Prompt change record: review, test, roll out, and roll back production prompt changes.
 
 ## Evidence Hierarchy
 
@@ -816,20 +766,17 @@ ai-pm-playbook/
     09-agent-pm-starter-pack.md
 
   templates/
-    ai-product-canvas.md
     ai-opportunity-brief.md
     ai-prd.md
-    ai-build-brief.md
     ai-eval-plan.md
-    ai-pm-review-checklist.md
-    ai-risk-register.md
     human-review-workflow.md
     launch-gate-checklist.md
     ai-observability-plan.md
     ai-cost-model.md
-    prompt-change-record.md
-    post-launch-review.md
-    stakeholder-decision-record.md
+    optional/
+      ai-build-brief.md
+      ai-pm-review-checklist.md
+      prompt-change-record.md
 
   examples/
     customer-support-copilot/

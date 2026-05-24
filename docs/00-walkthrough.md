@@ -55,7 +55,7 @@ For grading, she uses tiered evaluation: code-based checks for output schema com
 
 ## Thursday: risk register and cost model
 
-Priya opens the [risk register](../templates/ai-risk-register.md) in the morning. She fills in the top risks:
+Priya opens the risk table in the [AI PRD](../templates/ai-prd.md#risks-and-mitigations) in the morning. She fills in the top risks:
 
 | Risk | Severity | Mitigation |
 | --- | --- | --- |
@@ -78,7 +78,7 @@ Priya opens the [launch gate checklist](../templates/launch-gate-checklist.md) a
 
 Two items fail: the golden eval set has only 15 examples (she needs 50), and observability is not instrumented. She marks the gate as **Hold** with two conditions: complete the eval set and wire up accept/edit/reject tracking before starting the pilot.
 
-She writes a [stakeholder decision record](../templates/stakeholder-decision-record.md) documenting the recommendation: prototype approved, pilot blocked until eval and observability gaps close.
+She documents the recommendation in the [launch gate checklist](../templates/launch-gate-checklist.md): prototype approved, pilot blocked until eval and observability gaps close.
 
 The reversal condition: "If the 50-contract eval shows accuracy below 80% on any of the 8 clause types, revisit whether AI extraction is the right approach for non-standard contracts."
 
@@ -94,7 +94,7 @@ Five artifacts, built in five days:
 4. **Risk register** — 4 risks with severity, mitigations, and evidence tiers
 5. **Decision record** — prototype approved, pilot conditions, reversal trigger
 
-She did not build a slide deck. She did not write a strategy memo. She built the artifacts that the team needs to make a decision and to build the product if they say yes. The [build brief](../templates/ai-build-brief.md) comes next — once the pilot gate conditions are met and engineering is ready to start, Priya will translate the PRD and eval plan into a scoped engineering handoff.
+She did not build a slide deck. She did not write a strategy memo. She built the artifacts that the team needs to make a decision and to build the product if they say yes. The optional [build brief](../templates/optional/ai-build-brief.md) comes next — once the pilot gate conditions are met and engineering is ready to start, Priya will translate the PRD and eval plan into a scoped engineering handoff.
 
 The VP of Product reads the opportunity brief, sees the "non-standard contracts only" scope, and says: "I assumed we'd do all contracts." Priya shows the "why not deterministic software" section. Standard contracts are already handled by rules. The AI adds value only where clause language varies. The VP agrees.
 

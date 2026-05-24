@@ -2,7 +2,7 @@
 
 Use this to define what "good" means before you build. If you can't write this, you're not ready to build.
 
-**Upstream:** the task definition and quality bar come from the [AI PRD](ai-prd.md). **Downstream:** eval results feed into the [launch gate checklist](launch-gate-checklist.md) and [post-launch review](post-launch-review.md).
+**Upstream:** the task definition and quality bar come from the [AI PRD](ai-prd.md). **Downstream:** eval results feed into the [launch gate checklist](launch-gate-checklist.md) and the [weekly post-launch review](ai-observability-plan.md#weekly-post-launch-review).
 
 ## Task definition
 

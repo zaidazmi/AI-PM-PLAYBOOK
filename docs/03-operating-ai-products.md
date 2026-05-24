@@ -29,7 +29,7 @@ Every AI workflow needs a clear operating posture:
 | Area | PM decision | Artifact |
 |------|-------------|----------|
 | Human control | Which actions require approval, review, undo, or escalation? | [Human Review Workflow](../templates/human-review-workflow.md) |
-| Safety | What can go wrong, how bad is it, and who owns mitigation? | [Risk Register](../templates/ai-risk-register.md) |
+| Safety | What can go wrong, how bad is it, and who owns mitigation? | [PRD risk table](../templates/ai-prd.md#risks-and-mitigations) + [Launch Gate](../templates/launch-gate-checklist.md) |
 | Observability | Which product and system signals tell us whether the AI is working? | [Observability Plan](../templates/ai-observability-plan.md) |
 | Cost | What is cost per task, user, and customer at baseline, 3x, and 10x usage? | [Cost Model](../templates/ai-cost-model.md) |
 | Launch | Can this move to pilot, production, or scale with evidence? | [Launch Gate Checklist](../templates/launch-gate-checklist.md) |
@@ -217,7 +217,7 @@ Block scale if:
 ## Next steps
 
 - Define control points in the [Human Review Workflow template](../templates/human-review-workflow.md).
-- Track risks and owners in the [Risk Register template](../templates/ai-risk-register.md).
+- Track risks and owners in the [AI PRD risk table](../templates/ai-prd.md#risks-and-mitigations) and [Launch Gate Checklist](../templates/launch-gate-checklist.md).
 - Set production signals with the [Observability Plan template](../templates/ai-observability-plan.md).
 - Model economics with the [AI Cost Model template](../templates/ai-cost-model.md).
 - Make stage decisions with the [Launch Gate Checklist template](../templates/launch-gate-checklist.md).

@@ -2,7 +2,7 @@
 
 Use this to decide if the product can enter or advance beyond each release stage. Three gates: pilot entry, limited production entry, and scale-up entry. Do not skip gates.
 
-**Inputs:** scores and evidence come from the [eval plan](ai-eval-plan.md), [risk register](ai-risk-register.md), [cost model](ai-cost-model.md), [observability plan](ai-observability-plan.md), and [human review workflow](human-review-workflow.md). **Output:** a go/no-go decision documented in the [stakeholder decision record](stakeholder-decision-record.md).
+**Inputs:** scores and evidence come from the [AI PRD](ai-prd.md), [eval plan](ai-eval-plan.md), [cost model](ai-cost-model.md), [observability plan](ai-observability-plan.md), and [human review workflow](human-review-workflow.md). **Output:** a go/no-go decision with rationale, conditions, owner, and reversal trigger.
 
 ---
 
@@ -50,6 +50,22 @@ Rollback trigger: <!-- e.g., quality score drops > 5%, cost per task > 2x budget
 - [ ] No data leakage between users/tenants
 - [ ] Failure behavior does not expose raw model output to users
 
+### Risk and decision record
+
+| Risk or blocker | Severity | Owner | Required mitigation | Due |
+|-----------------|----------|-------|---------------------|-----|
+|                 |          |       |                     |     |
+
+Options considered:
+
+| Option | Pros | Cons |
+|--------|------|------|
+| Start pilot | | |
+| Hold | | |
+| Do not launch | | |
+
+What would reverse this decision: <!-- Name a specific metric, date, dependency, or evidence threshold that would reopen the decision. -->
+
 ### Decision
 
 - [ ] Start pilot
@@ -59,6 +75,7 @@ Rollback trigger: <!-- e.g., quality score drops > 5%, cost per task > 2x budget
 
 **Decided by:** <!-- name -->
 **Date:** <!-- YYYY-MM-DD -->
+**Review date or trigger:** <!-- YYYY-MM-DD or metric threshold -->
 
 ---
 
@@ -86,6 +103,22 @@ Rollback trigger: <!-- e.g., quality score drops > 5%, cost per task > 2x budget
 - [ ] Cost trajectory within budget at projected scale
 - [ ] Regulatory requirements from Gate 1 still met (no scope changes that alter risk classification)
 
+### Risk and decision record
+
+| Risk or blocker | Severity | Owner | Required mitigation | Due |
+|-----------------|----------|-------|---------------------|-----|
+|                 |          |       |                     |     |
+
+Options considered:
+
+| Option | Pros | Cons |
+|--------|------|------|
+| Advance | | |
+| Advance with conditions | | |
+| Hold | | |
+
+What would reverse this decision: <!-- Name a specific metric, date, dependency, or evidence threshold that would reopen the decision. -->
+
 ### Decision
 
 - [ ] Advance to limited production
@@ -95,6 +128,7 @@ Rollback trigger: <!-- e.g., quality score drops > 5%, cost per task > 2x budget
 
 **Decided by:** <!-- name -->
 **Date:** <!-- YYYY-MM-DD -->
+**Review date or trigger:** <!-- YYYY-MM-DD or metric threshold -->
 
 ---
 
@@ -120,6 +154,22 @@ Rollback trigger: <!-- e.g., quality score drops > 5%, cost per task > 2x budget
 - [ ] Incident response process tested (at least one simulated incident)
 - [ ] Near-miss capture process in place (not just incidents, but close calls)
 
+### Risk and decision record
+
+| Risk or blocker | Severity | Owner | Required mitigation | Due |
+|-----------------|----------|-------|---------------------|-----|
+|                 |          |       |                     |     |
+
+Options considered:
+
+| Option | Pros | Cons |
+|--------|------|------|
+| Scale | | |
+| Hold expansion | | |
+| Roll back | | |
+
+What would reverse this decision: <!-- Name a specific metric, date, dependency, or evidence threshold that would reopen the decision. -->
+
 ### Decision
 
 - [ ] Ship to all users
@@ -129,3 +179,4 @@ Rollback trigger: <!-- e.g., quality score drops > 5%, cost per task > 2x budget
 
 **Decided by:** <!-- name -->
 **Date:** <!-- YYYY-MM-DD -->
+**Review date or trigger:** <!-- YYYY-MM-DD or metric threshold -->

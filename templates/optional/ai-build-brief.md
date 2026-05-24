@@ -2,7 +2,7 @@
 
 Use this to turn PM intent into engineering-ready work. Compatible with the [GRIT framework](https://github.com/zaidazmi/GRIT) for AI-assisted engineering delivery.
 
-**Upstream:** pull the problem, AI job, and constraints from the [AI PRD](ai-prd.md). **Parallel:** reference the [eval plan](ai-eval-plan.md) for test requirements and the [launch gate checklist](launch-gate-checklist.md) for ship criteria.
+**Upstream:** pull the problem, AI job, and constraints from the [AI PRD](../ai-prd.md). **Parallel:** reference the [eval plan](../ai-eval-plan.md) for test requirements and the [launch gate checklist](../launch-gate-checklist.md) for ship criteria.
 
 ## Premise check
 

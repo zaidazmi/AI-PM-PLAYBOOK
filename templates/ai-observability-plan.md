@@ -2,7 +2,7 @@
 
 Use this to define what you monitor after launch. Set this up before shipping, not after the first incident.
 
-**Upstream:** metric targets come from the [AI PRD](ai-prd.md) and [cost model](ai-cost-model.md). **Downstream:** production signals feed into the [post-launch review](post-launch-review.md) and trigger updates to the [eval plan](ai-eval-plan.md).
+**Upstream:** metric targets come from the [AI PRD](ai-prd.md) and [cost model](ai-cost-model.md). **Downstream:** production signals trigger updates to the [eval plan](ai-eval-plan.md), launch gates, and roadmap decisions.
 
 ## Product signals
 
@@ -87,3 +87,53 @@ Use this to define what you monitor after launch. Set this up before shipping, n
 - **On every model/prompt change:** run regression suite before deploy
 - **After any incident:** add failure case to eval set, review related signals for missed warning signs
 - **After any usage spike:** review cost and latency impact, check for degradation under load
+
+## Weekly post-launch review
+
+<!-- Use this section for the operating meeting after pilot or production launch. Fill it out before the meeting, not during. -->
+
+**Feature:** <!-- name -->
+**Week of:** <!-- YYYY-MM-DD -->
+**Author:** <!-- name -->
+
+### What changed
+
+<!-- List prompt updates, model swaps, UI changes, guardrail additions, rollout changes, or major usage shifts. -->
+
+-
+-
+
+### Metrics summary
+
+| Metric | This week | Last week | Target | Status |
+|--------|-----------|-----------|--------|--------|
+| Active users | | | | |
+| Tasks completed | | | | |
+| Accept rate | | | | |
+| Edit rate | | | | |
+| Reject rate | | | | |
+| Retry rate | | | | |
+| Escalation rate | | | | |
+| Cost per task | | | | |
+| p95 latency | | | | |
+| Automated eval score | | | | |
+| Manual review score | | | | |
+
+### Incidents and near misses
+
+| Date | Description | Severity | Resolution | Follow-up |
+|------|-------------|----------|------------|-----------|
+|      |             |          |            |           |
+
+### Top failure modes
+
+<!-- What are the most common ways the AI failed this week? Add recurring failures to the eval set. -->
+
+1.
+2.
+
+### Decisions and next actions
+
+| Decision or action | Owner | Due | Reversal or review trigger |
+|--------------------|-------|-----|----------------------------|
+|                    |       |     |                            |

@@ -2,7 +2,7 @@
 
 Use this to define what you're building, how the AI behaves, and what "good" looks like. The AI job statement is the most important line in this document.
 
-**Upstream:** this should follow an approved [opportunity brief](ai-opportunity-brief.md). **Downstream:** use this PRD to create the [eval plan](ai-eval-plan.md), [risk register](ai-risk-register.md), [human review workflow](human-review-workflow.md), and [build brief](ai-build-brief.md).
+**Upstream:** this should follow an approved [opportunity brief](ai-opportunity-brief.md). **Downstream:** use this PRD to create the [eval plan](ai-eval-plan.md), [human review workflow](human-review-workflow.md), [cost model](ai-cost-model.md), [observability plan](ai-observability-plan.md), and [launch gate](launch-gate-checklist.md). If engineers or coding agents need a tighter handoff, use the optional [build brief](optional/ai-build-brief.md).
 
 ## Problem
 
@@ -135,6 +135,27 @@ Escalation: <!-- When the agent encounters something outside its scope, what hap
 
 - 
 - 
+
+## Risks and mitigations
+
+<!-- Name the risks that could block pilot, production, or scale. Any high-severity risk needs an owner and mitigation before launch. -->
+
+| Risk | Scenario | User impact | Business impact | Likelihood | Severity | Mitigation | Detection signal | Owner |
+|------|----------|-------------|-----------------|------------|----------|------------|------------------|-------|
+| Incorrect output | <!-- plausible but wrong output --> | | | | | | | |
+| Over-trust | <!-- user treats AI as authoritative --> | | | | | | | |
+| Data leakage | <!-- wrong user/tenant sees data --> | | | | | | | |
+| Unsafe autonomy | <!-- AI takes action beyond scope --> | | | | | | | |
+| Cost spike | <!-- usage or retries exceed budget --> | | | | | | | |
+| Silent degradation | <!-- quality drops without alert --> | | | | | | | |
+
+Agentic risks, if relevant:
+
+| Risk | Scenario | Mitigation | Owner |
+|------|----------|------------|-------|
+| Goal hijacking | | | |
+| Tool misuse | | | |
+| Error cascading | | | |
 
 ## Quality bar
 
