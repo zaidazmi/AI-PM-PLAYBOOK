@@ -25,7 +25,7 @@ Use this path when the problem is still fuzzy and you need to decide whether AI 
 
 **I already built a prototype and now I'm nervous**
 
-[Error analysis](docs/10-error-analysis.md) -> [Eval plan](templates/ai-eval-plan.md) -> [Risk register](templates/ai-risk-register.md) -> [Observability plan](templates/ai-observability-plan.md) -> [Launch gate](templates/launch-gate-checklist.md)
+[Error analysis](docs/07-error-analysis.md) -> [Eval plan](templates/ai-eval-plan.md) -> [Risk register](templates/ai-risk-register.md) -> [Observability plan](templates/ai-observability-plan.md) -> [Launch gate](templates/launch-gate-checklist.md)
 
 Use this path when the demo works, but you do not yet know whether the product is safe, measurable, affordable, or ready for users.
 
@@ -46,7 +46,7 @@ The [full playbook](ai-pm-playbook.md) has the operating model, evidence hierarc
 
 "Do not launch" is not a failure state. It is a product decision when the evidence says the blast radius is larger than the team's ability to measure, review, roll back, or operate the AI safely.
 
-Stop or hold when evals are missing, human review is undefined, agent rollback is impossible, data permissioning is unclear, cost exceeds the business case, or legal/security review has not happened for a high-risk workflow. A convincing LLM demo is not evidence that the product can act safely in the real workflow. Use the [Launch Gates guide](docs/07-launch-gates.md) to make that call with evidence.
+Stop or hold when evals are missing, human review is undefined, agent rollback is impossible, data permissioning is unclear, cost exceeds the business case, or legal/security review has not happened for a high-risk workflow. A convincing LLM demo is not evidence that the product can act safely in the real workflow. Use the [Launch Gates guide](docs/04-launch-gates.md) to make that call with evidence.
 
 ## Who this is for
 
@@ -90,12 +90,12 @@ Eleven guides on the parts of AI product management where most teams get stuck.
 | [Eval Design](docs/01-eval-design.md) | Building evals that catch real failures, including the ones you miss in demos |
 | [Agentic Products](docs/02-agentic-products.md) | How to spec agents vs. chatbots vs. copilots |
 | [Operating AI Products](docs/03-operating-ai-products.md) | Human review, safety, observability, and cost discipline after the demo works |
-| [Launch Gates](docs/07-launch-gates.md) | How to say "do not launch" with evidence |
-| [Prompt Craft](docs/08-prompt-craft.md) | Treating prompts as product surfaces |
-| [Bad to Good AI PRD](docs/09-bad-to-good-ai-prd.md) | Turning a vague AI assistant brief into a buildable PRD slice |
-| [Error Analysis](docs/10-error-analysis.md) | Reading traces, labeling failures, and deciding which evals are worth automating |
-| [Artifact Flow Map](docs/11-artifact-flow-map.md) | What artifact comes when, who owns it, and what decision it unlocks |
-| [Agent PM Starter Pack](docs/12-agent-pm-starter-pack.md) | Tool boundaries, autonomy, rollback, trajectory evals, cost ceilings, and handoff |
+| [Launch Gates](docs/04-launch-gates.md) | How to say "do not launch" with evidence |
+| [Prompt Craft](docs/05-prompt-craft.md) | Treating prompts as product surfaces |
+| [Bad to Good AI PRD](docs/06-bad-to-good-ai-prd.md) | Turning a vague AI assistant brief into a buildable PRD slice |
+| [Error Analysis](docs/07-error-analysis.md) | Reading traces, labeling failures, and deciding which evals are worth automating |
+| [Artifact Flow Map](docs/08-artifact-flow-map.md) | What artifact comes when, who owns it, and what decision it unlocks |
+| [Agent PM Starter Pack](docs/09-agent-pm-starter-pack.md) | Tool boundaries, autonomy, rollback, trajectory evals, cost ceilings, and handoff |
 
 ## Case studies
 
@@ -118,7 +118,7 @@ Use these artifacts to answer common AI PM interview questions with concrete exa
 | How do you decide if an AI feature is worth building? | [Opportunity Brief](templates/ai-opportunity-brief.md) + [Healthcare Intake opportunity](examples/healthcare-intake-assistant/opportunity-brief.md) |
 | How do you define quality for LLM output? | [Eval Plan](templates/ai-eval-plan.md) + [Customer Support eval](examples/customer-support-copilot/eval-plan.md) |
 | How do you handle hallucination risk? | [Risk Register](templates/ai-risk-register.md) + [Customer Support launch gate](examples/customer-support-copilot/launch-gate.md) |
-| How do you decide not to launch? | [Launch Gates guide](docs/07-launch-gates.md) + [Healthcare Intake launch gate](examples/healthcare-intake-assistant/launch-gate.md) |
+| How do you decide not to launch? | [Launch Gates guide](docs/04-launch-gates.md) + [Healthcare Intake launch gate](examples/healthcare-intake-assistant/launch-gate.md) |
 | How do you operate after launch? | [Observability Plan](templates/ai-observability-plan.md) + [Week-2 post-launch review](examples/customer-support-copilot/post-launch-review-week-2.md) |
 
 ## Repo structure

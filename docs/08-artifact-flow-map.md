@@ -10,7 +10,7 @@ Use this when you need to know which artifact comes next. The playbook is a deci
 | Product definition | [AI PRD](../templates/ai-prd.md) | PM with design and engineering | What does the AI do, for whom, under what constraints? | Create the eval plan, risk register, review workflow, and build brief. |
 | Engineering handoff | [AI build brief](../templates/ai-build-brief.md) | PM with engineering lead | Is the work scoped enough to build or prototype? | Build the smallest useful version or spike. |
 | Quality definition | [AI eval plan](../templates/ai-eval-plan.md) | PM with domain expert and ML/engineering | How will the team know whether output is good? | Run baseline evals and update the launch gate. |
-| Failure discovery | [Error analysis](10-error-analysis.md) | PM or domain expert | What is actually going wrong in traces? | Add recurring failures to evals and risk register. |
+| Failure discovery | [Error analysis](07-error-analysis.md) | PM or domain expert | What is actually going wrong in traces? | Add recurring failures to evals and risk register. |
 | Risk ownership | [AI risk register](../templates/ai-risk-register.md) | PM with legal, security, design, engineering | What could go wrong, how bad is it, and who owns it? | Mitigate high-severity risks before launch gates. |
 | Human control | [Human review workflow](../templates/human-review-workflow.md) | PM with design and operations | Where must humans approve, edit, reject, or undo AI output? | Design review UI and audit trail. |
 | Unit economics | [AI cost model](../templates/ai-cost-model.md) | PM with engineering and finance | Is the workflow economically viable at expected usage? | Set cost ceilings and observability targets. |

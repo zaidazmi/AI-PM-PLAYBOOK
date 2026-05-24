@@ -105,4 +105,4 @@ Do not launch an agent beyond internal testing if:
 - There is no audit trail for tool calls and actions
 - The human handoff path is not staffed or tested
 
-Use the [Launch Gates guide](07-launch-gates.md) when deciding whether the agent can move from prototype to pilot, limited production, or scale.
+Use the [Launch Gates guide](04-launch-gates.md) when deciding whether the agent can move from prototype to pilot, limited production, or scale.

@@ -808,12 +808,12 @@ ai-pm-playbook/
     01-eval-design.md
     02-agentic-products.md
     03-operating-ai-products.md
-    07-launch-gates.md
-    08-prompt-craft.md
-    09-bad-to-good-ai-prd.md
-    10-error-analysis.md
-    11-artifact-flow-map.md
-    12-agent-pm-starter-pack.md
+    04-launch-gates.md
+    05-prompt-craft.md
+    06-bad-to-good-ai-prd.md
+    07-error-analysis.md
+    08-artifact-flow-map.md
+    09-agent-pm-starter-pack.md
 
   templates/
     ai-product-canvas.md
