@@ -17,6 +17,8 @@ The hardest PM judgment call in AI products is not what to build. It is when to 
 
 The readiness score is not a simple average. Some gaps block launch entirely. An AI product with excellent accuracy but no human review for high-impact actions should not go to production, full stop.
 
+"Do not launch" is a first-class outcome. It is not a failed meeting, a lack of ambition, or an anti-AI posture. It means the team found a gap that would create unacceptable user, business, legal, safety, or operational risk at the requested stage.
+
 ## Three stages
 
 AI products move through three stages, each with higher stakes and stricter requirements.
@@ -84,7 +86,7 @@ A well-run pilot answers specific questions. Before starting, write down:
 
 During the pilot, resist the urge to fix problems by expanding scope. If the model struggles with edge cases, do not add more tools or capabilities. Fix the core quality first.
 
-At the end of the pilot, write a one-page recommendation: proceed to limited production, extend the pilot with changes, or do not launch.
+At the end of the pilot, write a one-page recommendation: proceed to limited production, extend the pilot with changes, or do not launch. A do-not-launch recommendation should name the blocker, the evidence behind it, and the reversal condition that would change the decision.
 
 ## When to recommend "do not launch"
 
@@ -97,8 +99,12 @@ Recommend "do not launch" when:
 - The product requires human review but no viable review process exists
 - Safety evals reveal failure modes that cannot be mitigated with guardrails
 - The pilot shows users do not trust the output enough to use it
+- Agent actions cannot be audited, stopped, or rolled back
+- Legal, security, or compliance review is required but not complete
 
 The healthcare intake example illustrates this well. An AI-powered patient intake system might handle 80% of demographic and insurance fields correctly, which sounds good until you consider that the remaining 20% can create billing errors, privacy exposure, staff rework, and patient confusion. In healthcare, "prototype only" is the right answer until accuracy, privacy controls, observability, compliance review, and human review are strong enough for patient data.
+
+Frame the decision as "not yet, because..." rather than "no." The strongest version includes the exact evidence needed to reopen the gate.
 
 ## The scoring model
 

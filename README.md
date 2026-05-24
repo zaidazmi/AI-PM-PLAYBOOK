@@ -4,16 +4,30 @@
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
-  <a href="#what-an-ai-pm-actually-does"><img src="https://img.shields.io/badge/templates-11-purple" alt="Templates"></a>
-  <a href="#guides"><img src="https://img.shields.io/badge/guides-12-green" alt="Guides"></a>
+  <a href="#what-an-ai-pm-actually-does"><img src="https://img.shields.io/badge/templates-12-purple" alt="Templates"></a>
+  <a href="#guides"><img src="https://img.shields.io/badge/guides-14-green" alt="Guides"></a>
   <a href="#case-studies"><img src="https://img.shields.io/badge/case%20studies-3-orange" alt="Case Studies"></a>
 </p>
 
-Vibe-coding gets you to a demo fast. This playbook helps you figure out whether that demo should become a product, how to define quality, where humans need to stay in the loop, and when to say "not yet."
+Vibe-coding gets you to a demo fast. This playbook helps you make the harder call: whether that demo should become a product, where humans need to stay in the loop, what evidence would make it safe to ship, and when to say "not yet."
 
 Built for PMs working with LLMs, agents, copilots, RAG, and workflow automation.
 
 > **New here?** Start with [A week with the AI PM Playbook](docs/00-walkthrough.md) — a walkthrough of one PM using these artifacts on an actual product, from opportunity brief to roadmap review.
+
+## Choose your path
+
+**I have an idea**
+
+[Before you vibe code](docs/before-you-vibe-code.md) -> [Opportunity brief](templates/ai-opportunity-brief.md) -> [AI PRD](templates/ai-prd.md) -> [Eval plan](templates/ai-eval-plan.md) -> [Launch gate](templates/launch-gate-checklist.md)
+
+Use this path when the problem is still fuzzy and you need to decide whether AI is worth building at all.
+
+**I already built a prototype and now I'm nervous**
+
+[Error analysis](docs/10-error-analysis.md) -> [Eval plan](templates/ai-eval-plan.md) -> [Risk register](templates/ai-risk-register.md) -> [Observability plan](templates/ai-observability-plan.md) -> [Launch gate](templates/launch-gate-checklist.md)
+
+Use this path when the demo works, but you do not yet know whether the product is safe, measurable, affordable, or ready for users.
 
 ## Quick start
 
@@ -21,10 +35,17 @@ Built for PMs working with LLMs, agents, copilots, RAG, and workflow automation.
 2. [AI opportunity brief](templates/ai-opportunity-brief.md) — decide if AI is worth pursuing
 3. [AI PRD](templates/ai-prd.md) — define what the AI does, its quality bar, and what happens when it fails
 4. [Eval plan](templates/ai-eval-plan.md) — define "good" before trusting model output
-5. [Launch gate checklist](templates/launch-gate-checklist.md) — gate pilot, production, and scale-up decisions
-6. [Healthcare intake example](examples/healthcare-intake-assistant/) — see what a "do not launch" recommendation looks like
+5. [AI PM review checklist](templates/ai-pm-review-checklist.md) — run a 5-minute roadmap, design, engineering, legal, or launch review
+6. [Launch gate checklist](templates/launch-gate-checklist.md) — make a go/no-go call for pilot, production, or scale
+7. [Healthcare intake example](examples/healthcare-intake-assistant/) — see what a "do not launch" recommendation looks like
 
 The [full playbook](ai-pm-playbook.md) has the operating model, evidence hierarchy, readiness scoring, and decision framework.
+
+## When this playbook tells you to stop
+
+"Do not launch" is not a failure state. It is a product decision when the evidence says the blast radius is larger than the team's ability to measure, review, roll back, or operate the AI safely.
+
+Stop or hold when evals are missing, human review is undefined, agent rollback is impossible, data permissioning is unclear, cost exceeds the business case, or legal/security review has not happened for a high-risk workflow. Use the [Launch Gates guide](docs/07-launch-gates.md) to make that call with evidence.
 
 ## Who this is for
 
@@ -48,6 +69,7 @@ Most of these jobs didn't exist three years ago. Each one has a template.
 | Risk management | What can go wrong, how bad is it, what do we do about it | [Risk Register](templates/ai-risk-register.md) |
 | Human-in-the-loop design | Decide when and how humans validate AI output | [Review Workflow](templates/human-review-workflow.md) |
 | Unit economics | Cost per workflow and margin impact at scale | [Cost Model](templates/ai-cost-model.md) |
+| Meeting review | Pressure-test AI product work in 5 minutes | [AI PM Review Checklist](templates/ai-pm-review-checklist.md) |
 | Launch gating | Go/no-go calls using evidence | [Launch Gate Checklist](templates/launch-gate-checklist.md) |
 | Observability | Monitor quality, drift, and cost in production | [Observability Plan](templates/ai-observability-plan.md) |
 | Post-launch review | What actually happened vs. what we expected | [Post-Launch Review](templates/post-launch-review.md) |
@@ -56,7 +78,7 @@ Plus a [Stakeholder Decision Record](templates/stakeholder-decision-record.md) f
 
 ## Guides
 
-Twelve guides on the parts of AI product management where most teams get stuck.
+Fourteen guides on the parts of AI product management where most teams get stuck.
 
 | Guide | What it covers |
 |-------|----------------|
@@ -72,6 +94,8 @@ Twelve guides on the parts of AI product management where most teams get stuck.
 | [Prompt Craft](docs/08-prompt-craft.md) | Treating prompts as product surfaces |
 | [Bad to Good AI PRD](docs/09-bad-to-good-ai-prd.md) | Turning a vague AI assistant brief into a buildable PRD slice |
 | [Error Analysis](docs/10-error-analysis.md) | Reading traces, labeling failures, and deciding which evals are worth automating |
+| [Artifact Flow Map](docs/11-artifact-flow-map.md) | What artifact comes when, who owns it, and what decision it unlocks |
+| [Agent PM Starter Pack](docs/12-agent-pm-starter-pack.md) | Tool boundaries, autonomy, rollback, trajectory evals, cost ceilings, and handoff |
 
 ## Case studies
 
@@ -101,8 +125,8 @@ Use these artifacts to answer common AI PM interview questions with concrete exa
 
 ```
 ai-pm-playbook.md          # Full playbook: operating model, scoring, gates
-templates/                  # 11 fill-in PM artifacts
-docs/                       # 12 reference guides (including walkthrough)
+templates/                  # 12 fill-in PM artifacts
+docs/                       # 14 reference guides (including walkthrough)
 examples/                   # 3 scored case studies, plus one post-launch review example
 schema/                     # JSON schema for readiness assessments
 ```

@@ -815,12 +815,15 @@ ai-pm-playbook/
     08-prompt-craft.md
     09-bad-to-good-ai-prd.md
     10-error-analysis.md
+    11-artifact-flow-map.md
+    12-agent-pm-starter-pack.md
 
   templates/
     ai-opportunity-brief.md
     ai-prd.md
     ai-build-brief.md
     ai-eval-plan.md
+    ai-pm-review-checklist.md
     ai-risk-register.md
     human-review-workflow.md
     launch-gate-checklist.md
