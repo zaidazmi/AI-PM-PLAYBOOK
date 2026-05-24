@@ -233,4 +233,4 @@ This takes a PM about two days. It will save you months of shipping broken thing
 
 - Use the [Eval Plan template](../templates/ai-eval-plan.md) to define your golden set, scoring method, and regression cadence.
 - Use the [Error Analysis guide](10-error-analysis.md) before automating evals, especially when you do not yet know the main failure modes.
-- Once evals are running, set up production monitoring using the [Observability guide](05-observability.md) to detect drift between eval runs.
+- Once evals are running, set up production monitoring using the [Operating AI Products guide](03-operating-ai-products.md) to detect drift between eval runs.

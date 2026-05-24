@@ -807,10 +807,7 @@ ai-pm-playbook/
     00-walkthrough.md
     01-eval-design.md
     02-agentic-products.md
-    03-cost-economics.md
-    04-safety-governance.md
-    05-observability.md
-    06-human-in-the-loop.md
+    03-operating-ai-products.md
     07-launch-gates.md
     08-prompt-craft.md
     09-bad-to-good-ai-prd.md

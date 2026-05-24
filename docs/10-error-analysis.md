@@ -159,5 +159,5 @@ For AI products, reading traces is product discovery after launch. It is where t
 ## Next steps
 
 - Use the [Eval Design guide](01-eval-design.md) to turn priority failure categories into code-based checks, LLM judges, and human review.
-- Use the [Observability guide](05-observability.md) to make sure traces are logged, sampled, and reviewed after launch.
+- Use the [Operating AI Products guide](03-operating-ai-products.md) to make sure traces are logged, sampled, and reviewed after launch.
 - Add recurring failures to the [Eval Plan template](../templates/ai-eval-plan.md) so the eval set evolves with production behavior.

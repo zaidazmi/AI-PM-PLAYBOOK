@@ -5,7 +5,7 @@
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
   <a href="#what-an-ai-pm-actually-does"><img src="https://img.shields.io/badge/templates-14-purple" alt="Templates"></a>
-  <a href="#guides"><img src="https://img.shields.io/badge/guides-14-green" alt="Guides"></a>
+  <a href="#guides"><img src="https://img.shields.io/badge/guides-11-green" alt="Guides"></a>
   <a href="#case-studies"><img src="https://img.shields.io/badge/case%20studies-3-orange" alt="Case Studies"></a>
 </p>
 
@@ -46,7 +46,7 @@ The [full playbook](ai-pm-playbook.md) has the operating model, evidence hierarc
 
 "Do not launch" is not a failure state. It is a product decision when the evidence says the blast radius is larger than the team's ability to measure, review, roll back, or operate the AI safely.
 
-Stop or hold when evals are missing, human review is undefined, agent rollback is impossible, data permissioning is unclear, cost exceeds the business case, or legal/security review has not happened for a high-risk workflow. Use the [Launch Gates guide](docs/07-launch-gates.md) to make that call with evidence.
+Stop or hold when evals are missing, human review is undefined, agent rollback is impossible, data permissioning is unclear, cost exceeds the business case, or legal/security review has not happened for a high-risk workflow. A convincing LLM demo is not evidence that the product can act safely in the real workflow. Use the [Launch Gates guide](docs/07-launch-gates.md) to make that call with evidence.
 
 ## Who this is for
 
@@ -69,7 +69,7 @@ Most of these jobs didn't exist three years ago. Each one has a template.
 | Eval design | Define "good" before trusting model output | [Eval Plan](templates/ai-eval-plan.md) |
 | Build handoff | Turn PM intent into scoped, buildable work | [Build Brief](templates/ai-build-brief.md) |
 | Risk management | What can go wrong, how bad is it, what do we do about it | [Risk Register](templates/ai-risk-register.md) |
-| Human-in-the-loop design | Decide when and how humans validate AI output | [Review Workflow](templates/human-review-workflow.md) |
+| Human-in-the-loop design | Decide who validates, corrects, escalates, or blocks AI output before it matters | [Review Workflow](templates/human-review-workflow.md) |
 | Unit economics | Cost per workflow and margin impact at scale | [Cost Model](templates/ai-cost-model.md) |
 | Meeting review | Pressure-test AI product work in 5 minutes | [AI PM Review Checklist](templates/ai-pm-review-checklist.md) |
 | Prompt management | Review, test, roll out, and roll back prompt changes | [Prompt Change Record](templates/prompt-change-record.md) |
@@ -81,7 +81,7 @@ Plus a [Stakeholder Decision Record](templates/stakeholder-decision-record.md) f
 
 ## Guides
 
-Fourteen guides on the parts of AI product management where most teams get stuck.
+Eleven guides on the parts of AI product management where most teams get stuck.
 
 | Guide | What it covers |
 |-------|----------------|
@@ -89,10 +89,7 @@ Fourteen guides on the parts of AI product management where most teams get stuck
 | [Walkthrough](docs/00-walkthrough.md) | A week with the playbook: one PM, one product, five artifacts |
 | [Eval Design](docs/01-eval-design.md) | Building evals that catch real failures, including the ones you miss in demos |
 | [Agentic Products](docs/02-agentic-products.md) | How to spec agents vs. chatbots vs. copilots |
-| [Cost Economics](docs/03-cost-economics.md) | AI SaaS unit economics and margin modeling |
-| [Safety & Governance](docs/04-safety-governance.md) | Defining what the model must never do |
-| [Observability](docs/05-observability.md) | Monitoring AI quality when uptime dashboards aren't enough |
-| [Human-in-the-Loop](docs/06-human-in-the-loop.md) | When and how humans validate AI output |
+| [Operating AI Products](docs/03-operating-ai-products.md) | Human review, safety, observability, and cost discipline after the demo works |
 | [Launch Gates](docs/07-launch-gates.md) | How to say "do not launch" with evidence |
 | [Prompt Craft](docs/08-prompt-craft.md) | Treating prompts as product surfaces |
 | [Bad to Good AI PRD](docs/09-bad-to-good-ai-prd.md) | Turning a vague AI assistant brief into a buildable PRD slice |
@@ -129,7 +126,7 @@ Use these artifacts to answer common AI PM interview questions with concrete exa
 ```
 ai-pm-playbook.md          # Full playbook: operating model, scoring, gates
 templates/                  # 14 fill-in PM artifacts
-docs/                       # 14 reference guides (including walkthrough)
+docs/                       # 11 reference guides (including walkthrough)
 examples/                   # 3 scored case studies, plus one post-launch review example
 schema/                     # JSON schema for readiness assessments
 ```

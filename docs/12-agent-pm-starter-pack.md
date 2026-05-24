@@ -8,7 +8,7 @@ Use this when the AI can call tools, take actions, or run multi-step workflows. 
 |----------|----------|
 | What actions can the agent take, and at what autonomy level? | [AI PRD](../templates/ai-prd.md) |
 | Which tools can it call, with what constraints? | [AI PRD](../templates/ai-prd.md) + [Risk Register](../templates/ai-risk-register.md) |
-| What can the agent never do? | [AI PRD](../templates/ai-prd.md) + [Safety & Governance](04-safety-governance.md) |
+| What can the agent never do? | [AI PRD](../templates/ai-prd.md) + [Operating AI Products](03-operating-ai-products.md) |
 | Which actions require approval, rollback, or audit trail? | [Human Review Workflow](../templates/human-review-workflow.md) |
 | How will trajectory quality be evaluated? | [Eval Plan](../templates/ai-eval-plan.md) + [Agentic Products](02-agentic-products.md) |
 | What is the cost ceiling per task? | [Cost Model](../templates/ai-cost-model.md) |
