@@ -13,6 +13,8 @@ Vibe-coding gets you to a demo fast. This playbook helps you make the harder cal
 
 Built for PMs working with LLMs, agents, copilots, RAG, and workflow automation.
 
+If useful, a GitHub star helps me know this is worth maintaining.
+
 > **New here?** Start with [A week with the AI PM Playbook](docs/00-walkthrough.md) — a walkthrough of one PM using these artifacts on an actual product, from opportunity brief to roadmap review.
 
 ## Choose your path
