@@ -11,6 +11,7 @@
 - [Quality bars depend on domain](#quality-bars-depend-on-domain)
 - [Quality rubrics](#quality-rubrics)
 - [Automated vs human grading](#automated-vs-human-grading)
+- [Trace-first eval design](#trace-first-eval-design)
 - [LLM-as-judge](#llm-as-judge)
 - [Calibrating LLM judges](#calibrating-llm-judges)
 - [Regression testing](#regression-testing)
@@ -130,6 +131,24 @@ Use human grading for:
 - Evaluating new categories of output
 
 The ratio shifts over time. Early in development, you are 80% human grading. At scale, you should be 80% automated with human spot-checks.
+
+## Trace-first eval design
+
+Start eval design from traces whenever possible. If you invent evals before seeing real model behavior, you may test the wrong failures.
+
+Use this loop:
+
+1. Review prototype or production traces.
+2. Label where the output, tool call, retrieval step, handoff, or action failed.
+3. Group failures into product-specific categories.
+4. Write evals for the categories that are frequent, severe, or strategically important.
+5. Add representative traces to the golden set.
+
+Trace review helps answer the question that generic evals miss: did the system fail because the model was wrong, retrieval was weak, the tool call failed, the workflow lacked human review, or the eval itself misunderstood what good looks like?
+
+For agentic products, evaluate both the final outcome and the trajectory. A correct final answer can still be unsafe if the agent used the wrong tool, accessed the wrong data, skipped required approval, or retried until cost spiked.
+
+It is acceptable to start with an LLM-generated "vibe eval" as a draft. Do not trust it as a launch gate until a human has reviewed examples where it passes and fails. A useful eval should produce a healthy mix of right and wrong outputs. If everything passes, it is probably too easy. If everything fails, it may be misaligned.
 
 ## LLM-as-judge
 

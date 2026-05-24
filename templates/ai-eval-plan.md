@@ -28,6 +28,10 @@ Use this to define what "good" means before you build. If you can't write this, 
 - Size: <!-- internal iteration: 5-10; prototype: 20-50; pilot: 50-100; production: 200+; larger for regulated/high-stakes domains -->
 - Selection method: <!-- random sample, stratified by difficulty, adversarial, etc. -->
 - Labeler: <!-- who created the ground truth? what were their instructions? -->
+- Trace source: <!-- prototype traces, production traces, synthetic traces, support tickets, user research, etc. -->
+- Traces reviewed: <!-- count and date range -->
+- Human-labeled failures: <!-- count and who labeled them -->
+- Eval-human agreement target: <!-- e.g., judge agrees with human labels >= 85% before use -->
 
 <!-- Smaller datasets help the team iterate quickly. Larger datasets increase confidence before pilot or production decisions. State which stage this eval supports. -->
 
@@ -122,6 +126,14 @@ Use this to define what "good" means before you build. If you can't write this, 
 | Error category | Example trace or input | Frequency in sample | Severity | Fix path | Automate? |
 |----------------|------------------------|---------------------|----------|----------|-----------|
 | <!-- e.g., human handoff failure --> | | | <!-- low/med/high --> | <!-- prompt/retrieval/tool/product/policy --> | <!-- yes/no/later --> |
+
+## Trace-derived eval cases
+
+<!-- Which eval cases came from real traces or observed failures? Use this to keep evals grounded in actual behavior rather than imagined edge cases. -->
+
+| Trace or source | Failure observed | Eval case added | Human label | Owner |
+|-----------------|------------------|-----------------|-------------|-------|
+|                 |                  |                 |             |       |
 
 ## LLM judge calibration
 

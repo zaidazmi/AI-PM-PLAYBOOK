@@ -5,7 +5,7 @@
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
   <a href="#what-an-ai-pm-actually-does"><img src="https://img.shields.io/badge/templates-10-purple" alt="Templates"></a>
-  <a href="#guides"><img src="https://img.shields.io/badge/guides-11-green" alt="Guides"></a>
+  <a href="#guides"><img src="https://img.shields.io/badge/guides-12-green" alt="Guides"></a>
   <a href="#case-studies"><img src="https://img.shields.io/badge/case%20studies-3-orange" alt="Case Studies"></a>
 </p>
 
@@ -77,7 +77,7 @@ Most of these jobs didn't exist three years ago. Each one has a template.
 
 ## Guides
 
-Eleven guides on the parts of AI product management where most teams get stuck.
+Twelve guides on the parts of AI product management where most teams get stuck.
 
 | Guide | What it covers |
 |-------|----------------|
@@ -92,6 +92,7 @@ Eleven guides on the parts of AI product management where most teams get stuck.
 | [Error Analysis](docs/07-error-analysis.md) | Reading traces, labeling failures, and deciding which evals are worth automating |
 | [Artifact Flow Map](docs/08-artifact-flow-map.md) | What artifact comes when, who owns it, and what decision it unlocks |
 | [Agent PM Starter Pack](docs/09-agent-pm-starter-pack.md) | Tool boundaries, autonomy, rollback, trajectory evals, cost ceilings, and handoff |
+| [AI-Native PM Loop](docs/10-ai-native-pm-loop.md) | Build small PM agents, trace behavior, create evals from traces, and improve safely |
 
 ## Case studies
 
@@ -122,7 +123,7 @@ Use these artifacts to answer common AI PM interview questions with concrete exa
 ```
 ai-pm-playbook.md          # Full playbook: operating model, scoring, gates
 templates/                  # 7 core PM artifacts plus 3 optional templates
-docs/                       # 11 reference guides (including walkthrough)
+docs/                       # 12 reference guides (including walkthrough)
 examples/                   # 3 scored case studies, plus one post-launch review example
 schema/                     # JSON schema for readiness assessments
 ```

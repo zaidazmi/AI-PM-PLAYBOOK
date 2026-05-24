@@ -70,6 +70,28 @@ Use this to define what you monitor after launch. Set this up before shipping, n
 - **Retention period:** <!-- e.g., 90 days for full traces, 1 year for aggregate metrics -->
 - **Privacy constraints:** <!-- e.g., PII scrubbed before storage, access restricted to on-call engineers -->
 
+## Trace review loop
+
+<!-- Traces are how the team turns real behavior into better evals and product decisions. -->
+
+| Question | Answer |
+|----------|--------|
+| Who reviews traces? | |
+| Sampling cadence | <!-- e.g., daily first 2 weeks, weekly after --> |
+| Sample size | <!-- e.g., 20-50 traces per review --> |
+| Sampling method | <!-- random, high-risk only, rejected outputs, high-cost traces, escalations --> |
+| What gets labeled? | <!-- output quality, retrieval quality, tool use, handoff, priority, cost, safety --> |
+| Where labels go | <!-- eval set, PRD risk table, launch gate, support process --> |
+| Eval update trigger | <!-- e.g., recurring failure appears 3+ times or any high-severity failure --> |
+
+| Trace category | What to inspect | Action if recurring |
+|----------------|-----------------|---------------------|
+| Rejected or ignored outputs | Did the AI miss intent, evidence, tone, or policy? | Add eval case or change workflow |
+| Edited outputs | What did the human correct? | Add correction pattern to golden set |
+| Escalations | Should the AI have escalated earlier? | Update handoff rule or eval |
+| High-cost traces | Did retries, context, or tools inflate cost? | Add cost guardrail |
+| Safety flags | Did guardrails or review catch it? | Block launch or update risk mitigation |
+
 ## Alert routing
 
 | Severity | Response time | Who gets paged | Example |

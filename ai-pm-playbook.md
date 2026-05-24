@@ -764,6 +764,7 @@ ai-pm-playbook/
     07-error-analysis.md
     08-artifact-flow-map.md
     09-agent-pm-starter-pack.md
+    10-ai-native-pm-loop.md
 
   templates/
     ai-opportunity-brief.md

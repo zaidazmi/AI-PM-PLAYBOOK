@@ -21,6 +21,7 @@ Use this to decide if the product can enter or advance beyond each release stage
 | Cost per task | <!-- e.g., < $0.10 --> | | |
 | Safety boundaries hold | Adversarial eval passes | | |
 | Observability in place | Logs, metrics, alerts configured | | |
+| Trace review completed | Prototype or pilot traces reviewed and failures labeled | | |
 
 ### Staged rollout plan
 
@@ -49,6 +50,8 @@ Rollback trigger: <!-- e.g., quality score drops > 5%, cost per task > 2x budget
 - [ ] No unmitigated high-severity risks in risk register
 - [ ] No data leakage between users/tenants
 - [ ] Failure behavior does not expose raw model output to users
+- [ ] Trace review has happened for prototype or pilot behavior
+- [ ] Any agent, eval, prompt, tool, or workflow self-improvement requires human review before rollout
 
 ### Risk and decision record
 
@@ -145,6 +148,7 @@ What would reverse this decision: <!-- Name a specific metric, date, dependency,
 | Support ticket volume | <!-- e.g., < baseline + 10% --> | | |
 | Rollback plan tested | Can disable AI path in < 15 min | | |
 | Monitoring and alerting validated | Alerts fire correctly on synthetic failures | | |
+| Trace-to-eval loop running | Production failures feed back into eval set | | |
 
 ### Required pass conditions
 
