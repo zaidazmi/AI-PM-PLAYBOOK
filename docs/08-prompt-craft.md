@@ -6,7 +6,9 @@
 
 - [Three pillars](#three-pillars)
 - [Prompt versioning](#prompt-versioning)
+- [Prompt management lifecycle](#prompt-management-lifecycle)
 - [Prompt testing](#prompt-testing)
+- [Prompt change record](#prompt-change-record)
 - [System prompts vs user prompts](#system-prompts-vs-user-prompts)
 - [Prompt injection defense](#prompt-injection-defense)
 - [The PM's role](#the-pms-role)
@@ -74,6 +76,22 @@ This means prompts need the same deployment discipline as code. A casual edit to
 
 Most teams learn this the hard way. Someone "improves" the system prompt, quality drops on a subset of inputs nobody tested, and it takes weeks to notice because there is no regression testing. By then, users have lost trust.
 
+## Prompt management lifecycle
+
+Prompt management is the operating system around prompt changes. It answers who can change prompts, what evidence is required, how changes roll out, and how the team rolls back if behavior gets worse.
+
+Use this lifecycle:
+
+1. **Propose:** tie the change to a trace, eval failure, user complaint, product decision, or cost issue.
+2. **Check contract:** confirm the new behavior still matches the PRD, autonomy rules, safety boundaries, and output contract.
+3. **Test:** run the eval suite and inspect a manual sample, including cases unrelated to the target change.
+4. **Review:** PM and engineering review the diff, eval results, and rollback plan.
+5. **Roll out:** ship through staging, shadow mode, canary, or a narrow cohort when risk is meaningful.
+6. **Monitor:** watch quality, accept/reject, escalation, cost, latency, and safety signals after release.
+7. **Record:** capture the change and outcome in a prompt change record or post-launch review.
+
+Do not let production prompts live only in a vendor dashboard. If a dashboard is the runtime surface, store the source prompt and change record in version control or a prompt management system with history, approvals, and rollback.
+
 ## Prompt testing
 
 Every prompt change should run against the eval set before it reaches production. This is non-negotiable for the same reason code tests are non-negotiable: changes have unintended consequences.
@@ -87,6 +105,23 @@ The testing flow:
 5. If scores improve on the target dimension without regression elsewhere, ship it
 
 Without this flow, prompt development is guess-and-check. With it, prompt development is iterative and measurable.
+
+## Prompt change record
+
+Use a [Prompt Change Record](../templates/prompt-change-record.md) for any production prompt change that affects model behavior, safety, cost, tool use, retrieval, output format, or user-facing tone.
+
+The record should include:
+
+- Why the change is needed
+- Which prompt or instruction changed
+- Expected behavior change
+- Eval results before and after
+- Manual review notes
+- Rollout plan
+- Rollback trigger and rollback version
+- Monitoring signals after release
+
+Small copy edits to internal-only prototypes do not need this ceremony. Production prompts, judge prompts, tool instructions, and agent system prompts do.
 
 ## System prompts vs user prompts
 
@@ -144,6 +179,10 @@ Prompt changes have non-obvious consequences. Here are real patterns:
 
 **Persona shift that changes behavior**: you update the persona from "expert analyst" to "helpful assistant." The model becomes more agreeable and less willing to push back on bad assumptions. Output quality drops because the model is optimizing for pleasantness over correctness.
 
+**Judge prompt drift that hides failures**: you edit an LLM-as-judge prompt to be more forgiving. Eval scores improve, but product quality did not. Calibrate judge prompt changes against human labels before trusting the new score.
+
+**Tool instruction change that expands autonomy**: you clarify a tool instruction and accidentally let the agent take an action it previously only suggested. Treat tool instructions as autonomy controls and review them with the same rigor as PRD changes.
+
 Every one of these is avoidable with eval testing. The eval set catches the regression before it reaches users. This is why prompt testing against evals is not optional.
 
 ## Prompts are a product surface
@@ -158,3 +197,4 @@ Own the behavioral contract. Test the implementation. Monitor the results.
 
 - Define the behavioral contract for your AI feature in the [AI PRD template](../templates/ai-prd.md) so engineers have a clear spec to translate into prompts.
 - Validate that prompt behavior matches the contract by building test cases in the [Eval Plan template](../templates/ai-eval-plan.md).
+- Document production prompt changes with the [Prompt Change Record template](../templates/prompt-change-record.md).

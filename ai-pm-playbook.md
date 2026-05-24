@@ -819,6 +819,7 @@ ai-pm-playbook/
     12-agent-pm-starter-pack.md
 
   templates/
+    ai-product-canvas.md
     ai-opportunity-brief.md
     ai-prd.md
     ai-build-brief.md
@@ -829,6 +830,7 @@ ai-pm-playbook/
     launch-gate-checklist.md
     ai-observability-plan.md
     ai-cost-model.md
+    prompt-change-record.md
     post-launch-review.md
     stakeholder-decision-record.md
 

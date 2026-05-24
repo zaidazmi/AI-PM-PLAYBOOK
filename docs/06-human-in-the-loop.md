@@ -4,6 +4,7 @@
 
 ## Contents
 
+- [HITL modes](#hitl-modes)
 - [When to require human review](#when-to-require-human-review)
 - [Confidence thresholds](#confidence-thresholds)
 - [Escalation policy design](#escalation-policy-design)
@@ -16,6 +17,21 @@
 A major driver of user trust in AI products is whether a human validated the output when stakes are high. Users do not see your eval scores. They see whether someone they trust checked the work.
 
 Human-in-the-loop is not a fallback for bad AI. It is a product design pattern that determines when humans review, how they review, and what happens with their feedback.
+
+## HITL modes
+
+Human review is not one pattern. Pick the mode that matches the risk of each AI action.
+
+| Mode | What it means | Use when |
+|------|---------------|----------|
+| Human-in-the-loop | A human approves before the output or action takes effect | The action is customer-facing, high-impact, irreversible, regulated, or low-confidence |
+| Human-on-the-loop | The AI acts, but humans monitor, intervene, and roll back when needed | The action is reversible, observable, and low-to-medium risk |
+| Human-after-the-loop | Humans review samples, incidents, and aggregate metrics after the fact | The action is low-risk and eval/observability signals are reliable |
+| No human loop | No human review is required | The action is low-risk, reversible, well-tested, and monitored |
+
+Do not choose the mode based on what the model can do. Choose it based on what users trust, what can go wrong, and whether the team can detect and reverse mistakes.
+
+Most AI products should start with stricter review and relax it only after evals, production signals, and reviewer feedback show that the action is reliable.
 
 ## When to require human review
 

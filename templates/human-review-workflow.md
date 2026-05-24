@@ -4,6 +4,23 @@ Use this to define when humans review AI output. Fill this out before building a
 
 **Upstream:** autonomy levels and human review rules from the [AI PRD](ai-prd.md) define what goes here. **Downstream:** review point failures feed into the [risk register](ai-risk-register.md) and [post-launch review](post-launch-review.md).
 
+## HITL mode
+
+Pick the review mode per AI action. Different actions in the same product can use different modes.
+
+| Mode | What it means | Use when | Example |
+|------|---------------|----------|---------|
+| Human-in-the-loop | Human approves before the AI output or action takes effect | Customer-facing, high-impact, irreversible, or low-confidence work | Agent drafts an email; support rep reviews before sending |
+| Human-on-the-loop | AI acts, humans monitor and can intervene or roll back | Action is reversible, monitored, and low-to-medium risk | AI categorizes tickets; ops reviews alerts and samples |
+| Human-after-the-loop | Humans review samples, incidents, and aggregate trends after the fact | Risk is low, action is reversible, and online metrics are strong | Weekly review of accepted summaries and rejection reasons |
+| No human loop | AI acts without human review | Only for low-risk, reversible, well-tested actions with observability | Internal formatting cleanup or low-stakes enrichment |
+
+Mode map:
+
+| AI action | HITL mode | Why this mode | Upgrade or downgrade trigger |
+|-----------|-----------|---------------|------------------------------|
+|           |           |               |                              |
+
 ## Actions AI can take alone
 
 <!-- These are low-risk, reversible, or well-validated actions. The AI acts without waiting for a human. -->
