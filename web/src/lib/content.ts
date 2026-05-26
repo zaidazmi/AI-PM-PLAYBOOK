@@ -438,13 +438,54 @@ export type CaseStudyMeta = {
   artifacts: CaseArtifactMeta[];
 };
 
+export type ArtifactPhase = "Decide" | "Build" | "Ship" | "Operate";
+
 export type CaseArtifactMeta = {
   slug: string;
   file: string;
   title: string;
   kind: "doc" | "yaml";
   href: string;
+  /** One-line summary parsed from the README's Files section. */
+  description?: string;
+  /** PM loop phase this artifact belongs to. */
+  phase: ArtifactPhase;
 };
+
+const ARTIFACT_PHASE: Record<string, ArtifactPhase> = {
+  "opportunity-brief": "Decide",
+  prd: "Build",
+  "eval-plan": "Build",
+  "cost-model": "Build",
+  "launch-gate": "Ship",
+  "readiness-assessment": "Ship",
+  "post-launch-review-week-2": "Operate",
+};
+
+/**
+ * Parse the README's "## Files" section into a map of filename-without-extension
+ * to description. The case-study landing page renders the Files content as
+ * artifact cards, so descriptions enrich the cards.
+ */
+function parseFilesDescriptions(readme: string): Map<string, string> {
+  const out = new Map<string, string>();
+  const lines = readme.split("\n");
+  let inFiles = false;
+  for (const line of lines) {
+    if (/^##\s+files\s*$/i.test(line)) {
+      inFiles = true;
+      continue;
+    }
+    if (!inFiles) continue;
+    if (/^##\s/.test(line)) break;
+    const m = /^-\s*`([^`]+)`\s*[:.]\s*(.+)$/.exec(line.trim());
+    if (m) {
+      const base = m[1].replace(/\.(md|ya?ml)$/, "");
+      out.set(base, m[2].trim().replace(/\.$/, "") + ".");
+    }
+  }
+  return out;
+}
 
 const CASES: {
   slug: string;
@@ -499,6 +540,7 @@ const ARTIFACT_ORDER = [
 export function loadCaseStudies(): CaseStudyMeta[] {
   return CASES.map((c) => {
     const readme = readRepoFile(`${c.folder}/README.md`);
+    const descriptions = parseFilesDescriptions(readme);
     const files = fs
       .readdirSync(path.join(repoRoot, c.folder))
       .filter((f) => f !== "README.md")
@@ -515,6 +557,8 @@ export function loadCaseStudies(): CaseStudyMeta[] {
           title,
           kind: (isYaml ? "yaml" : "doc") as "doc" | "yaml",
           href: `/examples/${c.slug}/${baseName}`,
+          description: descriptions.get(baseName),
+          phase: ARTIFACT_PHASE[baseName] ?? "Build",
         };
       })
       .sort((a, b) => {
