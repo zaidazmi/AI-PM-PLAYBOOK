@@ -31,20 +31,20 @@ export function stripFirstH1(markdown: string): string {
 }
 
 /**
- * Strip in-body "## Contents" / "## Table of Contents" sections. The sticky
- * sidebar TOC renders this list already, so the body version is duplication.
- *
- * Removes the heading + any following blank lines and list items until a
- * non-list, non-blank line is reached.
+ * Generic helper: remove a named ## section and the bullet list that follows.
+ * Used by stripInlineTOC and stripFilesSection.
  */
-export function stripInlineTOC(markdown: string): string {
+function stripH2Section(
+  markdown: string,
+  match: (heading: string) => boolean,
+): string {
   const lines = markdown.split("\n");
   const out: string[] = [];
   let i = 0;
-  const tocHeadingRe = /^##\s+(contents|table of contents|toc)\s*$/i;
   while (i < lines.length) {
-    if (tocHeadingRe.test(lines[i])) {
-      i++; // skip the heading
+    const m = /^##\s+(.+?)\s*$/.exec(lines[i]);
+    if (m && match(m[1].trim())) {
+      i++; // skip heading
       while (i < lines.length) {
         const t = lines[i].trim();
         if (t === "" || /^[-*]\s+/.test(t) || /^\d+\.\s+/.test(t)) {
@@ -59,6 +59,24 @@ export function stripInlineTOC(markdown: string): string {
     i++;
   }
   return out.join("\n");
+}
+
+/**
+ * Strip in-body "## Contents" / "## Table of Contents" sections. The sticky
+ * sidebar TOC renders this list already, so the body version is duplication.
+ */
+export function stripInlineTOC(markdown: string): string {
+  return stripH2Section(markdown, (h) =>
+    /^(contents|table of contents|toc)$/i.test(h),
+  );
+}
+
+/**
+ * Strip "## Files" sections from case-study READMEs. The Artifacts card grid
+ * on the case-study landing page shows the same list more usably.
+ */
+export function stripFilesSection(markdown: string): string {
+  return stripH2Section(markdown, (h) => /^files$/i.test(h));
 }
 
 /**
@@ -525,7 +543,9 @@ export function loadCaseStudyBySlug(slug: string) {
   const all = loadCaseStudies();
   const c = all.find((x) => x.slug === slug);
   if (!c) return null;
-  const readme = readRepoFile(`${c.folder}/README.md`);
+  const raw = readRepoFile(`${c.folder}/README.md`);
+  // Strip the "## Files" section: the Artifacts card grid renders it more usably.
+  const readme = stripFilesSection(raw);
   const { markdown, toc } = processDocMarkdown(readme, c.folder);
   return {
     ...c,

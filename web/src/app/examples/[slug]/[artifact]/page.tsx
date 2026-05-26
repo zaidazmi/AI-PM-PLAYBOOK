@@ -5,10 +5,10 @@ import { Footer } from "@/components/Footer";
 import {
   DocBreadcrumb,
   DocHero,
-  DocBody,
   PrevNext,
 } from "@/components/DocShell";
 import { DocLayout } from "@/components/DocLayout";
+import { Container } from "@/components/Container";
 import { Markdown, YamlBlock } from "@/components/Markdown";
 import { RelatedReading } from "@/components/RelatedReading";
 import {
@@ -89,9 +89,13 @@ export default async function ArtifactPage({
           }
         />
         {a.kind === "yaml" ? (
-          <DocBody>
-            <YamlBlock>{a.body}</YamlBlock>
-          </DocBody>
+          <section className="py-12 sm:py-16">
+            <Container>
+              <div className="max-w-[1040px] mx-auto">
+                <YamlBlock>{a.body}</YamlBlock>
+              </div>
+            </Container>
+          </section>
         ) : (
           <DocLayout toc={a.toc}>
             <Markdown>{a.body}</Markdown>
