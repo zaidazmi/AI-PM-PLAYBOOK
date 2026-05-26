@@ -119,11 +119,14 @@ body {
   to { transform: translate3d(-50%, 0, 0); }
 }
 .marquee-track {
-  animation: marquee 10s linear infinite;
+  animation: marquee 14s linear infinite;
   will-change: transform;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+}
+.marquee-container:hover .marquee-track {
+  animation-play-state: paused;
 }
 
 /* Subtle pop on hover for cards */
@@ -231,9 +234,30 @@ body {
 .prose-doc a.heading-anchor {
   text-decoration: none;
   color: inherit;
+  position: relative;
 }
 .prose-doc a.heading-anchor:hover {
   text-decoration: none;
+}
+.prose-doc a.heading-anchor::after {
+  content: "#";
+  position: absolute;
+  left: -1em;
+  top: 0;
+  color: rgba(10, 10, 10, 0.25);
+  font-weight: 400;
+  opacity: 0;
+  transition: opacity 160ms;
+  cursor: pointer;
+}
+.prose-doc h2:hover a.heading-anchor::after,
+.prose-doc h3:hover a.heading-anchor::after,
+.prose-doc h4:hover a.heading-anchor::after,
+.prose-doc a.heading-anchor:hover::after {
+  opacity: 1;
+}
+.prose-doc a.heading-anchor:hover::after {
+  color: rgba(10, 10, 10, 0.6);
 }
 
 .prose-doc strong {

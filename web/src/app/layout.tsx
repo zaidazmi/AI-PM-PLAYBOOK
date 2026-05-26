@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
+import { BackToTop } from "@/components/BackToTop";
+import { HeadingLinkCopy } from "@/components/HeadingLinkCopy";
 import "./globals.css";
+
+const GA_ID = "G-PVBHQB19LG";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -85,7 +90,10 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         {children}
+        <HeadingLinkCopy />
+        <BackToTop />
         <Analytics />
+        <GoogleAnalytics gaId={GA_ID} />
       </body>
     </html>
   );

@@ -52,14 +52,17 @@ export function Markdown({ children, className = "" }: Props) {
 export function YamlBlock({ children }: { children: string }) {
   return (
     <div className="rounded-3xl border border-foreground/10 bg-[#0a0a0a] text-[#f5f3ef] overflow-hidden">
-      <div className="flex items-center justify-between px-5 py-3 border-b border-white/10">
-        <span className="text-[11px] uppercase tracking-wider text-white/55">
+      <div className="flex items-center justify-between px-4 sm:px-5 py-3 border-b border-white/10">
+        <span className="text-[10.5px] sm:text-[11px] uppercase tracking-wider text-white/55">
           readiness-assessment.yaml
         </span>
-        <span className="text-[11px] text-white/45">YAML</span>
+        <span className="text-[10.5px] sm:text-[11px] text-white/45">YAML</span>
       </div>
-      <pre className="px-5 py-5 overflow-x-auto bg-transparent border-0">
-        <code className="font-mono text-[12.5px] leading-[1.75] whitespace-pre text-[#f5f3ef]">
+      <pre
+        className="yaml-block px-3 sm:px-5 py-4 sm:py-5 overflow-x-auto bg-transparent border-0"
+        style={{ WebkitOverflowScrolling: "touch" }}
+      >
+        <code className="font-mono text-[10.5px] sm:text-[12.5px] leading-[1.75] whitespace-pre text-[#f5f3ef]">
           {children}
         </code>
       </pre>

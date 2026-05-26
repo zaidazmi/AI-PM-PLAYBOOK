@@ -14,7 +14,7 @@ export function Marquee() {
   return (
     <section
       aria-hidden
-      className="relative py-10 border-y border-border overflow-hidden select-none"
+      className="marquee-container relative py-10 border-y border-border overflow-hidden select-none"
     >
       <div className="marquee-track flex gap-12 whitespace-nowrap will-change-transform">
         {[...phrases, ...phrases].map((p, i) => (
