@@ -8,6 +8,7 @@ import {
   PrevNext,
 } from "@/components/DocShell";
 import { DocLayout } from "@/components/DocLayout";
+import { DownloadButton } from "@/components/DownloadButton";
 import { Markdown } from "@/components/Markdown";
 import { RelatedReading } from "@/components/RelatedReading";
 import {
@@ -94,7 +95,16 @@ export default async function TemplatePage({
             </div>
           }
         />
-        <DocLayout toc={t.toc}>
+        <DocLayout
+          toc={t.toc}
+          sidebarFooter={
+            <DownloadButton
+              href={`/templates/${slug}/download`}
+              filename={t.filename}
+              sizeBytes={t.sizeBytes}
+            />
+          }
+        >
           <Markdown>{t.markdown}</Markdown>
         </DocLayout>
         <RelatedReading heading="Read alongside this template" items={related} />

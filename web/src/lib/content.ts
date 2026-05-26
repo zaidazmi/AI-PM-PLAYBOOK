@@ -400,6 +400,8 @@ export function loadTemplateBySlug(slug: string) {
   return {
     slug,
     file: entry.file,
+    filename: path.basename(entry.file),
+    sizeBytes: Buffer.byteLength(md, "utf8"),
     group: entry.group,
     title: extractTitle(md, slug),
     markdown,
