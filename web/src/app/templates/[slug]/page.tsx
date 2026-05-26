@@ -5,9 +5,9 @@ import { Footer } from "@/components/Footer";
 import {
   DocBreadcrumb,
   DocHero,
-  DocBody,
   PrevNext,
 } from "@/components/DocShell";
+import { DocLayout } from "@/components/DocLayout";
 import { Markdown } from "@/components/Markdown";
 import { RelatedReading } from "@/components/RelatedReading";
 import {
@@ -94,9 +94,9 @@ export default async function TemplatePage({
             </div>
           }
         />
-        <DocBody>
+        <DocLayout toc={t.toc}>
           <Markdown>{t.markdown}</Markdown>
-        </DocBody>
+        </DocLayout>
         <RelatedReading heading="Read alongside this template" items={related} />
         <PrevNext prev={prev} next={next} />
       </main>

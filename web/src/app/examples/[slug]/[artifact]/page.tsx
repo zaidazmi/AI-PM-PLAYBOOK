@@ -8,6 +8,7 @@ import {
   DocBody,
   PrevNext,
 } from "@/components/DocShell";
+import { DocLayout } from "@/components/DocLayout";
 import { Markdown, YamlBlock } from "@/components/Markdown";
 import { RelatedReading } from "@/components/RelatedReading";
 import {
@@ -87,13 +88,15 @@ export default async function ArtifactPage({
             </div>
           }
         />
-        <DocBody>
-          {a.kind === "yaml" ? (
+        {a.kind === "yaml" ? (
+          <DocBody>
             <YamlBlock>{a.body}</YamlBlock>
-          ) : (
+          </DocBody>
+        ) : (
+          <DocLayout toc={a.toc}>
             <Markdown>{a.body}</Markdown>
-          )}
-        </DocBody>
+          </DocLayout>
+        )}
         {(() => {
           const tpl = templateForArtifact(artifact);
           if (!tpl) return null;

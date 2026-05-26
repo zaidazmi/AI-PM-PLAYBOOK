@@ -5,9 +5,9 @@ import { Footer } from "@/components/Footer";
 import {
   DocBreadcrumb,
   DocHero,
-  DocBody,
   PrevNext,
 } from "@/components/DocShell";
+import { DocLayout } from "@/components/DocLayout";
 import { Markdown } from "@/components/Markdown";
 import { RelatedReading } from "@/components/RelatedReading";
 import {
@@ -90,9 +90,9 @@ export default async function GuidePage({
             </div>
           }
         />
-        <DocBody>
+        <DocLayout toc={guide.toc}>
           <Markdown>{guide.markdown}</Markdown>
-        </DocBody>
+        </DocLayout>
         <RelatedReading
           heading="Templates that apply this guide"
           items={relatedForGuide(slug)}

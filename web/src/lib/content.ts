@@ -89,6 +89,29 @@ export function extractToc(markdown: string): TocEntry[] {
 }
 
 /**
+ * One shared pipeline used by every doc-style page (playbook, guides,
+ * templates, case studies, artifacts). Returns the rendered-ready markdown
+ * AND a TOC of H2 headings so the page can render a sticky sidebar.
+ *
+ * - Strips first H1 (rendered separately as DocHero)
+ * - Strips GitHub shields.io badges
+ * - Transforms HTML comment hints into styled callouts
+ * - Wraps inline labels ("Purpose:", "Must answer:") as small-caps
+ * - Rewrites repo-relative .md links to site routes
+ * - Extracts TOC from H2 headings (before transforms, so the slugs match)
+ */
+export function processDocMarkdown(
+  rawMd: string,
+  sourceDir: string,
+): { markdown: string; toc: TocEntry[] } {
+  const cleaned = stripGithubBadges(stripFirstH1(rawMd));
+  const toc = extractToc(cleaned);
+  const processed = styleInlineLabels(transformHtmlCommentHints(cleaned));
+  const markdown = rewriteMarkdownLinks(processed, sourceDir);
+  return { markdown, toc };
+}
+
+/**
  * Convert author-facing HTML comments (used as "fill in this section" hints
  * inside templates) into styled callouts. Without this they leak as literal
  * text because react-markdown does not parse raw HTML by default.
@@ -267,11 +290,13 @@ export function loadGuideBySlug(slug: string) {
   if (!entry) return null;
   const md = readRepoFile(entry.file);
   const filename = path.basename(entry.file, ".md");
+  const { markdown, toc } = processDocMarkdown(md, "docs");
   return {
     slug,
     num: entry.num,
     title: entry.titleOverride ?? extractTitle(md, filename),
-    markdown: rewriteMarkdownLinks(transformHtmlCommentHints(stripFirstH1(md)), "docs"),
+    markdown,
+    toc,
     file: entry.file,
   };
 }
@@ -325,12 +350,14 @@ export function loadTemplateBySlug(slug: string) {
   if (!entry) return null;
   const md = readRepoFile(entry.file);
   const sourceDir = path.dirname(entry.file);
+  const { markdown, toc } = processDocMarkdown(md, sourceDir);
   return {
     slug,
     file: entry.file,
     group: entry.group,
     title: extractTitle(md, slug),
-    markdown: rewriteMarkdownLinks(transformHtmlCommentHints(stripFirstH1(md)), sourceDir),
+    markdown,
+    toc,
   };
 }
 
@@ -451,9 +478,11 @@ export function loadCaseStudyBySlug(slug: string) {
   const c = all.find((x) => x.slug === slug);
   if (!c) return null;
   const readme = readRepoFile(`${c.folder}/README.md`);
+  const { markdown, toc } = processDocMarkdown(readme, c.folder);
   return {
     ...c,
-    readme: rewriteMarkdownLinks(stripFirstH1(readme), c.folder),
+    readme: markdown,
+    toc,
   };
 }
 
@@ -469,6 +498,9 @@ export function loadCaseArtifact(caseSlug: string, artifactSlug: string) {
   if (!found) return null;
   const raw = readRepoFile(found);
   const isYaml = /\.ya?ml$/.test(found);
+  const processed = isYaml
+    ? { markdown: raw, toc: [] as TocEntry[] }
+    : processDocMarkdown(raw, c.folder);
   return {
     caseSlug,
     artifactSlug,
@@ -476,20 +508,18 @@ export function loadCaseArtifact(caseSlug: string, artifactSlug: string) {
     file: found,
     kind: (isYaml ? "yaml" : "doc") as "doc" | "yaml",
     title: ARTIFACT_TITLES[artifactSlug] ?? artifactSlug,
-    body: isYaml
-      ? raw
-      : rewriteMarkdownLinks(stripFirstH1(raw), c.folder),
+    body: processed.markdown,
+    toc: processed.toc,
   };
 }
 
 export function loadPlaybook() {
   const md = readRepoFile("ai-pm-playbook.md");
-  const cleaned = stripGithubBadges(stripFirstH1(md));
-  const processed = styleInlineLabels(transformHtmlCommentHints(cleaned));
+  const { markdown, toc } = processDocMarkdown(md, ".");
   return {
     title: extractTitle(md, "AI PM Playbook"),
-    markdown: rewriteMarkdownLinks(processed, "."),
-    toc: extractToc(cleaned),
+    markdown,
+    toc,
   };
 }
 

@@ -3,9 +3,8 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { DocBreadcrumb, DocHero } from "@/components/DocShell";
 import { Markdown } from "@/components/Markdown";
-import { DocTOC } from "@/components/DocTOC";
+import { DocLayout } from "@/components/DocLayout";
 import { WhereToNext } from "@/components/WhereToNext";
-import { Container } from "@/components/Container";
 import { loadPlaybook } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -49,21 +48,9 @@ export default function PlaybookPage() {
           }
         />
 
-        {/* 2-column body: sticky TOC sidebar + content */}
-        <section className="py-12 sm:py-16">
-          <Container>
-            <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-10 lg:gap-16">
-              <aside className="hidden lg:block">
-                <div className="sticky top-24">
-                  <DocTOC items={toc} />
-                </div>
-              </aside>
-              <article className="min-w-0 max-w-[720px]">
-                <Markdown>{markdown}</Markdown>
-              </article>
-            </div>
-          </Container>
-        </section>
+        <DocLayout toc={toc}>
+          <Markdown>{markdown}</Markdown>
+        </DocLayout>
 
         <WhereToNext />
       </main>

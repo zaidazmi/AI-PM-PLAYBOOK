@@ -4,11 +4,8 @@ import Link from "next/link";
 import { ArrowUpRight, FileText, FileJson } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import {
-  DocBreadcrumb,
-  DocHero,
-  DocBody,
-} from "@/components/DocShell";
+import { DocBreadcrumb, DocHero } from "@/components/DocShell";
+import { DocLayout } from "@/components/DocLayout";
 import { Markdown } from "@/components/Markdown";
 import { Container } from "@/components/Container";
 import { Reveal } from "@/components/Reveal";
@@ -73,9 +70,9 @@ export default async function CaseStudyPage({
           }
         />
 
-        <DocBody>
+        <DocLayout toc={c.toc}>
           <Markdown>{c.readme}</Markdown>
-        </DocBody>
+        </DocLayout>
 
         <section className="pb-20 sm:pb-28">
           <Container>
