@@ -3,6 +3,10 @@
 </p>
 
 <p align="center">
+  <a href="https://ai-pm-playbook.com"><img src="https://img.shields.io/badge/read%20it%20as%20a%20site-ai--pm--playbook.com-0a0a0a?style=for-the-badge" alt="ai-pm-playbook.com"></a>
+</p>
+
+<p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
   <a href="#what-an-ai-pm-actually-does"><img src="https://img.shields.io/badge/templates-10-purple" alt="Templates"></a>
   <a href="#guides"><img src="https://img.shields.io/badge/guides-12-green" alt="Guides"></a>
