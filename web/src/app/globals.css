@@ -406,33 +406,35 @@ body {
   margin-top: 0;
 }
 
-/* Author hint blocks (converted from `<!-- ... -->`) */
+/* Author fill-in guidance, converted from `<!-- ... -->` in source markdown. */
+
+/* Block hint: comment on its own line, section-level guidance. */
 .prose-doc .md-hint {
   display: block;
-  margin: 1.2em 0;
-  padding: 12px 18px 12px 18px;
-  border-left: 3px solid #d6c46d;
-  border-radius: 8px;
-  background: linear-gradient(180deg, #fbf6ec, #f6efde);
-  color: #5b4a06;
-  font-size: 14px;
-  line-height: 1.6;
+  margin: 0.9em 0;
+  padding: 10px 14px;
+  border-left: 2px solid rgba(10, 10, 10, 0.18);
+  background: rgba(10, 10, 10, 0.025);
+  color: rgba(10, 10, 10, 0.62);
+  font-family: var(--font-instrument), serif;
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.55;
+  border-radius: 0 6px 6px 0;
   max-width: 68ch;
-  position: relative;
 }
 .prose-doc .md-hint::before {
-  content: "Hint";
-  display: inline-block;
-  margin-right: 10px;
-  padding: 2px 8px;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-weight: 500;
-  background: #d6c46d;
-  color: #3a2e00;
-  border-radius: 999px;
-  vertical-align: 1px;
+  content: none;
+}
+
+/* Inline hint: comment embedded in a list item or paragraph; renders as
+   subtle italic placeholder attached to the field above. */
+.prose-doc .md-hint-inline {
+  font-family: var(--font-instrument), serif;
+  font-style: italic;
+  color: rgba(10, 10, 10, 0.4);
+  font-size: 0.95em;
+  margin-left: 0.15em;
 }
 
 /* Task lists (GFM) */

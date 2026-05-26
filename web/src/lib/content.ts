@@ -144,21 +144,35 @@ export function processDocMarkdown(
 }
 
 /**
- * Convert author-facing HTML comments (used as "fill in this section" hints
- * inside templates) into styled callouts. Without this they leak as literal
- * text because react-markdown does not parse raw HTML by default.
+ * Convert author-facing HTML comments into styled fill-in guidance.
+ *
+ * - Comments that occupy their own line render as a block hint (a soft
+ *   left-bordered note) and act as section-level guidance.
+ * - Comments embedded inline inside a list item or paragraph render as
+ *   inline italic placeholder text attached to that field.
  */
 export function transformHtmlCommentHints(markdown: string): string {
   return markdown.replace(
     /<!--([\s\S]*?)-->/g,
-    (_full, body: string) => {
+    (match, body: string, offset: number) => {
       const trimmed = body.trim();
       if (!trimmed) return "";
       const escaped = trimmed
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;");
-      return `\n\n<aside class="md-hint" data-hint="true">${escaped}</aside>\n\n`;
+
+      // Is the comment alone on its line?
+      const before = markdown.slice(0, offset);
+      const after = markdown.slice(offset + match.length);
+      const isBlock =
+        (before === "" || /(?:^|\n)[ \t]*$/.test(before)) &&
+        (after === "" || /^[ \t]*(?:\n|$)/.test(after));
+
+      if (isBlock) {
+        return `\n<aside class="md-hint">${escaped}</aside>\n`;
+      }
+      return ` <span class="md-hint-inline">${escaped}</span>`;
     },
   );
 }
