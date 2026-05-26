@@ -249,22 +249,37 @@ body {
   letter-spacing: 0.005em;
 }
 
-.prose-doc ul,
-.prose-doc ol {
+.prose-doc ul {
+  list-style: disc;
   margin: 1em 0;
-  padding-left: 1.4em;
+  padding-left: 1.5em;
+  max-width: 68ch;
+}
+.prose-doc ol {
+  list-style: decimal;
+  margin: 1em 0;
+  padding-left: 1.6em;
   max-width: 68ch;
 }
 .prose-doc li {
-  margin: 0.35em 0;
+  margin: 0.2em 0;
+  padding-left: 0.25em;
   color: rgba(10,10,10,0.82);
 }
 .prose-doc ul > li::marker {
-  color: rgba(10,10,10,0.35);
+  color: rgba(10,10,10,0.45);
 }
 .prose-doc ol > li::marker {
-  color: rgba(10,10,10,0.45);
+  color: rgba(10,10,10,0.55);
   font-variant-numeric: tabular-nums;
+}
+/* Nested lists */
+.prose-doc li > ul,
+.prose-doc li > ol {
+  margin: 0.4em 0 0.4em;
+}
+.prose-doc ul ul {
+  list-style: circle;
 }
 .prose-doc li > p {
   margin: 0.3em 0;
