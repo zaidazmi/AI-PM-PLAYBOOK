@@ -286,28 +286,35 @@ body {
 }
 
 .prose-doc blockquote {
-  margin: 1.6em 0;
-  padding: 1.2em 1.4em;
-  border-radius: 18px;
+  margin: 1.7em 0;
+  padding: 1.1em 1.4em 1.1em 3.4em;
+  border-radius: 16px;
   background: #efece5;
   border: 1px solid var(--border);
   color: rgba(10,10,10,0.85);
   position: relative;
+  max-width: 70ch;
 }
 .prose-doc blockquote::before {
   content: "“";
   font-family: var(--font-instrument), serif;
   font-style: italic;
+  font-weight: 400;
   position: absolute;
-  top: -0.05em;
-  left: 0.35em;
-  font-size: 56px;
+  top: 0.18em;
+  left: 0.55em;
+  font-size: 44px;
   line-height: 1;
-  color: rgba(10,10,10,0.18);
+  color: rgba(10,10,10,0.28);
+  pointer-events: none;
+  user-select: none;
 }
 .prose-doc blockquote p {
-  margin: 0.35em 0;
+  margin: 0.45em 0;
 }
+.prose-doc blockquote p:first-child { margin-top: 0; }
+.prose-doc blockquote p:last-child { margin-bottom: 0; }
+.prose-doc blockquote strong { color: var(--foreground); }
 
 .prose-doc code {
   background: rgba(10,10,10,0.06);
