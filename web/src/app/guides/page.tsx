@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Clock } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import {
@@ -56,6 +56,10 @@ export default function GuidesIndex() {
                     <p className="text-[13.5px] leading-relaxed text-foreground/65 line-clamp-4">
                       {g.blurb}
                     </p>
+                    <div className="mt-5 pt-4 border-t border-border inline-flex items-center gap-1.5 text-[11.5px] text-foreground/55 tabular-nums">
+                      <Clock className="size-3" strokeWidth={1.8} />
+                      {g.readingTime.minutes} min read
+                    </div>
                   </Link>
                 </Reveal>
               ))}

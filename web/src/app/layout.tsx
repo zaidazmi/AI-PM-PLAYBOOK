@@ -31,11 +31,11 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default:
-      "AI PM Playbook · A working system for PMs building production AI",
+      "AI PM Playbook · Ship AI features you can put your name on",
     template: "%s · AI PM Playbook",
   },
   description:
-    "Practical artifacts, evals, launch gates, and operating rituals for product managers shipping LLM, agent, and copilot features.",
+    "The templates, evals, and launch gates AI PMs use to turn working demos into production calls they own.",
   applicationName: "AI PM Playbook",
   authors: [{ name: "Zaid Azmi" }],
   creator: "Zaid Azmi",
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "AI PM Playbook",
     description:
-      "From vague AI demo to shippable product. 10 templates, 12 guides, 3 worked case studies.",
+      "Ship AI features you can put your name on. 10 templates, 12 guides, 3 worked case studies.",
     type: "website",
     url: SITE_URL,
     siteName: "AI PM Playbook",
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "AI PM Playbook",
     description:
-      "From vague AI demo to shippable product. Templates, guides, and case studies for AI PMs.",
+      "Ship AI features you can put your name on. Templates, evals, and launch gates for AI PMs.",
   },
   alternates: {
     canonical: "/",

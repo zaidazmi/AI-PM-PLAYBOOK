@@ -6,7 +6,7 @@ import {
   loadGoogleFont,
 } from "@/lib/og";
 
-export const alt = "AI PM Playbook — a working system for PMs building production AI";
+export const alt = "AI PM Playbook · Ship AI features you can put your name on";
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 
@@ -19,7 +19,7 @@ export default async function Image() {
   return new ImageResponse(
     (
       <OgFrame
-        title="From AI demo to a product you can defend."
+        title="Ship AI features you can put your name on."
         eyebrow="A working system for AI PMs"
         category="Home"
       />

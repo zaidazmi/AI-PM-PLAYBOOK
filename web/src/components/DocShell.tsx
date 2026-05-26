@@ -1,9 +1,37 @@
 import Link from "next/link";
-import { ChevronRight, ArrowLeft, ArrowRight } from "lucide-react";
+import { ChevronRight, ArrowLeft, ArrowRight, Clock } from "lucide-react";
 import { type ReactNode } from "react";
 import { Container } from "./Container";
 
 type Crumb = { label: string; href?: string };
+
+/**
+ * Small chip showing reading-time estimate. Designed to sit alongside the
+ * existing eyebrow pills in DocHero meta (Guide N, Core template, etc.).
+ *
+ * `label` overrides the default "min read" suffix — useful when the time
+ * covers more than a single doc, e.g. a case study aggregates README plus
+ * every artifact and reads better as "X min full case".
+ */
+export function ReadingTimePill({
+  minutes,
+  label = "min read",
+  className = "",
+}: {
+  minutes: number;
+  label?: string;
+  className?: string;
+}) {
+  return (
+    <span
+      className={`inline-flex items-center gap-1.5 rounded-full bg-foreground/[0.04] px-3 py-1 text-[11px] uppercase tracking-wider text-foreground/65 ${className}`}
+      aria-label={`Estimated reading time: ${minutes} ${minutes === 1 ? "minute" : "minutes"}`}
+    >
+      <Clock className="size-3" strokeWidth={1.8} />
+      {minutes} {label}
+    </span>
+  );
+}
 
 export function DocBreadcrumb({ crumbs }: { crumbs: Crumb[] }) {
   return (

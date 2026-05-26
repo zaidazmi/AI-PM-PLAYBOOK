@@ -196,6 +196,51 @@ export function transformHtmlCommentHints(markdown: string): string {
 }
 
 /**
+ * Estimate reading time in minutes from raw markdown. We strip out code
+ * fences, inline code, HTML tags, link/image syntax, emphasis, heading/list
+ * markers and table pipes so the word count tracks the actual prose a
+ * reader will see — not the markup. 225 wpm is the standard middle-ground
+ * for technical reading (lower than blog defaults like 265, higher than
+ * very-conservative 200).
+ *
+ * Returns `{ minutes, words }`. Minimum 1 minute so short docs don't show
+ * "0 min".
+ */
+export type ReadingTime = { minutes: number; words: number };
+
+const WORDS_PER_MINUTE = 225;
+
+export function computeReadingTime(markdown: string): ReadingTime {
+  const plain = markdown
+    // fenced code blocks
+    .replace(/```[\s\S]*?```/g, " ")
+    // indented code blocks (4-space)
+    .replace(/(^|\n)( {4}|\t)[^\n]*/g, " ")
+    // inline code
+    .replace(/`[^`]*`/g, " ")
+    // html tags (keep text content, drop tags)
+    .replace(/<[^>]+>/g, " ")
+    // images: ![alt](url) → drop entirely (alt rarely meaningful to reader)
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")
+    // links: [text](url) → text
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+    // emphasis / strikethrough markers
+    .replace(/[*_~]+/g, " ")
+    // heading / blockquote / list / table markers at line start
+    .replace(/^\s*[>#\-*+]+\s*/gm, " ")
+    .replace(/^\s*\d+\.\s+/gm, " ")
+    // table pipes
+    .replace(/\|/g, " ")
+    // collapse whitespace
+    .replace(/\s+/g, " ")
+    .trim();
+
+  const words = plain ? plain.split(" ").length : 0;
+  const minutes = Math.max(1, Math.round(words / WORDS_PER_MINUTE));
+  return { minutes, words };
+}
+
+/**
  * Extract a short "lede" — the first paragraph that isn't a blockquote or list.
  */
 export function extractLede(markdown: string, max = 220): string {
@@ -314,6 +359,7 @@ export type GuideMeta = {
   title: string;
   blurb: string;
   href: string;
+  readingTime: ReadingTime;
 };
 
 export const GUIDE_FILES: { num: string; file: string; titleOverride?: string }[] = [
@@ -343,6 +389,7 @@ export function loadGuides(): GuideMeta[] {
       title: titleOverride ?? extractTitle(md, slug),
       blurb: extractLede(md),
       href: `/guides/${slug}`,
+      readingTime: computeReadingTime(stripFirstH1(md)),
     };
   });
 }
@@ -362,6 +409,7 @@ export function loadGuideBySlug(slug: string) {
     markdown,
     toc,
     file: entry.file,
+    readingTime: computeReadingTime(stripFirstH1(md)),
   };
 }
 
@@ -450,7 +498,238 @@ export type CaseArtifactMeta = {
   description?: string;
   /** PM loop phase this artifact belongs to. */
   phase: ArtifactPhase;
+  /** Reading time. `null` for YAML artifacts (structured data). */
+  readingTime: ReadingTime | null;
+  /** Hand-curated top finding for this artifact, if available. */
+  topFinding?: string;
 };
+
+/**
+ * Readiness assessment, parsed from each case study's
+ * `readiness-assessment.yaml`. This data drives the at-a-glance scoring
+ * card and the verdict callout — it's the single most valuable structured
+ * artifact the case study produces and should not be hidden in the YAML
+ * subpage.
+ */
+export type RecommendationLevel =
+  | "production_candidate"
+  | "pilot_candidate"
+  | "prototype_only"
+  | "stop"
+  | string;
+
+export type ReadinessDimension = {
+  key: string;
+  /** Human-readable label, e.g. "Eval readiness". */
+  label: string;
+  /** Score on the 1-5 readiness scale. */
+  score: number;
+  /** Evidence items the score is based on. */
+  evidence: string[];
+  /** Open risks at this score. */
+  risks: string[];
+  /** The single concrete next action the owner should take. */
+  nextAction?: string;
+  /** Who owns moving this dimension forward. */
+  owner?: string;
+};
+
+export type CaseProduct = {
+  name?: string;
+  stage?: string;
+  owner?: string;
+  targetUsers: string[];
+};
+
+export type CaseUseCase = {
+  problem?: string;
+  aiJob?: string;
+  nonAiAlternative?: string;
+  expectedOutcome?: string;
+};
+
+export type ReadinessAssessment = {
+  product: CaseProduct;
+  useCase: CaseUseCase;
+  dimensions: ReadinessDimension[];
+  /** 1-5 weighted average across dimensions. */
+  weightedScore: number;
+  recommendationLevel: RecommendationLevel;
+  /** A short paragraph explaining the verdict. */
+  rationale: string;
+  blockersBeforePilot: string[];
+  blockersBeforeProduction: string[];
+  /**
+   * Constraints that apply for "prototype only / do not launch" cases — the
+   * conditions any prototype work must respect even though pilot/production
+   * are off the table.
+   */
+  conditions: string[];
+  /** Optional alternative path the team could take instead. */
+  alternativeRecommendation?: string;
+};
+
+const DIMENSION_LABELS: Record<string, string> = {
+  problem_fit: "Problem fit",
+  workflow_fit: "Workflow fit",
+  ai_job_definition: "AI job definition",
+  data_readiness: "Data readiness",
+  eval_readiness: "Eval readiness",
+  system_behavior: "System behavior",
+  risk_and_safety: "Risk & safety",
+  regulatory_readiness: "Regulatory readiness",
+  cost_and_business_case: "Cost & business case",
+  observability: "Observability",
+  launch_and_operations: "Launch & ops",
+};
+
+const DIMENSION_ORDER = Object.keys(DIMENSION_LABELS);
+
+/* =====================================================================
+ * YAML parsing for readiness-assessment.yaml
+ *
+ * The schema is regular and shallow (2-/4-/6-space indents, lists as
+ * `- "value"`). Rather than add a YAML dependency, we operate on the raw
+ * text with a small set of helpers. The parsers below are tolerant of
+ * trailing spaces and quoted/unquoted string values.
+ * ===================================================================== */
+
+/** Strip a leading and trailing `"` (or `'`) if present. */
+function unquote(s: string): string {
+  return s.trim().replace(/^["']|["']$/g, "").trim();
+}
+
+/**
+ * Extract the body of a top-level block (`product:`, `use_case:`,
+ * `recommendation:`, etc.) along with the indent level used inside it.
+ * Returns null if the block isn't present.
+ */
+function topLevelBlock(yaml: string, name: string): string | null {
+  const re = new RegExp(`(^|\\n)${name}:\\s*\\n([\\s\\S]+?)(?=\\n[a-z_][a-z0-9_]*:\\s*\\n|\\n*$)`);
+  const m = re.exec(yaml);
+  return m ? m[2] : null;
+}
+
+/**
+ * Extract a sub-block (e.g. `problem_fit:`) nested inside a parent block
+ * (e.g. the body returned from `topLevelBlock("dimensions")`). The parent
+ * block's children are indented two extra spaces, so the sub-block label
+ * sits at the parent's child indent (4 spaces from the top of file).
+ */
+function subBlock(
+  parentBody: string,
+  name: string,
+  childIndent: number,
+): string | null {
+  const indent = " ".repeat(childIndent);
+  const re = new RegExp(
+    `(^|\\n)${indent}${name}:\\s*\\n([\\s\\S]+?)(?=\\n${indent}[a-z_][a-z0-9_]*:|\\n*$)`,
+  );
+  const m = re.exec(parentBody);
+  return m ? m[2] : null;
+}
+
+/** Extract `key: value` scalar at a known indent. */
+function scalarAt(
+  body: string,
+  key: string,
+  indent: number,
+): string | undefined {
+  const re = new RegExp(`^ {${indent}}${key}:\\s*(.*)$`, "m");
+  const m = re.exec(body);
+  if (!m) return undefined;
+  const v = unquote(m[1]);
+  return v.length ? v : undefined;
+}
+
+/**
+ * Extract a `key:` followed by a YAML list at a known indent. Items are
+ * `- "..."` or `- ...` at `indent + 2`. The list ends at the first line
+ * that is not blank and not a list item at the expected indent.
+ */
+function listAt(body: string, key: string, indent: number): string[] {
+  const headerRe = new RegExp(`^ {${indent}}${key}:\\s*$`, "m");
+  const m = headerRe.exec(body);
+  if (!m) return [];
+  const after = body.slice(m.index + m[0].length + 1);
+  const itemIndent = indent + 2;
+  const itemRe = new RegExp(`^ {${itemIndent}}-\\s*(.*)$`);
+  const items: string[] = [];
+  for (const line of after.split("\n")) {
+    const im = itemRe.exec(line);
+    if (im) {
+      items.push(unquote(im[1]));
+      continue;
+    }
+    if (line.trim() === "") continue;
+    break;
+  }
+  return items;
+}
+
+const DIMENSION_LABELS_INTERNAL = DIMENSION_LABELS;
+
+export function parseReadinessAssessment(
+  yaml: string,
+): ReadinessAssessment | null {
+  // --- product ---
+  const productBody = topLevelBlock(yaml, "product") ?? "";
+  const product: CaseProduct = {
+    name: scalarAt(productBody, "name", 2),
+    stage: scalarAt(productBody, "stage", 2),
+    owner: scalarAt(productBody, "owner", 2),
+    targetUsers: listAt(productBody, "target_users", 2),
+  };
+
+  // --- use_case ---
+  const ucBody = topLevelBlock(yaml, "use_case") ?? "";
+  const useCase: CaseUseCase = {
+    problem: scalarAt(ucBody, "problem", 2),
+    aiJob: scalarAt(ucBody, "ai_job", 2),
+    nonAiAlternative: scalarAt(ucBody, "non_ai_alternative", 2),
+    expectedOutcome: scalarAt(ucBody, "expected_outcome", 2),
+  };
+
+  // --- dimensions ---
+  const dimsBody = topLevelBlock(yaml, "dimensions") ?? "";
+  const dimensions: ReadinessDimension[] = [];
+  for (const key of DIMENSION_ORDER) {
+    const dimBody = subBlock(dimsBody, key, 2);
+    if (!dimBody) continue;
+    const scoreRaw = scalarAt(dimBody, "score", 4);
+    if (!scoreRaw) continue;
+    dimensions.push({
+      key,
+      label: DIMENSION_LABELS_INTERNAL[key],
+      score: Number(scoreRaw),
+      evidence: listAt(dimBody, "evidence", 4),
+      risks: listAt(dimBody, "risks", 4),
+      nextAction: scalarAt(dimBody, "next_action", 4),
+      owner: scalarAt(dimBody, "owner", 4),
+    });
+  }
+  if (dimensions.length === 0) return null;
+
+  // --- recommendation ---
+  const recBody = topLevelBlock(yaml, "recommendation") ?? "";
+  const weighted = scalarAt(recBody, "weighted_score", 2);
+  const level = scalarAt(recBody, "level", 2);
+  const rationale = scalarAt(recBody, "rationale", 2);
+  const alt = scalarAt(recBody, "alternative_recommendation", 2);
+
+  return {
+    product,
+    useCase,
+    dimensions,
+    weightedScore: weighted ? Number(weighted) : 0,
+    recommendationLevel: level ?? "pilot_candidate",
+    rationale: rationale ?? "",
+    blockersBeforePilot: listAt(recBody, "blockers_before_pilot", 2),
+    blockersBeforeProduction: listAt(recBody, "blockers_before_production", 2),
+    conditions: listAt(recBody, "conditions", 2),
+    alternativeRecommendation: alt || undefined,
+  };
+}
 
 const ARTIFACT_PHASE: Record<string, ArtifactPhase> = {
   "opportunity-brief": "Decide",
@@ -461,6 +740,64 @@ const ARTIFACT_PHASE: Record<string, ArtifactPhase> = {
   "readiness-assessment": "Ship",
   "post-launch-review-week-2": "Operate",
 };
+
+/**
+ * Hand-curated "top finding" per artifact, keyed by `${caseSlug}/${artifactSlug}`.
+ * Surfaced on the artifact timeline cards so a reader sees the killer line from
+ * each file without clicking. The convention is: ONE sentence, the punchy fact
+ * a senior PM would tell another senior PM in the hallway about that artifact.
+ *
+ * If an artifact isn't in this map, the card just shows the description from
+ * the README's Files section (or nothing).
+ */
+const ARTIFACT_TOP_FINDING: Record<string, string> = {
+  // --- Customer Support Copilot ---
+  "customer-support-copilot/opportunity-brief":
+    "Top 10 intents alone cover 31% of ticket volume — even a v1 limited to those is meaningful.",
+  "customer-support-copilot/prd":
+    "Autonomy locked at 'suggest'. Humans send every customer-facing message in v1.",
+  "customer-support-copilot/eval-plan":
+    "Five golden examples drafted, but no labeled regression set. Quality signal is 'looks good' until that closes.",
+  "customer-support-copilot/cost-model":
+    "$0.0094 per draft. ~$51/month at v1 scope. Cost is not the bottleneck; eval and observability are.",
+  "customer-support-copilot/launch-gate":
+    "Weighted score 2.86 / 5. Four pilot blockers — eval set, accept/edit logging, low-confidence fallback, legal sign-off.",
+  "customer-support-copilot/post-launch-review-week-2":
+    "Week 2 of the pilot: accept rate, edit rate, hallucination count, and what the data tells the team to change.",
+  "customer-support-copilot/readiness-assessment":
+    "The structured scoring input that drives the verdict callout and dimensions above.",
+
+  // --- Sales Call CRM Assistant ---
+  "sales-call-crm-assistant/opportunity-brief":
+    "45 min/day per rep on CRM updates. 30% of pipeline fields go stale within five days of a call.",
+  "sales-call-crm-assistant/prd":
+    "Five extracted fields, schema-typed, every value cited to a transcript span or left blank.",
+  "sales-call-crm-assistant/eval-plan":
+    "Extraction accuracy AND evidence checks. A correct value without a transcript citation still fails.",
+  "sales-call-crm-assistant/launch-gate":
+    "Score 3.07. Pilot moves only after consent flag coverage and confidence calibration close.",
+  "sales-call-crm-assistant/readiness-assessment":
+    "The structured scoring input. Eleven dimensions, blockers, the Gong-only fallback path.",
+
+  // --- Healthcare Intake Assistant ---
+  "healthcare-intake-assistant/opportunity-brief":
+    "The non-AI alternative — a smart digital form — likely captures most of the value without the compliance cost.",
+  "healthcare-intake-assistant/prd":
+    "AI job locked to demographics and insurance only. Hard escalation on any clinical question.",
+  "healthcare-intake-assistant/eval-plan":
+    "200 synthetic scenarios planned across benign / ambiguous / adversarial. Zero of 200 built today.",
+  "healthcare-intake-assistant/launch-gate":
+    "Score 1.95. Recommendation: do not launch. Build the form. Keep the AI prototype alive on synthetic data only.",
+  "healthcare-intake-assistant/readiness-assessment":
+    "The structured scoring input. Eleven dimensions, the prototype conditions, the alternative-path rationale.",
+};
+
+export function topFindingFor(
+  caseSlug: string,
+  artifactSlug: string,
+): string | undefined {
+  return ARTIFACT_TOP_FINDING[`${caseSlug}/${artifactSlug}`];
+}
 
 /**
  * Parse the README's "## Files" section into a map of filename-without-extension
@@ -551,14 +888,18 @@ export function loadCaseStudies(): CaseStudyMeta[] {
         const isYaml = /\.ya?ml$/.test(f);
         const baseName = f.replace(/\.(md|ya?ml)$/, "");
         const title = ARTIFACT_TITLES[baseName] ?? baseName;
+        const filePath = `${c.folder}/${f}`;
+        const body = readRepoFile(filePath);
         return {
           slug: baseName,
-          file: `${c.folder}/${f}`,
+          file: filePath,
           title,
           kind: (isYaml ? "yaml" : "doc") as "doc" | "yaml",
           href: `/examples/${c.slug}/${baseName}`,
           description: descriptions.get(baseName),
           phase: ARTIFACT_PHASE[baseName] ?? "Build",
+          readingTime: isYaml ? null : computeReadingTime(stripFirstH1(body)),
+          topFinding: ARTIFACT_TOP_FINDING[`${c.slug}/${baseName}`],
         };
       })
       .sort((a, b) => {
@@ -591,10 +932,31 @@ export function loadCaseStudyBySlug(slug: string) {
   // Strip the "## Files" section: the Artifacts card grid renders it more usably.
   const readme = stripFilesSection(raw);
   const { markdown, toc } = processDocMarkdown(readme, c.folder);
+
+  // Reading time for a case study covers the README PLUS every artifact a
+  // reader is meant to walk through (opportunity brief, PRD, eval plan,
+  // launch gate, etc.). Summing per-file words and converting once is more
+  // accurate than rounding each file's minutes up and summing those.
+  let totalWords = computeReadingTime(stripFirstH1(readme)).words;
+  for (const a of c.artifacts) {
+    const body = readRepoFile(a.file);
+    totalWords += computeReadingTime(stripFirstH1(body)).words;
+  }
+  const totalMinutes = Math.max(1, Math.round(totalWords / WORDS_PER_MINUTE));
+
+  // Parse the readiness-assessment.yaml if present so the page can render
+  // the scoring card and verdict callout from structured data.
+  const yamlPath = `${c.folder}/readiness-assessment.yaml`;
+  const readiness = fileExists(yamlPath)
+    ? parseReadinessAssessment(readRepoFile(yamlPath))
+    : null;
+
   return {
     ...c,
     readme: markdown,
     toc,
+    readingTime: { minutes: totalMinutes, words: totalWords } as ReadingTime,
+    readiness,
   };
 }
 
@@ -622,6 +984,8 @@ export function loadCaseArtifact(caseSlug: string, artifactSlug: string) {
     title: ARTIFACT_TITLES[artifactSlug] ?? artifactSlug,
     body: processed.markdown,
     toc: processed.toc,
+    // Reading time only makes sense for prose. YAML is structured data.
+    readingTime: isYaml ? null : computeReadingTime(stripFirstH1(raw)),
   };
 }
 
@@ -632,6 +996,7 @@ export function loadPlaybook() {
     title: extractTitle(md, "AI PM Playbook"),
     markdown,
     toc,
+    readingTime: computeReadingTime(stripFirstH1(md)),
   };
 }
 

@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default function PlaybookPage() {
-  const { title, markdown, toc } = loadPlaybook();
+  const { title, markdown, toc, readingTime } = loadPlaybook();
 
   return (
     <>
@@ -49,7 +49,9 @@ export default function PlaybookPage() {
                 sections
               </span>
               <span>
-                <span className="font-medium text-foreground">~ 45 min</span>{" "}
+                <span className="font-medium text-foreground tabular-nums">
+                  ~ {readingTime.minutes} min
+                </span>{" "}
                 cover to cover
               </span>
               <span>

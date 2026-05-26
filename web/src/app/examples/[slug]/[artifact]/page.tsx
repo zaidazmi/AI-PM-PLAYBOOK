@@ -6,6 +6,7 @@ import {
   DocBreadcrumb,
   DocHero,
   PrevNext,
+  ReadingTimePill,
 } from "@/components/DocShell";
 import { DocLayout } from "@/components/DocLayout";
 import { Container } from "@/components/Container";
@@ -82,9 +83,14 @@ export default async function ArtifactPage({
           }
           title={a.title}
           meta={
-            <div className="inline-flex items-center gap-2 rounded-full bg-foreground/[0.04] px-3 py-1 text-[11px] uppercase tracking-wider text-foreground/65">
-              <span className="inline-block size-1.5 rounded-full bg-foreground/40" />
-              {a.case.title}
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-2 rounded-full bg-foreground/[0.04] px-3 py-1 text-[11px] uppercase tracking-wider text-foreground/65">
+                <span className="inline-block size-1.5 rounded-full bg-foreground/40" />
+                {a.case.title}
+              </span>
+              {a.readingTime ? (
+                <ReadingTimePill minutes={a.readingTime.minutes} />
+              ) : null}
             </div>
           }
         />

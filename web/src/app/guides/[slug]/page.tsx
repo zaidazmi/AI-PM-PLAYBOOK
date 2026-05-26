@@ -6,6 +6,7 @@ import {
   DocBreadcrumb,
   DocHero,
   PrevNext,
+  ReadingTimePill,
 } from "@/components/DocShell";
 import { DocLayout } from "@/components/DocLayout";
 import { JsonLd } from "@/components/JsonLd";
@@ -96,9 +97,12 @@ export default async function GuidePage({
           }
           title={guide.title}
           meta={
-            <div className="inline-flex items-center gap-2 rounded-full bg-foreground/[0.04] px-3 py-1 text-[11px] uppercase tracking-wider text-foreground/65">
-              <span className="inline-block size-1.5 rounded-full bg-foreground/40" />
-              Guide {guide.num}
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-2 rounded-full bg-foreground/[0.04] px-3 py-1 text-[11px] uppercase tracking-wider text-foreground/65">
+                <span className="inline-block size-1.5 rounded-full bg-foreground/40" />
+                Guide {guide.num}
+              </span>
+              <ReadingTimePill minutes={guide.readingTime.minutes} />
             </div>
           }
         />

@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/banner.png" alt="AI PM Playbook — a working system for PMs building production AI products" width="100%" />
+  <img src="images/banner.png" alt="AI PM Playbook · Ship AI features you can put your name on" width="100%" />
 </p>
 
 <p align="center">
@@ -12,6 +12,8 @@
   <a href="#guides"><img src="https://img.shields.io/badge/guides-12-green" alt="Guides"></a>
   <a href="#case-studies"><img src="https://img.shields.io/badge/case%20studies-3-orange" alt="Case Studies"></a>
 </p>
+
+<p align="center"><strong>Ship AI features you can put your name on.</strong><br/>The templates, evals, and launch gates AI PMs use to turn working demos into production calls they own.</p>
 
 Vibe-coding gets you to a demo fast. This playbook helps you make the harder call: whether that demo should become a product, where humans need to stay in the loop, what evidence would make it safe to ship, and when to say "not yet."
 
