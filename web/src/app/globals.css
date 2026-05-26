@@ -1,0 +1,405 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f5f3ef;
+  --surface: #ffffff;
+  --foreground: #0a0a0a;
+  --muted: #6b6b6b;
+  --border: #e6e2d8;
+  --accent-peach: #f6d8c1;
+  --accent-mint: #c9e4d3;
+  --accent-lavender: #d9cdec;
+  --accent-sand: #e8e3d4;
+  --accent-rose: #f1c9c9;
+  --accent-sky: #cad9ec;
+  --accent-butter: #f0e6b8;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-peach: var(--accent-peach);
+  --color-mint: var(--accent-mint);
+  --color-lavender: var(--accent-lavender);
+  --color-sand: var(--accent-sand);
+  --color-rose: var(--accent-rose);
+  --color-sky: var(--accent-sky);
+  --color-butter: var(--accent-butter);
+  --font-sans: var(--font-geist-sans);
+  --font-display: var(--font-instrument);
+  --font-mono: var(--font-geist-mono);
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+::selection {
+  background: #0a0a0a;
+  color: #f5f3ef;
+}
+
+/* Subtle grain to mimic the off-white paper feel of the references */
+.grain {
+  position: relative;
+}
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.045 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  mix-blend-mode: multiply;
+  opacity: 0.6;
+  z-index: 0;
+}
+
+/* Reusable gradient blob backgrounds for cards (Teamway style) */
+.blob-peach {
+  background:
+    radial-gradient(60% 80% at 95% 30%, rgba(244, 162, 102, 0.55), transparent 60%),
+    radial-gradient(50% 70% at 80% 80%, rgba(255, 198, 144, 0.65), transparent 65%),
+    radial-gradient(80% 90% at 100% 100%, rgba(255, 222, 196, 0.9), transparent 70%);
+}
+.blob-mint {
+  background:
+    radial-gradient(60% 80% at 95% 30%, rgba(86, 138, 105, 0.45), transparent 60%),
+    radial-gradient(50% 70% at 85% 85%, rgba(160, 198, 175, 0.75), transparent 65%),
+    radial-gradient(80% 90% at 100% 100%, rgba(213, 232, 220, 0.9), transparent 70%);
+}
+.blob-lavender {
+  background:
+    radial-gradient(55% 75% at 90% 40%, rgba(141, 109, 184, 0.45), transparent 60%),
+    radial-gradient(60% 80% at 80% 80%, rgba(189, 165, 222, 0.75), transparent 65%),
+    radial-gradient(80% 90% at 100% 100%, rgba(225, 215, 240, 0.9), transparent 70%);
+}
+.blob-sand {
+  background:
+    radial-gradient(60% 80% at 95% 30%, rgba(170, 170, 170, 0.45), transparent 60%),
+    radial-gradient(50% 70% at 85% 85%, rgba(200, 200, 200, 0.7), transparent 65%),
+    radial-gradient(80% 90% at 100% 100%, rgba(232, 232, 232, 0.9), transparent 70%);
+}
+.blob-butter {
+  background:
+    radial-gradient(60% 80% at 30% 95%, rgba(255, 220, 90, 0.5), transparent 60%),
+    radial-gradient(70% 80% at 10% 90%, rgba(255, 232, 140, 0.7), transparent 65%);
+}
+.blob-sky {
+  background:
+    radial-gradient(60% 80% at 80% 95%, rgba(118, 168, 220, 0.55), transparent 60%),
+    radial-gradient(70% 80% at 90% 90%, rgba(170, 200, 232, 0.7), transparent 65%);
+}
+.blob-rose {
+  background:
+    radial-gradient(60% 80% at 85% 90%, rgba(232, 132, 132, 0.55), transparent 60%),
+    radial-gradient(70% 80% at 95% 100%, rgba(245, 188, 188, 0.7), transparent 65%);
+}
+
+/* Soft hairline cards */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+}
+
+/* Marquee */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee 40s linear infinite;
+  will-change: transform;
+}
+
+/* Subtle pop on hover for cards */
+.lift {
+  transition: transform 280ms cubic-bezier(.2,.7,.2,1), box-shadow 280ms cubic-bezier(.2,.7,.2,1), border-color 280ms;
+}
+.lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px -24px rgba(0,0,0,0.18);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+  .lift { transition: none; }
+}
+
+/* ===== Themed long-form prose for /playbook /guides /templates /examples ===== */
+.prose-doc {
+  color: var(--foreground);
+  font-size: 16.5px;
+  line-height: 1.72;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+.prose-doc > *:first-child { margin-top: 0; }
+.prose-doc > *:last-child { margin-bottom: 0; }
+
+.prose-doc p {
+  margin: 1.05em 0;
+  color: rgba(10,10,10,0.82);
+  max-width: 68ch;
+}
+
+.prose-doc h1,
+.prose-doc h2,
+.prose-doc h3,
+.prose-doc h4,
+.prose-doc h5,
+.prose-doc h6 {
+  letter-spacing: -0.015em;
+  color: var(--foreground);
+  font-weight: 500;
+  line-height: 1.18;
+  scroll-margin-top: 90px;
+}
+
+.prose-doc h2 {
+  font-size: 30px;
+  margin: 2.4em 0 0.9em;
+  letter-spacing: -0.025em;
+  font-weight: 500;
+}
+.prose-doc h2::before {
+  content: "";
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: rgba(10,10,10,0.25);
+  margin-bottom: 18px;
+}
+.prose-doc h3 {
+  font-size: 22px;
+  margin: 1.9em 0 0.55em;
+  font-weight: 500;
+}
+.prose-doc h4 {
+  font-size: 17px;
+  margin: 1.6em 0 0.5em;
+  font-weight: 600;
+  text-transform: none;
+}
+.prose-doc h5,
+.prose-doc h6 {
+  font-size: 15px;
+  margin: 1.4em 0 0.4em;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(10,10,10,0.55);
+}
+
+.prose-doc a {
+  color: var(--foreground);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(10,10,10,0.35);
+  transition: text-decoration-color 200ms;
+}
+.prose-doc a:hover {
+  text-decoration-color: var(--foreground);
+}
+.prose-doc a.heading-anchor {
+  text-decoration: none;
+  color: inherit;
+}
+.prose-doc a.heading-anchor:hover {
+  text-decoration: none;
+}
+
+.prose-doc strong {
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.prose-doc em {
+  font-family: var(--font-instrument), serif;
+  font-style: italic;
+  font-weight: 400;
+  color: rgba(10,10,10,0.92);
+  letter-spacing: 0.005em;
+}
+
+.prose-doc ul,
+.prose-doc ol {
+  margin: 1em 0;
+  padding-left: 1.4em;
+  max-width: 68ch;
+}
+.prose-doc li {
+  margin: 0.35em 0;
+  color: rgba(10,10,10,0.82);
+}
+.prose-doc ul > li::marker {
+  color: rgba(10,10,10,0.35);
+}
+.prose-doc ol > li::marker {
+  color: rgba(10,10,10,0.45);
+  font-variant-numeric: tabular-nums;
+}
+.prose-doc li > p {
+  margin: 0.3em 0;
+}
+
+.prose-doc blockquote {
+  margin: 1.6em 0;
+  padding: 1.2em 1.4em;
+  border-radius: 18px;
+  background: #efece5;
+  border: 1px solid var(--border);
+  color: rgba(10,10,10,0.85);
+  position: relative;
+}
+.prose-doc blockquote::before {
+  content: "“";
+  font-family: var(--font-instrument), serif;
+  font-style: italic;
+  position: absolute;
+  top: -0.05em;
+  left: 0.35em;
+  font-size: 56px;
+  line-height: 1;
+  color: rgba(10,10,10,0.18);
+}
+.prose-doc blockquote p {
+  margin: 0.35em 0;
+}
+
+.prose-doc code {
+  background: rgba(10,10,10,0.06);
+  border: 1px solid rgba(10,10,10,0.08);
+  border-radius: 6px;
+  padding: 0.08em 0.4em;
+  font-size: 0.9em;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+.prose-doc pre {
+  background: #0a0a0a;
+  color: #f5f3ef;
+  border-radius: 20px;
+  padding: 18px 22px;
+  margin: 1.6em 0;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.7;
+  border: 1px solid rgba(10,10,10,0.1);
+}
+.prose-doc pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+.prose-doc hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 2.4em 0;
+}
+
+.prose-doc img {
+  max-width: 100%;
+  border-radius: 16px;
+  margin: 1.4em 0;
+  border: 1px solid var(--border);
+}
+
+/* Tables */
+.prose-doc table {
+  width: 100%;
+  margin: 1.6em 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  font-size: 14.5px;
+}
+.prose-doc thead th {
+  background: #efece5;
+  text-align: left;
+  font-weight: 500;
+  color: rgba(10,10,10,0.85);
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.prose-doc tbody td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  color: rgba(10,10,10,0.8);
+}
+.prose-doc tbody tr:last-child td {
+  border-bottom: 0;
+}
+.prose-doc tbody tr:nth-child(even) td {
+  background: rgba(10,10,10,0.015);
+}
+
+/* Author hint blocks (converted from `<!-- ... -->`) */
+.prose-doc .md-hint {
+  display: block;
+  margin: 1.2em 0;
+  padding: 12px 18px 12px 18px;
+  border-left: 3px solid #d6c46d;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #fbf6ec, #f6efde);
+  color: #5b4a06;
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 68ch;
+  position: relative;
+}
+.prose-doc .md-hint::before {
+  content: "Hint";
+  display: inline-block;
+  margin-right: 10px;
+  padding: 2px 8px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+  background: #d6c46d;
+  color: #3a2e00;
+  border-radius: 999px;
+  vertical-align: 1px;
+}
+
+/* Task lists (GFM) */
+.prose-doc input[type="checkbox"] {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid rgba(10,10,10,0.3);
+  border-radius: 4px;
+  margin-right: 8px;
+  position: relative;
+  top: 2px;
+  background: var(--surface);
+}
+.prose-doc input[type="checkbox"]:checked {
+  background: var(--foreground);
+  border-color: var(--foreground);
+}
+.prose-doc input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background: var(--background);
+  clip-path: polygon(14% 50%, 0 65%, 38% 100%, 100% 25%, 86% 12%, 38% 73%);
+}
