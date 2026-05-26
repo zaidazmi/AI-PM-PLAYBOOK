@@ -57,9 +57,8 @@ export function Footer() {
           />
         </div>
 
-        <div className="mt-12 pt-6 border-t border-border flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between text-[12px] text-foreground/50">
+        <div className="mt-12 pt-6 border-t border-border text-[12px] text-foreground/50">
           <span>© {new Date().getFullYear()} Zaid Azmi · MIT licensed</span>
-          <span>Built with Next.js, Tailwind, and Motion.</span>
         </div>
       </Container>
     </footer>

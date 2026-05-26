@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, ArrowRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { Container, SectionLabel } from "./Container";
 import { Reveal } from "./Reveal";
 import { guides as allGuides, type Guide } from "@/data/content";
@@ -8,30 +8,36 @@ type GroupName = "Foundations" | "Building" | "Operating" | "Advanced";
 
 type Group = {
   name: GroupName;
-  tagline: string;
-  slugs: string[]; // matches href without /guides/
+  slugs: string[];
+  dot: string;
 };
 
-// Group definitions — each grouping aligns to a phase of the PM loop
+// Group definitions — each grouping aligns to a phase of the PM loop.
+// The label is structural only; we don't surface "grouped by phase" in copy.
 const groups: Group[] = [
   {
     name: "Foundations",
-    tagline: "Decide whether AI is the right tool, and what ‘good’ looks like.",
+    dot: "bg-[#d97c4a]",
     slugs: ["before-you-vibe-code", "walkthrough", "bad-to-good-ai-prd"],
   },
   {
     name: "Building",
-    tagline: "Spec the AI job, design evals, and treat prompts as product.",
-    slugs: ["eval-design", "agentic-products", "prompt-craft", "agent-pm-starter-pack"],
+    dot: "bg-[#7a5fb5]",
+    slugs: [
+      "eval-design",
+      "agentic-products",
+      "prompt-craft",
+      "agent-pm-starter-pack",
+    ],
   },
   {
     name: "Operating",
-    tagline: "Run the system after the demo works.",
+    dot: "bg-[#3a7d5a]",
     slugs: ["operating-ai-products", "launch-gates", "error-analysis"],
   },
   {
     name: "Advanced",
-    tagline: "Tie it all together. Build the loop into your team.",
+    dot: "bg-[#b58a1f]",
     slugs: ["artifact-flow-map", "ai-native-pm-loop"],
   },
 ];
@@ -41,7 +47,6 @@ function bySlug(href: string): string {
 }
 
 export function Guides() {
-  // Index guides by slug for quick lookup
   const map = new Map<string, Guide>();
   for (const g of allGuides) map.set(bySlug(g.href), g);
 
@@ -52,84 +57,85 @@ export function Guides() {
           <div className="max-w-2xl">
             <SectionLabel num="06" label="Guides" />
             <h2 className="mt-5 text-4xl sm:text-6xl tracking-[-0.025em] leading-[0.98]">
-              Twelve guides,{" "}
-              <span className="font-display italic">grouped by phase.</span>
+              Twelve guides.{" "}
+              <span className="font-display italic">Read in any order.</span>
             </h2>
           </div>
           <p className="max-w-md text-foreground/70 text-[15px] leading-relaxed">
-            Jump to where you are in the loop. Each guide is opinionated, with
-            examples and decision frames.
+            Each one is short, opinionated, and uses real examples. Pick the
+            phase you're in and start there.
           </p>
         </div>
 
-        <div className="space-y-14">
-          {groups.map((group, gi) => (
-            <Reveal key={group.name} delay={gi * 0.05}>
-              <div>
-                <div className="flex items-baseline justify-between mb-5 pb-3 border-b border-border">
-                  <div className="flex items-baseline gap-3">
-                    <span className="text-[11px] tabular-nums font-mono text-foreground/40">
-                      0{gi + 1}
-                    </span>
-                    <h3 className="text-[22px] tracking-tight font-medium">
-                      {group.name}
-                    </h3>
-                    <span className="hidden sm:inline text-[13px] text-foreground/60">
-                      · {group.tagline}
-                    </span>
-                  </div>
-                  <span className="text-[12px] uppercase tracking-wider text-foreground/45">
-                    {group.slugs.length} guides
-                  </span>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
-                  {group.slugs.map((slug, i) => {
-                    const g = map.get(slug);
-                    if (!g) return null;
-                    return (
-                      <Reveal key={slug} delay={(i % 3) * 0.04}>
-                        <Link
-                          href={g.href}
-                          className="lift group block card p-6 h-full"
-                        >
-                          <div className="flex items-start justify-between mb-6">
-                            <span className="text-[12px] tabular-nums font-mono text-foreground/40">
-                              {g.num}
-                            </span>
-                            <ArrowUpRight
-                              className="size-4 text-foreground/40 transition-all group-hover:text-foreground group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                              strokeWidth={1.8}
-                            />
-                          </div>
-                          <h4 className="text-[17px] tracking-tight font-medium mb-1.5 group-hover:text-foreground transition-colors">
-                            {g.title}
-                          </h4>
-                          <p className="text-[13px] leading-relaxed text-foreground/60 line-clamp-3">
-                            {g.blurb}
-                          </p>
-                        </Link>
-                      </Reveal>
-                    );
-                  })}
-                </div>
-              </div>
+        {/* Editorial reading list, divided by phase */}
+        <div className="max-w-[920px] mx-auto space-y-12">
+          {groups.map((group) => (
+            <Reveal key={group.name}>
+              <PhaseSection group={group} map={map} />
             </Reveal>
           ))}
         </div>
-
-        <div className="mt-10 flex items-center justify-between flex-wrap gap-3">
-          <Link
-            href="/guides"
-            className="group inline-flex items-center gap-1.5 text-[14px] font-medium text-foreground border-b border-foreground/30 pb-0.5 hover:border-foreground transition-colors"
-          >
-            See all 12 guides on one page
-            <ArrowRight
-              className="size-3.5 transition-transform group-hover:translate-x-0.5"
-              strokeWidth={2.2}
-            />
-          </Link>
-        </div>
       </Container>
     </section>
+  );
+}
+
+function PhaseSection({
+  group,
+  map,
+}: {
+  group: Group;
+  map: Map<string, Guide>;
+}) {
+  const items = group.slugs
+    .map((s) => map.get(s))
+    .filter((g): g is Guide => Boolean(g));
+
+  return (
+    <div>
+      {/* Phase header: simple hairline divider with the phase name */}
+      <div className="flex items-baseline justify-between gap-3 mb-2 pb-3 border-b border-foreground/15">
+        <h3 className="flex items-baseline gap-2.5 text-[15px] font-medium tracking-tight text-foreground">
+          <span className={`inline-block size-1.5 rounded-full ${group.dot}`} />
+          {group.name}
+        </h3>
+        <span className="text-[11px] uppercase tracking-[0.14em] text-foreground/45 tabular-nums">
+          {items.length} {items.length === 1 ? "guide" : "guides"}
+        </span>
+      </div>
+
+      {/* Editorial row-list, with hairline dividers and tight rhythm */}
+      <ul>
+        {items.map((g, idx) => (
+          <li
+            key={g.href}
+            className={idx === items.length - 1 ? "" : "border-b border-border"}
+          >
+            <Link
+              href={g.href}
+              className="group block py-5 px-2 -mx-2 rounded-xl hover:bg-[#fbfaf6] transition-colors"
+            >
+              <div className="grid grid-cols-[auto_1fr_auto] items-baseline gap-x-5 gap-y-1">
+                <span className="text-[12px] tabular-nums font-mono text-foreground/40 self-start mt-1">
+                  {g.num}
+                </span>
+                <div className="min-w-0">
+                  <h4 className="text-[17px] tracking-tight font-medium text-foreground transition-colors mb-1">
+                    {g.title}
+                  </h4>
+                  <p className="text-[13.5px] leading-relaxed text-foreground/60 max-w-[60ch]">
+                    {g.blurb}
+                  </p>
+                </div>
+                <ArrowUpRight
+                  className="size-4 text-foreground/30 transition-all group-hover:text-foreground group-hover:-translate-y-0.5 group-hover:translate-x-0.5 self-start mt-1"
+                  strokeWidth={1.8}
+                />
+              </div>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

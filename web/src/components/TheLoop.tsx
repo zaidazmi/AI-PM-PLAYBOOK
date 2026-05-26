@@ -1,76 +1,135 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useReducedMotion } from "motion/react";
-import { ArrowRight } from "lucide-react";
+import { motion, useReducedMotion, type Variants } from "motion/react";
+import { ArrowRight, RefreshCw, ArrowUpRight } from "lucide-react";
 import { Container, SectionLabel } from "./Container";
 
-type LoopStep = {
+type Step = {
   num: string;
   title: string;
   blurb: string;
   href: string;
-  phase: "Decide" | "Build" | "Ship" | "Operate";
 };
 
-const steps: LoopStep[] = [
+type Phase = "Decide" | "Build" | "Ship" | "Operate";
+
+type PhaseGroup = {
+  phase: Phase;
+  tagline: string;
+  steps: Step[];
+};
+
+const groups: PhaseGroup[] = [
   {
-    num: "01",
-    title: "Opportunity brief",
-    blurb: "Is AI actually the right tool here?",
-    href: "/templates/ai-opportunity-brief",
     phase: "Decide",
+    tagline: "Is AI actually the right tool here?",
+    steps: [
+      {
+        num: "01",
+        title: "Opportunity brief",
+        blurb:
+          "Align the user, the AI job, evidence, risk, and cost before any prototype.",
+        href: "/templates/ai-opportunity-brief",
+      },
+    ],
   },
   {
-    num: "02",
-    title: "AI PRD",
-    blurb: "Define the AI job. The line everyone refers back to.",
-    href: "/templates/ai-prd",
     phase: "Build",
+    tagline: "Spec the AI job and what 'good' means.",
+    steps: [
+      {
+        num: "02",
+        title: "AI PRD",
+        blurb:
+          "Define the AI job. The line every other artifact refers back to.",
+        href: "/templates/ai-prd",
+      },
+      {
+        num: "03",
+        title: "Eval plan",
+        blurb:
+          "Define 'good' before trusting model output. Build the regression set.",
+        href: "/templates/ai-eval-plan",
+      },
+      {
+        num: "04",
+        title: "Review workflow",
+        blurb:
+          "Who corrects, escalates, or blocks the AI before it acts on the user.",
+        href: "/templates/human-review-workflow",
+      },
+    ],
   },
   {
-    num: "03",
-    title: "Eval plan",
-    blurb: "Define ‘good’ before trusting model output.",
-    href: "/templates/ai-eval-plan",
-    phase: "Build",
-  },
-  {
-    num: "04",
-    title: "Review workflow",
-    blurb: "Who corrects, escalates, or blocks the AI.",
-    href: "/templates/human-review-workflow",
-    phase: "Build",
-  },
-  {
-    num: "05",
-    title: "Launch gate",
-    blurb: "Go / no-go with evidence. Reversal triggers named.",
-    href: "/templates/launch-gate-checklist",
     phase: "Ship",
+    tagline: "Go / no-go with evidence, not vibes.",
+    steps: [
+      {
+        num: "05",
+        title: "Launch gate",
+        blurb:
+          "Pilot, production, or scale. Conditions, owners, and a reversal trigger.",
+        href: "/templates/launch-gate-checklist",
+      },
+    ],
   },
   {
-    num: "06",
-    title: "Observability",
-    blurb: "Catch drift, cost, and silent regressions weekly.",
-    href: "/templates/ai-observability-plan",
     phase: "Operate",
+    tagline: "Catch drift, cost, and silent regressions weekly.",
+    steps: [
+      {
+        num: "06",
+        title: "Observability",
+        blurb:
+          "Traces, drift alerts, cost ceilings, and a weekly post-launch review.",
+        href: "/templates/ai-observability-plan",
+      },
+    ],
   },
 ];
 
-const phaseColor: Record<LoopStep["phase"], string> = {
-  Decide: "text-[#d97c4a]",
-  Build: "text-[#7a5fb5]",
-  Ship: "text-[#3a7d5a]",
-  Operate: "text-[#2f2f2f]",
+const phaseStyle: Record<
+  Phase,
+  { chipBg: string; chipText: string; dot: string; railClass: string }
+> = {
+  Decide: {
+    chipBg: "bg-peach/55",
+    chipText: "text-[#7a3b0d]",
+    dot: "bg-[#d97c4a]",
+    railClass: "bg-[#d97c4a]/35",
+  },
+  Build: {
+    chipBg: "bg-lavender/55",
+    chipText: "text-[#3f2a63]",
+    dot: "bg-[#7a5fb5]",
+    railClass: "bg-[#7a5fb5]/35",
+  },
+  Ship: {
+    chipBg: "bg-mint/55",
+    chipText: "text-[#1e4a30]",
+    dot: "bg-[#3a7d5a]",
+    railClass: "bg-[#3a7d5a]/35",
+  },
+  Operate: {
+    chipBg: "bg-butter/55",
+    chipText: "text-[#5b4a06]",
+    dot: "bg-[#b58a1f]",
+    railClass: "bg-[#b58a1f]/35",
+  },
 };
 
-const phaseBg: Record<LoopStep["phase"], string> = {
-  Decide: "bg-peach/60",
-  Build: "bg-lavender/60",
-  Ship: "bg-mint/60",
-  Operate: "bg-sand",
-};
+const itemVariants = (reduce: boolean | null): Variants =>
+  reduce
+    ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
+    : {
+        hidden: { opacity: 0, x: -8 },
+        show: {
+          opacity: 1,
+          x: 0,
+          transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+        },
+      };
 
 export function TheLoop() {
   const reduce = useReducedMotion();
@@ -79,7 +138,7 @@ export function TheLoop() {
     <section id="start" className="relative py-24 sm:py-32 overflow-hidden">
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-32 -right-40 size-[520px] rounded-full opacity-50"
+        className="pointer-events-none absolute -top-32 -right-40 size-[520px] rounded-full opacity-40"
         style={{
           background:
             "radial-gradient(closest-side, rgba(189,165,222,0.30), transparent 70%)",
@@ -100,41 +159,159 @@ export function TheLoop() {
           </p>
         </div>
 
-        {/* Loop grid: 3 cols on top, arrow turns down, 3 cols on bottom flowing right-to-left */}
-        <div className="card overflow-hidden">
-          <div className="grid grid-cols-1 md:grid-cols-3">
-            {steps.slice(0, 3).map((s, i) => (
-              <LoopNode
-                key={s.num}
-                step={s}
-                index={i}
+        {/* Phase-grouped timeline */}
+        <div className="max-w-[860px] mx-auto">
+          <ol className="relative">
+            {groups.map((g, gi) => (
+              <PhaseRow
+                key={g.phase}
+                group={g}
+                index={gi}
                 reduce={reduce}
-                arrow={i < 2 ? "right" : "down"}
+                isLast={gi === groups.length - 1}
               />
             ))}
-            {steps
-              .slice(3)
-              .slice()
-              .reverse()
-              .map((s, i) => (
-                <LoopNode
-                  key={s.num}
-                  step={s}
-                  index={i + 3}
-                  reduce={reduce}
-                  arrow={i < 2 ? "left" : "up"}
-                />
-              ))}
-          </div>
-          {/* Final loop-close note */}
-          <div className="border-t border-border bg-[#efece5] px-6 sm:px-9 py-5 flex items-center justify-between text-[12.5px] text-foreground/65 flex-wrap gap-2">
-            <span className="inline-flex items-center gap-2">
-              <span className="inline-block size-1.5 rounded-full bg-foreground/40" />
-              Observability feeds the next opportunity brief. Keep the loop running.
-            </span>
+          </ol>
+
+          {/* Loop close */}
+          <LoopClose reduce={reduce} />
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function PhaseRow({
+  group,
+  index,
+  reduce,
+  isLast,
+}: {
+  group: PhaseGroup;
+  index: number;
+  reduce: boolean | null;
+  isLast: boolean;
+}) {
+  const style = phaseStyle[group.phase];
+  return (
+    <li className="relative grid grid-cols-1 sm:grid-cols-[190px_1fr] gap-x-8 gap-y-5 pb-12">
+      {/* Left rail: phase header */}
+      <div className="sm:pt-1.5">
+        <div
+          className={`inline-flex items-center gap-2 rounded-full ${style.chipBg} ${style.chipText} px-3 py-1 text-[11px] font-medium uppercase tracking-[0.14em]`}
+        >
+          <span className={`size-1.5 rounded-full ${style.dot}`} />
+          {group.phase}
+        </div>
+        <p className="mt-3 text-[13px] leading-snug text-foreground/60 max-w-[22ch]">
+          {group.tagline}
+        </p>
+      </div>
+
+      {/* Right rail: vertical timeline of steps in this phase */}
+      <div className="relative">
+        {/* Connecting line down to the next phase (omit on last) */}
+        {!isLast && (
+          <span
+            aria-hidden
+            className={`absolute left-[7px] top-3 -bottom-12 w-px ${style.railClass}`}
+          />
+        )}
+        <ul className="space-y-5">
+          {group.steps.map((s, i) => (
+            <motion.li
+              key={s.num}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={itemVariants(reduce)}
+              transition={{ delay: index * 0.06 + i * 0.04 }}
+              className="relative pl-7"
+            >
+              {/* Node dot on the rail */}
+              <span
+                className={`absolute left-0 top-[6px] inline-flex size-[14px] items-center justify-center rounded-full border-[3px] border-background ${style.dot}`}
+              />
+              <Link
+                href={s.href}
+                className="group block rounded-2xl -mx-3 px-3 py-2 hover:bg-[#fbfaf6] transition-colors"
+              >
+                <div className="flex items-baseline justify-between gap-3">
+                  <div className="flex items-baseline gap-3">
+                    <span className="text-[12px] tabular-nums font-mono text-foreground/40">
+                      {s.num}
+                    </span>
+                    <h3 className="text-[18px] tracking-tight font-medium">
+                      {s.title}
+                    </h3>
+                  </div>
+                  <ArrowUpRight
+                    className="size-4 text-foreground/30 transition-all group-hover:text-foreground group-hover:-translate-y-0.5 group-hover:translate-x-0.5 shrink-0"
+                    strokeWidth={1.8}
+                  />
+                </div>
+                <p className="mt-1 text-[14px] leading-relaxed text-foreground/65 max-w-[56ch]">
+                  {s.blurb}
+                </p>
+              </Link>
+            </motion.li>
+          ))}
+        </ul>
+      </div>
+    </li>
+  );
+}
+
+function LoopClose({ reduce }: { reduce: boolean | null }) {
+  return (
+    <motion.div
+      initial={reduce ? false : { opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      className="grid grid-cols-1 sm:grid-cols-[190px_1fr] gap-x-8 -mt-4"
+    >
+      <div className="hidden sm:block" />
+      <div className="relative pl-7">
+        {/* Curved return path back to the top */}
+        <svg
+          aria-hidden
+          width="40"
+          height="64"
+          viewBox="0 0 40 64"
+          className="absolute -left-[2px] -top-4 text-foreground/35"
+        >
+          <path
+            d="M9 -4 V 36 Q 9 56 30 56"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeDasharray="3 4"
+          />
+          <path
+            d="M24 50 L 30 56 L 24 62"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+        <div className="ml-8 flex items-start gap-3">
+          <RefreshCw
+            className="size-4 text-foreground/55 mt-[3px] shrink-0"
+            strokeWidth={1.7}
+          />
+          <div className="flex-1">
+            <p className="text-[15px] leading-relaxed text-foreground/80 max-w-[56ch]">
+              <span className="font-medium text-foreground">
+                Observability feeds the next opportunity brief.
+              </span>{" "}
+              The loop is the product. Run it every cycle.
+            </p>
             <Link
               href="/guides/ai-native-pm-loop"
-              className="group inline-flex items-center gap-1.5 font-medium text-foreground/85 hover:text-foreground transition-colors"
+              className="group inline-flex items-center gap-1.5 mt-3 text-[14px] font-medium text-foreground border-b border-foreground/30 hover:border-foreground transition-colors pb-0.5"
             >
               Read the loop guide
               <ArrowRight
@@ -144,97 +321,7 @@ export function TheLoop() {
             </Link>
           </div>
         </div>
-      </Container>
-    </section>
-  );
-}
-
-function LoopNode({
-  step,
-  index,
-  reduce,
-  arrow,
-}: {
-  step: LoopStep;
-  index: number;
-  reduce: boolean | null;
-  arrow: "right" | "down" | "left" | "up";
-}) {
-  return (
-    <motion.div
-      initial={reduce ? false : { opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{
-        duration: 0.55,
-        delay: index * 0.07,
-        ease: [0.2, 0.7, 0.2, 1],
-      }}
-      className="relative border-b md:border-b-0 md:border-r border-border last:border-r-0 group"
-    >
-      <Link
-        href={step.href}
-        className="block h-full p-7 sm:p-8 hover:bg-[#fbfaf6] transition-colors"
-      >
-        <div className="flex items-center justify-between mb-6">
-          <span className="text-[13px] tabular-nums font-mono text-foreground/40">
-            {step.num}
-          </span>
-          <span
-            className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[10.5px] font-medium uppercase tracking-wider ${phaseBg[step.phase]} ${phaseColor[step.phase]}`}
-          >
-            {step.phase}
-          </span>
-        </div>
-        <h3 className="text-[20px] tracking-tight font-medium mb-1.5">
-          {step.title}
-        </h3>
-        <p className="text-[13.5px] leading-relaxed text-foreground/60">
-          {step.blurb}
-        </p>
-        <div className="mt-5 inline-flex items-center gap-1 text-[12.5px] font-medium text-foreground/80 opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all">
-          Open template
-          <ArrowRight className="size-3.5" strokeWidth={2.2} />
-        </div>
-      </Link>
-      {/* Directional arrow */}
-      <LoopArrow direction={arrow} />
+      </div>
     </motion.div>
   );
-}
-
-function LoopArrow({ direction }: { direction: "right" | "down" | "left" | "up" }) {
-  // Show small arrow ornaments at the joints — only visible on md+ where the grid actually flows
-  if (direction === "right") {
-    return (
-      <span
-        aria-hidden
-        className="hidden md:flex absolute -right-3 top-1/2 -translate-y-1/2 size-6 items-center justify-center rounded-full bg-background border border-border text-foreground/60 z-10"
-      >
-        <ArrowRight className="size-3.5" strokeWidth={1.8} />
-      </span>
-    );
-  }
-  if (direction === "left") {
-    return (
-      <span
-        aria-hidden
-        className="hidden md:flex absolute -left-3 top-1/2 -translate-y-1/2 size-6 items-center justify-center rounded-full bg-background border border-border text-foreground/60 z-10"
-      >
-        <ArrowRight className="size-3.5 rotate-180" strokeWidth={1.8} />
-      </span>
-    );
-  }
-  if (direction === "down") {
-    return (
-      <span
-        aria-hidden
-        className="hidden md:flex absolute right-7 -bottom-3 size-6 items-center justify-center rounded-full bg-background border border-border text-foreground/60 z-10"
-      >
-        <ArrowRight className="size-3.5 rotate-90" strokeWidth={1.8} />
-      </span>
-    );
-  }
-  // up — placed on first cell of second row, but only the loop-close hint is needed.
-  return null;
 }
