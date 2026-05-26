@@ -31,6 +31,37 @@ export function stripFirstH1(markdown: string): string {
 }
 
 /**
+ * Strip in-body "## Contents" / "## Table of Contents" sections. The sticky
+ * sidebar TOC renders this list already, so the body version is duplication.
+ *
+ * Removes the heading + any following blank lines and list items until a
+ * non-list, non-blank line is reached.
+ */
+export function stripInlineTOC(markdown: string): string {
+  const lines = markdown.split("\n");
+  const out: string[] = [];
+  let i = 0;
+  const tocHeadingRe = /^##\s+(contents|table of contents|toc)\s*$/i;
+  while (i < lines.length) {
+    if (tocHeadingRe.test(lines[i])) {
+      i++; // skip the heading
+      while (i < lines.length) {
+        const t = lines[i].trim();
+        if (t === "" || /^[-*]\s+/.test(t) || /^\d+\.\s+/.test(t)) {
+          i++;
+          continue;
+        }
+        break;
+      }
+      continue;
+    }
+    out.push(lines[i]);
+    i++;
+  }
+  return out.join("\n");
+}
+
+/**
  * Strip GitHub shields.io badge image links. They render as inline images
  * inside the doc body, which looks out of place in a designed page.
  */
@@ -104,7 +135,8 @@ export function processDocMarkdown(
   rawMd: string,
   sourceDir: string,
 ): { markdown: string; toc: TocEntry[] } {
-  const cleaned = stripGithubBadges(stripFirstH1(rawMd));
+  // Run TOC strip BEFORE extractToc so "Contents" doesn't end up in the sidebar.
+  const cleaned = stripInlineTOC(stripGithubBadges(stripFirstH1(rawMd)));
   const toc = extractToc(cleaned);
   const processed = styleInlineLabels(transformHtmlCommentHints(cleaned));
   const markdown = rewriteMarkdownLinks(processed, sourceDir);
