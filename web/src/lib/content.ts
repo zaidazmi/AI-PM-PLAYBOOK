@@ -31,6 +31,64 @@ export function stripFirstH1(markdown: string): string {
 }
 
 /**
+ * Strip GitHub shields.io badge image links. They render as inline images
+ * inside the doc body, which looks out of place in a designed page.
+ */
+export function stripGithubBadges(markdown: string): string {
+  return markdown
+    .split("\n")
+    .filter((line) => {
+      const trimmed = line.trim();
+      if (!trimmed) return true;
+      const badgePattern =
+        /^(\[!\[[^\]]*\]\(https:\/\/img\.shields\.io[^)]*\)\]\([^)]*\)\s*)+$/;
+      return !badgePattern.test(trimmed);
+    })
+    .join("\n");
+}
+
+/**
+ * Wrap inline section labels like "Purpose:", "Must answer:", "Decision options:"
+ * into a styled element so doc sub-sections have visible rhythm.
+ */
+export function styleInlineLabels(markdown: string): string {
+  return markdown.replace(
+    /^([A-Z][A-Za-z][A-Za-z\s'\-]{0,28}):\s*$/gm,
+    (_m, label) => `\n<p class="md-inline-label">${label}</p>\n`,
+  );
+}
+
+/**
+ * Extract H2 headings for a doc page TOC sidebar. Slug matches rehype-slug.
+ */
+export type TocEntry = { text: string; slug: string };
+
+export function extractToc(markdown: string): TocEntry[] {
+  const lines = markdown.split("\n");
+  const out: TocEntry[] = [];
+  let inFence = false;
+  for (const line of lines) {
+    if (line.startsWith("```")) {
+      inFence = !inFence;
+      continue;
+    }
+    if (inFence) continue;
+    const m = /^##\s+(.+?)\s*$/.exec(line);
+    if (m) {
+      const text = m[1].replace(/`/g, "").trim();
+      const slug = text
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, "")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-")
+        .replace(/^-|-$/g, "");
+      out.push({ text, slug });
+    }
+  }
+  return out;
+}
+
+/**
  * Convert author-facing HTML comments (used as "fill in this section" hints
  * inside templates) into styled callouts. Without this they leak as literal
  * text because react-markdown does not parse raw HTML by default.
@@ -426,9 +484,12 @@ export function loadCaseArtifact(caseSlug: string, artifactSlug: string) {
 
 export function loadPlaybook() {
   const md = readRepoFile("ai-pm-playbook.md");
+  const cleaned = stripGithubBadges(stripFirstH1(md));
+  const processed = styleInlineLabels(transformHtmlCommentHints(cleaned));
   return {
     title: extractTitle(md, "AI PM Playbook"),
-    markdown: rewriteMarkdownLinks(transformHtmlCommentHints(stripFirstH1(md)), "."),
+    markdown: rewriteMarkdownLinks(processed, "."),
+    toc: extractToc(cleaned),
   };
 }
 

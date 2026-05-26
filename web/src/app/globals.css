@@ -171,29 +171,42 @@ body {
 }
 
 .prose-doc h2 {
-  font-size: 30px;
-  margin: 2.4em 0 0.9em;
-  letter-spacing: -0.025em;
+  font-size: 34px;
+  margin: 3em 0 1em;
+  letter-spacing: -0.028em;
   font-weight: 500;
+  padding-top: 1.4em;
+  border-top: 1px solid var(--border);
+  scroll-margin-top: 96px;
 }
-.prose-doc h2::before {
-  content: "";
-  display: block;
-  width: 28px;
-  height: 1px;
-  background: rgba(10,10,10,0.25);
-  margin-bottom: 18px;
+.prose-doc > h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
 }
 .prose-doc h3 {
   font-size: 22px;
-  margin: 1.9em 0 0.55em;
+  margin: 2.2em 0 0.55em;
   font-weight: 500;
+  letter-spacing: -0.012em;
+  scroll-margin-top: 96px;
+}
+.prose-doc h3::before {
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 1px;
+  background: rgba(10,10,10,0.35);
+  margin-right: 12px;
+  vertical-align: middle;
+  transform: translateY(-4px);
 }
 .prose-doc h4 {
-  font-size: 17px;
+  font-size: 16px;
   margin: 1.6em 0 0.5em;
   font-weight: 600;
   text-transform: none;
+  letter-spacing: -0.005em;
 }
 .prose-doc h5,
 .prose-doc h6 {
@@ -352,6 +365,23 @@ body {
 }
 .prose-doc tbody tr:nth-child(even) td {
   background: rgba(10,10,10,0.015);
+}
+
+/* Inline section labels (Purpose: / Must answer: / Decision options: …) */
+.prose-doc .md-inline-label {
+  margin: 1.8em 0 0.4em;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: rgba(10, 10, 10, 0.55);
+  max-width: none;
+}
+.prose-doc .md-inline-label + ul,
+.prose-doc .md-inline-label + ol,
+.prose-doc .md-inline-label + p,
+.prose-doc .md-inline-label + pre {
+  margin-top: 0;
 }
 
 /* Author hint blocks (converted from `<!-- ... -->`) */
