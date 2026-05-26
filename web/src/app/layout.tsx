@@ -20,21 +20,52 @@ const instrument = Instrument_Serif({
   style: ["normal", "italic"],
 });
 
+const SITE_URL = "https://ai-pm-playbook.com";
+
 export const metadata: Metadata = {
-  title: "AI PM Playbook · A working system for PMs building production AI",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default:
+      "AI PM Playbook · A working system for PMs building production AI",
+    template: "%s · AI PM Playbook",
+  },
   description:
     "Practical artifacts, evals, launch gates, and operating rituals for product managers shipping LLM, agent, and copilot features.",
+  applicationName: "AI PM Playbook",
+  authors: [{ name: "Zaid Azmi" }],
+  creator: "Zaid Azmi",
+  keywords: [
+    "AI product management",
+    "AI PM",
+    "LLM product",
+    "AI evals",
+    "launch gate",
+    "AI PRD",
+    "agentic products",
+    "AI roadmap",
+    "AI playbook",
+  ],
   openGraph: {
     title: "AI PM Playbook",
     description:
       "From vague AI demo to shippable product. 10 templates, 12 guides, 3 worked case studies.",
     type: "website",
+    url: SITE_URL,
+    siteName: "AI PM Playbook",
+    locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
     title: "AI PM Playbook",
     description:
       "From vague AI demo to shippable product. Templates, guides, and case studies for AI PMs.",
+  },
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 

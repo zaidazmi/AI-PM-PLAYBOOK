@@ -8,6 +8,7 @@ import {
   PrevNext,
 } from "@/components/DocShell";
 import { DocLayout } from "@/components/DocLayout";
+import { JsonLd } from "@/components/JsonLd";
 import { Markdown } from "@/components/Markdown";
 import { RelatedReading } from "@/components/RelatedReading";
 import {
@@ -70,6 +71,17 @@ export default async function GuidePage({
 
   return (
     <>
+      <JsonLd
+        kind="article"
+        url={`/guides/${slug}`}
+        title={guide.title}
+        section="Guides"
+        breadcrumbs={[
+          { name: "Home", href: "/" },
+          { name: "Guides", href: "/guides" },
+          { name: guide.title, href: `/guides/${slug}` },
+        ]}
+      />
       <Navbar />
       <main className="flex-1">
         <DocHero

@@ -4,6 +4,7 @@ import { Footer } from "@/components/Footer";
 import { DocBreadcrumb, DocHero } from "@/components/DocShell";
 import { Markdown } from "@/components/Markdown";
 import { DocLayout } from "@/components/DocLayout";
+import { JsonLd } from "@/components/JsonLd";
 import { WhereToNext } from "@/components/WhereToNext";
 import { loadPlaybook } from "@/lib/content";
 
@@ -18,6 +19,17 @@ export default function PlaybookPage() {
 
   return (
     <>
+      <JsonLd
+        kind="article"
+        url="/playbook"
+        title={title}
+        description="The full operating model, evidence hierarchy, readiness scoring, and decision framework for AI PMs."
+        section="Playbook"
+        breadcrumbs={[
+          { name: "Home", href: "/" },
+          { name: "Playbook", href: "/playbook" },
+        ]}
+      />
       <Navbar />
       <main className="flex-1">
         <DocHero

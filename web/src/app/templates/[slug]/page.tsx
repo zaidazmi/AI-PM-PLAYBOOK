@@ -9,6 +9,7 @@ import {
 } from "@/components/DocShell";
 import { DocLayout } from "@/components/DocLayout";
 import { DownloadButton } from "@/components/DownloadButton";
+import { JsonLd } from "@/components/JsonLd";
 import { Markdown } from "@/components/Markdown";
 import { RelatedReading } from "@/components/RelatedReading";
 import {
@@ -75,6 +76,17 @@ export default async function TemplatePage({
 
   return (
     <>
+      <JsonLd
+        kind="article"
+        url={`/templates/${slug}`}
+        title={t.title}
+        section={t.group === "optional" ? "Optional templates" : "Core templates"}
+        breadcrumbs={[
+          { name: "Home", href: "/" },
+          { name: "Templates", href: "/templates" },
+          { name: t.title, href: `/templates/${slug}` },
+        ]}
+      />
       <Navbar />
       <main className="flex-1">
         <DocHero
