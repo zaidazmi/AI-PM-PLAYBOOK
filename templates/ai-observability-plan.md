@@ -16,6 +16,9 @@ Use this to define what you monitor after launch. Set this up before shipping, n
 | Retry rate | % of tasks where user retried after initial output | <!-- e.g., < 10% --> | <!-- e.g., > 20% --> | |
 | Escalation rate | % of tasks escalated to a human or support | <!-- e.g., < 5% --> | <!-- e.g., > 10% --> | |
 | User-reported issues | Count of bug reports or complaints about AI output | <!-- e.g., < 3/week --> | <!-- e.g., > 5 in a day --> | |
+| Blind-audit disagreement | % of human-approved outputs a second reviewer disagrees with (rubber-stamping check, see human review workflow) | <!-- e.g., < 5% --> | <!-- e.g., > 10% --> | |
+
+<!-- An accept or approval rate near 100% is not automatically good: in a human-in-the-loop flow it can signal automation bias rather than quality. Read it alongside blind-audit disagreement. -->
 
 ## System signals
 
@@ -40,6 +43,7 @@ Use this to define what you monitor after launch. Set this up before shipping, n
 | Prompt injection attempts | Inputs matching known injection patterns | Informational | <!-- e.g., > 10/day from single user --> | |
 | Content policy violations | Outputs flagged by content safety filters | 0 | Any single occurrence | |
 | Out-of-scope actions | Agent takes action outside defined boundaries | 0 | Any single occurrence | |
+| Ungrounded output | Factual claim with no valid cited source (mirrors the PRD grounding guardrail) | <!-- e.g., 0 --> | <!-- e.g., > 0.5% of sampled outputs --> | <!-- suppress, investigate --> |
 
 ## Version tracking
 

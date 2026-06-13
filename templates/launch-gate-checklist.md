@@ -23,6 +23,8 @@ Use this to decide if the product can enter or advance beyond each release stage
 | Observability in place | Logs, metrics, alerts configured | | |
 | Trace review completed | Prototype or pilot traces reviewed and failures labeled | | |
 
+<!-- Eval thresholds are measured across multiple runs (see the eval plan's non-deterministic strategy), not a single pass. Applies to every gate below. -->
+
 ### Staged rollout plan
 
 <!-- How will you ramp this to real users? Pick one or combine. -->

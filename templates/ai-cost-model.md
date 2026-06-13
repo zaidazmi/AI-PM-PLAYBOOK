@@ -14,6 +14,7 @@ Use this to make unit economics visible before launch. Update it monthly after l
 | Avg input tokens per task | <!-- e.g., 2,000 tokens --> | <!-- measured or estimated --> |
 | Avg output tokens per task | <!-- e.g., 500 tokens --> | <!-- measured or estimated --> |
 | Retrieval cost per task | <!-- e.g., $0.002 for embedding lookup --> | |
+| Guardrail / judge cost per task | <!-- e.g., $0.001 for a safety classifier, grounding check, or LLM-as-judge run per request --> | |
 | Cache hit rate | <!-- e.g., 30% of requests use cached prompt --> | |
 | Cache savings rate | <!-- e.g., 90% saved on cached input tokens, if cache reads cost 10% of base input price --> | |
 | Tasks per user per day | <!-- e.g., 8 --> | |
@@ -27,10 +28,11 @@ Use this to make unit economics visible before launch. Update it monthly after l
 ### Cost per task
 
 ```
-Input cost:   [avg input tokens] x [input price per token]   = $___
-Output cost:  [avg output tokens] x [output price per token] = $___
-Retrieval:    [retrieval cost per task]                       = $___
-Cache saving: [input cost] x [cache hit rate] x [cache savings rate] = -$___
+Input cost:     [avg input tokens] x [input price per token]   = $___
+Output cost:    [avg output tokens] x [output price per token] = $___
+Retrieval:      [retrieval cost per task]                       = $___
+Guardrail/judge:[safety, grounding, or judge inference per task] = $___
+Cache saving:   [input cost] x [cache hit rate] x [cache savings rate] = -$___
 
 Cost per task = $___
 ```
@@ -110,13 +112,17 @@ Numbers below are illustrative and will vary by provider and model. Run 20 repre
 
 **Cost per task:**
 ```
-Input cost:    2,000 / 1M x $3.00                              = $0.0060
-Cache saving:  $0.0060 x 0.30 x 0.90                           = -$0.0016
-Output cost:   400 / 1M x $15.00                                = $0.0060
-Retrieval:                                                        $0.0020
+Input cost:     2,000 / 1M x $3.00                             = $0.0060
+Cache saving:   $0.0060 x 0.30 x 0.90                          = -$0.0016
+Output cost:    400 / 1M x $15.00                              = $0.0060
+Retrieval:                                                       $0.0020
+Guardrail/judge: none run per request in this example          = $0.0000
 
 Cost per task = $0.0124
 ```
+
+<!-- Add the guardrail/judge line once you run a safety classifier, grounding check, or LLM-as-judge on every request: a small per-call model can still add 5-15% to cost per task. -->
+
 
 **Cost per user per month:** $0.0124 x 25 x 22 = **$6.82**
 

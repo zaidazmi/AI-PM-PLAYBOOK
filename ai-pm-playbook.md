@@ -273,8 +273,8 @@ Required sections:
 The most important line in the PRD is the AI job:
 
 ```text
-The AI is responsible for [specific task] using [allowed inputs] to produce
-[specific output] for [user] inside [workflow], subject to [review or safety rule].
+The AI [does what] using [inputs] to produce [outputs] for [user] inside
+[workflow], subject to [constraints].
 ```
 
 ### AI Eval Plan
@@ -358,10 +358,12 @@ Define when humans review, approve, correct, or override AI behavior.
 
 Required sections:
 
-- Actions AI can take alone.
-- Actions AI can suggest only.
-- Actions AI must never take.
+- Review mode per action (in / on / after / no loop, with upgrade and downgrade triggers).
+- Hard boundaries the AI must never cross.
+- Reversible auto-actions and rollback.
 - Required review points.
+- Reviewer capacity and SLA.
+- Guarding against rubber-stamping (automation bias).
 - Review UI requirements.
 - Escalation path.
 - Audit trail.

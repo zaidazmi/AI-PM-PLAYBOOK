@@ -27,7 +27,7 @@ Use this before committing any engineering time. Kill bad ideas here, not after 
 
 ## AI job draft
 
-> The AI [does what] using [inputs] to produce [outputs] for [user] inside [workflow], subject to [review or safety rule].
+> The AI [does what] using [inputs] to produce [outputs] for [user] inside [workflow], subject to [constraints].
 
 - Inputs:
 - Outputs:

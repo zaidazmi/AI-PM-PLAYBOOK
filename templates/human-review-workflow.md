@@ -1,99 +1,103 @@
 # Human review workflow
 
-Use this to define when humans review AI output. Fill this out before building any UI. If you skip this, you'll end up with a "just ship it and see" approach to AI autonomy.
+Define when and how humans review AI output — before building any UI. Skip this and you default to "ship it and see," which is how AI products lose user trust.
 
-**Upstream:** autonomy levels and human review rules from the [AI PRD](ai-prd.md) define what goes here. **Downstream:** review point failures feed into the PRD risk table, launch gate, and [weekly post-launch review](ai-observability-plan.md#weekly-post-launch-review).
+**Upstream:** autonomy levels and human review rules from the [AI PRD](ai-prd.md). **Downstream:** review failures and review-quality signals feed the PRD risk table, launch gate, and [weekly post-launch review](ai-observability-plan.md#weekly-post-launch-review).
 
-## HITL mode
+## Review mode per action
 
-Pick the review mode per AI action. Different actions in the same product can use different modes.
+Pick a mode per AI action. Different actions in one product can use different modes. Higher risk moves up the table.
 
-| Mode | What it means | Use when | Example |
-|------|---------------|----------|---------|
-| Human-in-the-loop | Human approves before the AI output or action takes effect | Customer-facing, high-impact, irreversible, or low-confidence work | Agent drafts an email; support rep reviews before sending |
-| Human-on-the-loop | AI acts, humans monitor and can intervene or roll back | Action is reversible, monitored, and low-to-medium risk | AI categorizes tickets; ops reviews alerts and samples |
-| Human-after-the-loop | Humans review samples, incidents, and aggregate trends after the fact | Risk is low, action is reversible, and online metrics are strong | Weekly review of accepted summaries and rejection reasons |
-| No human loop | AI acts without human review | Only for low-risk, reversible, well-tested actions with observability | Internal formatting cleanup or low-stakes enrichment |
+| Mode | Human role | Use when |
+|------|-----------|----------|
+| Human-in-the-loop | Approves before the output or action takes effect | Customer-facing, high-impact, irreversible, or low-confidence |
+| Human-on-the-loop | Monitors live, can intervene or roll back | Reversible, monitored, low-to-medium risk |
+| Human-after-the-loop | Reviews samples and trends after the fact | Low risk, reversible, online metrics strong |
+| No human loop | None | Low-risk, reversible, well-tested, and observable |
 
-Mode map:
+<!-- These map to the PRD autonomy levels: Draft and Suggest -> human-in-the-loop; Act -> human-on-the-loop with rollback; Autonomous -> no human loop (or human-after-the-loop for sampled review). -->
 
-| AI action | HITL mode | Why this mode | Upgrade or downgrade trigger |
-|-----------|-----------|---------------|------------------------------|
-|           |           |               |                              |
+| AI action | Mode | Reviewer | Why this mode | Upgrade / downgrade trigger |
+|-----------|------|----------|---------------|------------------------------|
+|           |      |          |               |                              |
 
-## Actions AI can take alone
+<!-- The trigger column is the point of this table: name the metric that moves an action to stricter or looser review. E.g. "downgrade to on-the-loop after 4 weeks above 95% accept rate; upgrade to in-the-loop if accept rate drops below 80%." -->
 
-<!-- These are low-risk, reversible, or well-validated actions. The AI acts without waiting for a human. -->
+## Hard boundaries — actions AI must never take
+
+<!-- The AI cannot perform these regardless of confidence or mode. Enforce in code, not in the prompt. -->
 
 - 
 - 
 
-## Actions AI can take with rollback
+## Reversible auto-actions and rollback
 
-<!-- Maps to the PRD "Act" autonomy level: the AI takes action before review, but the action is reversible, logged, and easy for a human to undo. Define the rollback path before allowing this. -->
+<!-- For any action the AI takes before review (on-the-loop or no-loop), define how it is undone. No rollback path means no auto-action. -->
 
 | Action | Rollback mechanism | Undo window | Who monitors |
 |--------|--------------------|-------------|--------------|
 |        |                    |             |              |
 
-## Actions AI can suggest only
-
-<!-- The AI produces a recommendation or draft. A human must approve before the action takes effect. -->
-
-| Action | Who reviews | Max review latency | What reviewer sees |
-|--------|-------------|--------------------|--------------------|
-|        |             |                    |                    |
-
-## Actions AI must never take
-
-<!-- Hard boundaries. The AI cannot perform these regardless of confidence. -->
-
-- 
-- 
-
 ## Required review points
 
-<!-- Specific moments in the workflow where a human must inspect AI output before proceeding. -->
+<!-- The specific moments review fires. Tie each trigger to a condition, not a judgment call. -->
 
-| Review point | Trigger | Reviewer | What they check | What happens if rejected |
-|--------------|---------|----------|-----------------|-------------------------|
-|              |         |          |                 |                         |
+| Review point | Trigger | Reviewer | What they check | If rejected |
+|--------------|---------|----------|-----------------|-------------|
+|              |         |          |                 |             |
+
+## Reviewer capacity and SLA
+
+<!-- Human-in-the-loop only works if humans keep up. If output arrival rate exceeds review capacity, review becomes a bottleneck or a rubber stamp. Do this math before launch, not after the backlog. -->
+
+- Outputs needing review: <!-- per hour / day at target usage -->
+- Review throughput per reviewer: <!-- items/hour at target quality, from a timed sample -->
+- Reviewers staffed: <!-- count and coverage across shifts -->
+- Review SLA: <!-- max time from output to decision -->
+- Overflow behavior: <!-- when the queue exceeds SLA: hold output, fall back to suggest-only, page a lead -->
+
+## Guarding against rubber-stamping
+
+<!-- The dominant human-in-the-loop failure is automation bias: reviewers approve everything because the AI is usually right and the queue is long. A review step that approves ~100% is not a control. Monitor these as production signals in the observability plan. -->
+
+- Review-quality signal: <!-- flag if approval rate > X% or median time-per-review < Y seconds -->
+- Blind audit: <!-- a second reviewer re-checks a random N% of approvals; track disagreement rate -->
+- Seeded checks: <!-- inject known-bad outputs at a low rate; a reviewer who approves them is not reviewing -->
+- Reviewer calibration: <!-- expert domains: inter-reviewer agreement target before a reviewer works solo -->
 
 ## Review UI requirements
 
-<!-- What does the reviewer need to see to make a good decision quickly? -->
+<!-- What the reviewer must see to decide well and fast. Missing or buried evidence is the top cause of rubber-stamping. -->
 
-- AI output displayed: <!-- full output, diff, summary? -->
-- Source/evidence shown: <!-- does the reviewer see what the AI based its answer on? -->
-- Confidence indicator: <!-- is confidence shown? how? -->
-- Edit capability: <!-- can the reviewer modify the output before approving? -->
-- Time to review target: <!-- how long should a single review take? -->
+- Output shown: <!-- full, diff, or summary -->
+- Evidence and sources shown: <!-- what the AI based its answer on, inline -->
+- Confidence shown: <!-- and whether it is calibrated (see PRD) -->
+- Edit in place: <!-- can the reviewer modify before approving -->
+- Target time per review: <!-- ties to the capacity math above -->
 
 ## Escalation path
 
-<!-- What happens when the reviewer is unsure, or the AI output is flagged? -->
+<!-- When the reviewer is unsure or the output is flagged. -->
 
 1. Reviewer flags output as uncertain
-2. <!-- next step -->
-3. <!-- resolution -->
+2. <!-- who or what handles it next -->
+3. <!-- resolution, and how it is recorded -->
 
 ## Audit trail
 
-<!-- What is logged for every AI action and review decision? -->
+<!-- Logged for every AI action and review decision. Required for incident reconstruction and compliance. -->
 
-- [ ] AI output (full)
+- [ ] AI output (full), plus input and evidence used
 - [ ] Reviewer identity
-- [ ] Review decision (approve/reject/edit)
-- [ ] Edits made by reviewer
+- [ ] Decision (approve / reject / edit) and edits made
+- [ ] Confidence and mode at time of decision
 - [ ] Timestamp
-- [ ] <!-- add product-specific fields -->
 
 ## Feedback captured from review
 
-<!-- What reviewer actions feed back into improving the AI? -->
+<!-- Review is your highest-quality eval data. Route it back. -->
 
 | Feedback type | How captured | How used |
-|---------------|-------------|----------|
-| Rejection reason | <!-- e.g., dropdown + free text --> | <!-- e.g., added to eval set --> |
-| Edit diff | <!-- e.g., stored automatically --> | <!-- e.g., fine-tuning data --> |
-|               |             |          |
+|---------------|--------------|----------|
+| Rejection reason | dropdown + free text | added to eval set |
+| Edit diff | stored automatically | correction patterns, fine-tuning data |
