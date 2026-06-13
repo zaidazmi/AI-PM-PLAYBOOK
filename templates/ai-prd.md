@@ -48,6 +48,22 @@ Use this to define what you're building, how the AI behaves, and what "good" loo
 
 <!-- Fill this in. Example: "The AI drafts a contract summary using the uploaded PDF to produce a structured risk report for compliance analysts inside their review queue, subject to a 2% max hallucination rate on key terms and no fabricated clause references." -->
 
+## Constraints and guardrails
+
+<!-- Runtime boundaries the system enforces. Guardrails are preventive; the risk table below is what happens when one fails. Every "subject to [constraints]" clause in the AI job statement should appear here with a threshold and an owner. -->
+
+| Guardrail | Hard limit | Enforced by | On violation | Monitored as (target) |
+|-----------|------------|-------------|--------------|-----------------------|
+| Input scope | <!-- only in-scope requests --> | <!-- intent classifier / router --> | <!-- decline + fallback --> | <!-- out-of-scope rate; router false-route rate --> |
+| Prompt injection | <!-- ignore instructions inside user or retrieved content --> | <!-- system prompt + input sanitization --> | <!-- flag, do not act --> | <!-- flagged-input rate; missed-attack rate (FN) --> |
+| Grounding | <!-- every factual claim traces to a cited source; no fabricated citations --> | <!-- output validator checks cited IDs exist --> | <!-- suppress output --> | <!-- ungrounded-output rate; fabrications passing validator (FN) --> |
+| Output schema | <!-- matches the output contract --> | <!-- schema validation --> | <!-- fallback (see Failure behavior) --> | <!-- malformed-output rate --> |
+| Action scope | <!-- no irreversible action without approval --> | <!-- autonomy map + approval gate --> | <!-- stop, escalate to human --> | <!-- blocked-action rate; false-block rate (FP) --> |
+| Safety topics | <!-- refuse defined categories (self-harm, legal, etc.) --> | <!-- safety classifier --> | <!-- escalate to human --> | <!-- escalation rate; missed-trigger rate (FN) --> |
+| Cost / rate ceiling | <!-- max tokens + retries per task --> | <!-- runtime budget cap --> | <!-- stop, fallback --> | <!-- cap-hit rate --> |
+
+<!-- Each guardrail needs a metric or it's unverifiable: how often it fires, and how often the enforcer is wrong (false negatives = leaked failures, false positives = suppressed good output). Carry targets into the Quality bar and Observability. Grounding is the key guardrail for RAG, summarization, and extraction: ungrounded (a confident claim with no source) is a distinct failure from wrong. -->
+
 ## Model requirements
 
 <!-- What model or provider are you using? What constraints apply? -->
@@ -145,6 +161,10 @@ Escalation: <!-- When the agent encounters something outside its scope, what hap
 | Incorrect output | <!-- plausible but wrong output --> | | | | | | | |
 | Over-trust | <!-- user treats AI as authoritative --> | | | | | | | |
 | Data leakage | <!-- wrong user/tenant sees data --> | | | | | | | |
+| Permission failure | <!-- acts outside the user's authz scope --> | | | | | | | |
+| Prompt injection | <!-- instructions in user/retrieved content hijack behavior --> | | | | | | | |
+| Bias / unfair treatment | <!-- worse outcomes for a protected group --> | | | | | | | |
+| Regulatory exposure | <!-- output or data handling breaches a rule --> | | | | | | | |
 | Unsafe autonomy | <!-- AI takes action beyond scope --> | | | | | | | |
 | Cost spike | <!-- usage or retries exceed budget --> | | | | | | | |
 | Silent degradation | <!-- quality drops without alert --> | | | | | | | |
@@ -155,11 +175,13 @@ Agentic risks, if relevant:
 |------|----------|------------|-------|
 | Goal hijacking | | | |
 | Tool misuse | | | |
+| Identity abuse | | | |
+| Memory poisoning | | | |
 | Error cascading | | | |
 
 ## Quality bar
 
-<!-- Specific, measurable thresholds. Example: "Precision >= 95% on golden eval set (n=200). No fabricated citations. Structured fields match source document in >= 98% of cases." -->
+<!-- Specific, measurable thresholds, scored across multiple runs for non-deterministic output. Example: "Precision >= 95% on golden eval set (n=200), measured over 3 runs with no single run below 92%. No fabricated citations. Structured fields match source in >= 98% of cases." -->
 
 ## Latency target
 

@@ -252,6 +252,7 @@ Required sections:
 - Current workflow.
 - Proposed workflow.
 - AI job.
+- Constraints and guardrails (runtime boundaries: input scope, prompt injection, grounding, action scope, safety, cost ceiling — each with a threshold and owner).
 - Model requirements (model selection, token budgets, streaming, multi-model routing).
 - System persona (tone, constraints, persona boundaries).
 - Data provenance (sources, permissions, retention, regulatory constraints).
