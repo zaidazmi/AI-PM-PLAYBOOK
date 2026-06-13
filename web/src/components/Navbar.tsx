@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { Container } from "./Container";
 import { GithubIcon } from "./GithubIcon";
+import { Search } from "./Search";
 import { REPO_URL } from "@/data/content";
 
 const navLinks: { label: string; href: string }[] = [
@@ -79,6 +80,7 @@ export function Navbar() {
 
         {/* Right cluster */}
         <div className="flex items-center gap-2">
+          <Search />
           <a
             href={REPO_URL}
             target="_blank"

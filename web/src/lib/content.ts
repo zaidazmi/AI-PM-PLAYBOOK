@@ -1005,6 +1005,120 @@ export function loadVibeCodeChecklist() {
 }
 
 /* =====================================================================
+ * Search index: a flat, build-time list of every page's title, blurb and
+ * plain-text body. Served as a static JSON file and filtered client-side.
+ * ===================================================================== */
+
+export type SearchKind = "Playbook" | "Guide" | "Template" | "Case study";
+
+export type SearchDoc = {
+  title: string;
+  href: string;
+  kind: SearchKind;
+  blurb: string;
+  /** Plain-text body (headings + prose + fill-in hints), capped for size. */
+  text: string;
+};
+
+/** Strip markdown to searchable plain text. Comment delimiters are dropped
+ * but the guidance text inside them is kept (it describes each field). */
+function toPlainText(md: string): string {
+  return md
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/`[^`]*`/g, " ")
+    .replace(/<!--|-->/g, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+    .replace(/[#>*_~|]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/** Every heading (H1–H6) in a doc, joined. Section names are high-signal and
+ * cheap, so we index all of them regardless of how deep they sit. */
+function extractHeadingsText(md: string): string {
+  const out: string[] = [];
+  let inFence = false;
+  for (const line of md.split("\n")) {
+    if (line.startsWith("```")) {
+      inFence = !inFence;
+      continue;
+    }
+    if (inFence) continue;
+    const m = /^#{1,6}\s+(.+?)\s*$/.exec(line);
+    if (m) out.push(m[1].replace(/[`*_]/g, "").trim());
+  }
+  return out.join(" · ");
+}
+
+const SEARCH_PROSE_CAP = 1500;
+
+/** Searchable body: all headings (full doc) + a capped prose excerpt. */
+function buildSearchText(md: string, isYaml = false): string {
+  const prose = toPlainText(isYaml ? md : stripFirstH1(md));
+  const capped =
+    prose.length > SEARCH_PROSE_CAP ? prose.slice(0, SEARCH_PROSE_CAP) : prose;
+  if (isYaml) return capped;
+  const headings = extractHeadingsText(md);
+  return headings ? `${headings} ${capped}` : capped;
+}
+
+export function loadSearchIndex(): SearchDoc[] {
+  const docs: SearchDoc[] = [];
+
+  const pb = readRepoFile("ai-pm-playbook.md");
+  docs.push({
+    title: extractTitle(pb, "AI PM Playbook"),
+    href: "/playbook",
+    kind: "Playbook",
+    blurb: extractLede(pb),
+    text: buildSearchText(pb),
+  });
+
+  for (const g of loadGuides()) {
+    docs.push({
+      title: g.title,
+      href: g.href,
+      kind: "Guide",
+      blurb: g.blurb,
+      text: buildSearchText(readRepoFile(g.file)),
+    });
+  }
+
+  for (const t of loadTemplates()) {
+    docs.push({
+      title: t.title,
+      href: t.href,
+      kind: "Template",
+      blurb: t.blurb,
+      text: buildSearchText(readRepoFile(t.file)),
+    });
+  }
+
+  for (const c of loadCaseStudies()) {
+    docs.push({
+      title: c.title,
+      href: c.href,
+      kind: "Case study",
+      blurb: c.blurb,
+      text: buildSearchText(readRepoFile(`${c.folder}/README.md`)),
+    });
+    for (const a of c.artifacts) {
+      docs.push({
+        title: `${c.title}: ${a.title}`,
+        href: a.href,
+        kind: "Case study",
+        blurb: a.description ?? "",
+        text: buildSearchText(readRepoFile(a.file), a.kind === "yaml"),
+      });
+    }
+  }
+
+  return docs;
+}
+
+/* =====================================================================
  * Related-reading map: cross-links between templates, guides, and case
  * artifacts so a reader never hits a dead end.
  * ===================================================================== */
